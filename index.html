@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FitManager — Gestão Inteligente de Academias | Matheus Duarte &amp; Miguel</title>
+  <meta name="description" content="Sistema mobile-first e responsivo para gestão de academias: Alunos, Instrutores, Planos e Controle de Matrículas. Desenvolvido por Matheus Duarte e Miguel." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Navegação Lateral (Visível automaticamente em telas Desktop via Media Query) -->
+  <aside class="desktop-sidebar hidden" id="desktopSidebar" aria-label="Menu Lateral Desktop">
+    <header class="sidebar-header">
+      <span class="logo-icon-box" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6.5 6.5 17.5 17.5"></path>
+          <path d="M3 10l7-7"></path>
+          <path d="M14 21l7-7"></path>
+          <path d="m2 6 4-4"></path>
+          <path d="m18 22 4-4"></path>
+        </svg>
+      </span>
+      <hgroup class="sidebar-brand-text">
+        <h2>FitManager</h2>
+        <p>Gestão de Academias</p>
+      </hgroup>
+    </header>
+
+    <nav class="sidebar-nav" aria-label="Navegação Principal">
+      <button type="button" class="sidebar-link active" data-nav="screen-dashboard">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+          <polyline points="9 22 9 12 15 12 15 22"></polyline>
+        </svg>
+        <span>Dashboard</span>
+      </button>
+      <button type="button" class="sidebar-link" data-nav="screen-students">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+          <circle cx="9" cy="7" r="4"></circle>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+          <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+        </svg>
+        <span>Alunos</span>
+        <output class="sidebar-counter" id="sideCountStudents">247</output>
+      </button>
+      <button type="button" class="sidebar-link" data-nav="screen-instructors">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="8" r="6"></circle>
+          <path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"></path>
+        </svg>
+        <span>Instrutores</span>
+        <output class="sidebar-counter" id="sideCountInstructors">12</output>
+      </button>
+      <button type="button" class="sidebar-link" data-nav="screen-plans">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+        </svg>
+        <span>Planos</span>
+        <output class="sidebar-counter" id="sideCountPlans">4</output>
+      </button>
+      <button type="button" class="sidebar-link" data-nav="screen-enrollments">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+          <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+          <path d="M9 14l2 2 4-4"></path>
+        </svg>
+        <span>Matrículas</span>
+        <output class="sidebar-counter" id="sideCountEnrollments">38</output>
+      </button>
+    </nav>
+
+    <section class="sidebar-quick-actions" aria-label="Ações Rápidas">
+      <p class="sidebar-section-label">Acesso Rápido</p>
+      <button type="button" class="btn-sidebar-action" data-goto="screen-add-student">+ Cadastrar Aluno</button>
+      <button type="button" class="btn-sidebar-action outline" data-goto="screen-new-enrollment">+ Nova Matrícula</button>
+    </section>
+
+    <footer class="sidebar-footer">
+      <span class="avatar-circle" aria-hidden="true">AD</span>
+      <hgroup class="admin-info-mini">
+        <strong>Admin FitManager</strong>
+        <p>Matheus Duarte &amp; Miguel</p>
+      </hgroup>
+      <button type="button" class="btn-icon" id="btnToggleThemeDesktop" title="Alternar tema Escuro / Claro" aria-label="Alternar tema">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </button>
+      <button type="button" class="btn-icon danger-hover" id="btnLogoutDesktop" title="Sair para Tela de Login" aria-label="Sair">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+          <polyline points="16 17 21 12 16 7"></polyline>
+          <line x1="21" y1="12" x2="9" y2="12"></line>
+        </svg>
+      </button>
+    </footer>
+  </aside>
+
+  <!-- Área Principal da Aplicação -->
+  <main class="app-main" id="appMain">
+    <!-- =========================================================
+         TELA 01: LOGIN (screen-login)
+         ========================================================= -->
+    <section class="app-screen active" id="screen-login" aria-label="Tela de Login">
+      <article class="login-card">
+        <header class="login-brand">
+          <span class="logo-icon-box large" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6.5 6.5 17.5 17.5"></path>
+              <path d="M3 10l7-7"></path>
+              <path d="M14 21l7-7"></path>
+              <path d="m2 6 4-4"></path>
+              <path d="m18 22 4-4"></path>
+            </svg>
+          </span>
+          <h1 class="login-title">FitManager</h1>
+          <p class="login-subtitle">Gestão Inteligente de Academias</p>
+        </header>
+
+        <form class="login-form" id="loginForm" novalidate>
+          <label class="field-label" for="loginEmail">
+            <span>E-mail</span>
+            <span class="input-affix">
+              <svg class="affix-left" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+              </svg>
+              <input
+                type="email"
+                id="loginEmail"
+                name="email"
+                value="admin@fitmanager.com"
+                placeholder="admin@fitmanager.com"
+                required
+                autocomplete="email"
+              />
+            </span>
+            <small class="field-error" id="loginEmailError"></small>
+          </label>
+
+          <label class="field-label" for="loginPassword">
+            <span>Senha</span>
+            <span class="input-affix">
+              <svg class="affix-left" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+              </svg>
+              <input
+                type="password"
+                id="loginPassword"
+                name="password"
+                value="12345678"
+                placeholder="••••••••"
+                required
+                autocomplete="current-password"
+              />
+              <button type="button" class="affix-right" id="btnTogglePassword" aria-label="Mostrar ou ocultar senha">
+                <svg id="eyeIconClosed" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8">
+                  <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                  <line x1="1" y1="1" x2="23" y2="23"></line>
+                </svg>
+                <svg id="eyeIconOpen" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" class="hidden">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+              </button>
+            </span>
+            <small class="field-error" id="loginPasswordError"></small>
+          </label>
+
+          <button type="submit" class="btn-primary btn-block" id="btnLoginSubmit">Entrar</button>
+        </form>
+
+        <footer class="login-footer">
+          <button type="button" class="link-forgot" id="btnForgotPassword">Esqueceu a senha?</button>
+        </footer>
+      </article>
+    </section>
+
+    <!-- =========================================================
+         TELA 02: DASHBOARD (screen-dashboard)
+         ========================================================= -->
+    <section class="app-screen" id="screen-dashboard" aria-label="Dashboard Principal">
+      <header class="screen-header">
+        <hgroup>
+          <h1 class="screen-title">Olá, Admin <span aria-hidden="true">👋</span></h1>
+          <p class="screen-subtitle" id="dashboardDateSubtitle">Quarta-feira, 25 de Outubro</p>
+        </hgroup>
+        <nav class="header-actions" aria-label="Ações da conta">
+          <button type="button" class="btn-icon" id="btnToggleThemeMobile" title="Alternar tema Escuro / Claro" aria-label="Alternar tema">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+          </button>
+          <button type="button" class="btn-icon" id="btnResetData" title="Restaurar dados originais do Figma" aria-label="Restaurar dados originais">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="1 4 1 10 7 10"></polyline>
+              <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+            </svg>
+          </button>
+          <button type="button" class="header-avatar-btn" id="btnQuickLogoutMobile" title="Encerrar sessão">AD</button>
+        </nav>
+      </header>
+
+      <!-- Grid 2x2 Mobile / 4 Colunas Desktop de Indicadores -->
+      <section class="kpi-grid" aria-label="Indicadores de Desempenho">
+        <article class="kpi-card" data-goto="screen-students" role="button" tabindex="0" aria-label="Ver Alunos Ativos">
+          <header class="kpi-top">
+            <span class="kpi-label">Alunos Ativos</span>
+            <span class="kpi-icon-badge" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+              </svg>
+            </span>
+          </header>
+          <output class="kpi-value" id="kpiActiveStudents">247</output>
+        </article>
+
+        <article class="kpi-card" data-goto="screen-instructors" role="button" tabindex="0" aria-label="Ver Instrutores">
+          <header class="kpi-top">
+            <span class="kpi-label">Instrutores</span>
+            <span class="kpi-icon-badge" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2">
+                <circle cx="12" cy="8" r="6"></circle>
+                <path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"></path>
+              </svg>
+            </span>
+          </header>
+          <output class="kpi-value" id="kpiInstructors">12</output>
+        </article>
+
+        <article class="kpi-card" data-goto="screen-enrollments" role="button" tabindex="0" aria-label="Ver Matrículas no Mês">
+          <header class="kpi-top">
+            <span class="kpi-label">Matrículas / Mês</span>
+            <span class="kpi-icon-badge" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2">
+                <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+                <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+              </svg>
+            </span>
+          </header>
+          <output class="kpi-value" id="kpiMonthlyEnrollments">38</output>
+        </article>
+
+        <article class="kpi-card" data-goto="screen-plans" role="button" tabindex="0" aria-label="Ver Receita Mensal e Planos">
+          <header class="kpi-top">
+            <span class="kpi-label">Receita Mensal</span>
+            <span class="kpi-icon-badge" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2">
+                <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+                <polyline points="17 6 23 6 23 12"></polyline>
+              </svg>
+            </span>
+          </header>
+          <output class="kpi-value kpi-currency" id="kpiMonthlyRevenue">R$ 42.890</output>
+        </article>
+      </section>
+
+      <!-- Atalhos de Acesso Rápido -->
+      <nav class="quick-shortcuts-row" aria-label="Atalhos Rápidos">
+        <button type="button" class="shortcut-pill" data-goto="screen-add-student">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.3" aria-hidden="true">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+          <span>Novo Aluno</span>
+        </button>
+        <button type="button" class="shortcut-pill" data-goto="screen-new-enrollment">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.3" aria-hidden="true">
+            <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+            <path d="M9 14l2 2 4-4"></path>
+          </svg>
+          <span>Nova Matrícula</span>
+        </button>
+        <button type="button" class="shortcut-pill" data-goto="screen-instructors">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.3" aria-hidden="true">
+            <circle cx="12" cy="8" r="5"></circle>
+            <path d="M15 13l2 8-5-3-5 3 2-8"></path>
+          </svg>
+          <span>Instrutores</span>
+        </button>
+      </nav>
+
+      <!-- Matrículas Recentes -->
+      <header class="section-header-row">
+        <h2 class="section-heading">Matrículas Recentes</h2>
+        <button type="button" class="link-action" data-goto="screen-enrollments">Ver todas</button>
+      </header>
+
+      <section class="cards-stack" id="dashboardRecentList" aria-label="Lista de Matrículas Recentes"></section>
+    </section>
+
+    <!-- =========================================================
+         TELA 03: ALUNOS (screen-students)
+         ========================================================= -->
+    <section class="app-screen" id="screen-students" aria-label="Gerenciamento de Alunos">
+      <header class="screen-header">
+        <hgroup>
+          <h1 class="screen-title">Alunos</h1>
+          <p class="screen-subtitle">Gerenciamento de matrículas</p>
+        </hgroup>
+        <nav class="header-actions" aria-label="Ações de visualização">
+          <button type="button" class="btn-icon" id="btnToggleStudentView" title="Alternar Cards / Tabela" aria-label="Alternar Cards ou Tabela">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="8" y1="6" x2="21" y2="6"></line>
+              <line x1="8" y1="12" x2="21" y2="12"></line>
+              <line x1="8" y1="18" x2="21" y2="18"></line>
+              <line x1="3" y1="6" x2="3.01" y2="6"></line>
+              <line x1="3" y1="12" x2="3.01" y2="12"></line>
+              <line x1="3" y1="18" x2="3.01" y2="18"></line>
+            </svg>
+          </button>
+          <button type="button" class="btn-primary btn-sm desktop-only-btn" data-goto="screen-add-student">+ Cadastrar Aluno</button>
+        </nav>
+      </header>
+
+      <label class="search-box" for="searchStudentsInput">
+        <svg class="search-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input type="search" id="searchStudentsInput" placeholder="Buscar aluno..." aria-label="Buscar aluno por nome, plano ou telefone" />
+      </label>
+
+      <nav class="filter-pills" id="studentFilterPills" role="tablist" aria-label="Filtrar alunos por status">
+        <button type="button" class="filter-pill active" data-filter="all" role="tab" aria-selected="true">Todos</button>
+        <button type="button" class="filter-pill" data-filter="Ativo" role="tab" aria-selected="false">Ativos</button>
+        <button type="button" class="filter-pill" data-filter="Inativo" role="tab" aria-selected="false">Inativos</button>
+      </nav>
+
+      <section class="cards-stack" id="studentsListContainer" aria-label="Cards de Alunos"></section>
+
+      <section class="table-responsive hidden" id="studentsTableContainer" aria-label="Tabela de Consulta de Alunos">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th scope="col">Aluno</th>
+              <th scope="col">CPF / Telefone</th>
+              <th scope="col">Plano Contratado</th>
+              <th scope="col">Professor Responsável</th>
+              <th scope="col">Status</th>
+              <th scope="col" class="text-right">Ações</th>
+            </tr>
+          </thead>
+          <tbody id="studentsTableBody"></tbody>
+        </table>
+      </section>
+
+      <button type="button" class="fab-btn" data-goto="screen-add-student" aria-label="Cadastrar Novo Aluno" title="Cadastrar Aluno">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <line x1="12" y1="5" x2="12" y2="19"></line>
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+      </button>
+    </section>
+
+    <!-- =========================================================
+         TELA 04: CADASTRAR / EDITAR ALUNO (screen-add-student)
+         ========================================================= -->
+    <section class="app-screen" id="screen-add-student" aria-label="Formulário de Aluno">
+      <header class="screen-header with-back">
+        <button type="button" class="btn-back" data-back="screen-students" aria-label="Voltar">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+          </svg>
+        </button>
+        <hgroup>
+          <h1 class="screen-title" id="studentFormTitle">Cadastrar Aluno</h1>
+          <p class="screen-subtitle" id="studentFormSubtitle">Novo registro</p>
+        </hgroup>
+      </header>
+
+      <form class="app-form" id="studentForm" novalidate>
+        <input type="hidden" id="studentEditId" value="" />
+
+        <label class="field-label" for="studentName">
+          <span>Nome Completo</span>
+          <input type="text" id="studentName" placeholder="Matheus Duarte Silva" value="Matheus Duarte Silva" required />
+          <small class="field-error" id="studentNameError"></small>
+        </label>
+
+        <fieldset class="form-row-responsive">
+          <label class="field-label" for="studentCpf">
+            <span>CPF</span>
+            <input type="text" id="studentCpf" placeholder="123.456.789-00" value="123.456.789-00" maxlength="14" required />
+            <small class="field-error" id="studentCpfError"></small>
+          </label>
+
+          <label class="field-label" for="studentPhone">
+            <span>Telefone</span>
+            <input type="tel" id="studentPhone" placeholder="(11) 98765-4321" value="(11) 98765-4321" maxlength="15" required />
+            <small class="field-error" id="studentPhoneError"></small>
+          </label>
+        </fieldset>
+
+        <label class="field-label" for="studentEmail">
+          <span>E-mail</span>
+          <input type="email" id="studentEmail" placeholder="matheus@email.com" value="matheus@email.com" required />
+          <small class="field-error" id="studentEmailError"></small>
+        </label>
+
+        <fieldset class="form-row-responsive">
+          <label class="field-label" for="studentPlan">
+            <span>Plano</span>
+            <span class="select-affix">
+              <select id="studentPlan" required></select>
+              <svg class="select-chevron" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </span>
+          </label>
+
+          <label class="field-label" for="studentInstructor">
+            <span>Instrutor Responsável</span>
+            <span class="select-affix">
+              <select id="studentInstructor" required></select>
+              <svg class="select-chevron" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </span>
+          </label>
+        </fieldset>
+
+        <footer class="form-actions-stack">
+          <button type="submit" class="btn-primary btn-block" id="btnSaveStudent">Salvar Aluno</button>
+          <button type="button" class="btn-secondary btn-block" id="btnCancelStudent" data-back="screen-students">Cancelar</button>
+        </footer>
+      </form>
+    </section>
+
+    <!-- =========================================================
+         TELA 05: INSTRUTORES (screen-instructors)
+         ========================================================= -->
+    <section class="app-screen" id="screen-instructors" aria-label="Instrutores da Academia">
+      <header class="screen-header">
+        <hgroup>
+          <h1 class="screen-title">Instrutores</h1>
+          <p class="screen-subtitle">Corpo técnico e professores</p>
+        </hgroup>
+        <button type="button" class="btn-primary btn-sm desktop-only-btn" id="btnOpenAddInstructorDesktop">+ Novo Instrutor</button>
+      </header>
+
+      <label class="search-box" for="searchInstructorsInput">
+        <svg class="search-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input type="search" id="searchInstructorsInput" placeholder="Buscar instrutor..." aria-label="Buscar instrutor por nome, CREF ou modalidade" />
+      </label>
+
+      <section class="cards-stack" id="instructorsListContainer" aria-label="Lista de Instrutores"></section>
+
+      <button type="button" class="fab-btn" id="btnFabAddInstructor" aria-label="Cadastrar Novo Instrutor" title="Novo Instrutor">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <line x1="12" y1="5" x2="12" y2="19"></line>
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+      </button>
+    </section>
+
+    <!-- =========================================================
+         TELA 06: PLANOS (screen-plans)
+         ========================================================= -->
+    <section class="app-screen" id="screen-plans" aria-label="Planos da Academia">
+      <header class="screen-header">
+        <hgroup>
+          <h1 class="screen-title">Planos da Academia</h1>
+          <p class="screen-subtitle">Modalidades e pacotes</p>
+        </hgroup>
+        <button type="button" class="btn-primary btn-sm desktop-only-btn" id="btnOpenAddPlanDesktop">+ Novo Plano</button>
+      </header>
+
+      <section class="cards-stack" id="plansListContainer" aria-label="Lista de Planos"></section>
+
+      <button type="button" class="fab-btn" id="btnFabAddPlan" aria-label="Cadastrar Novo Plano" title="Novo Plano">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <line x1="12" y1="5" x2="12" y2="19"></line>
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+      </button>
+    </section>
+
+    <!-- =========================================================
+         TELA 07: CONTROLE DE MATRÍCULAS (screen-enrollments)
+         ========================================================= -->
+    <section class="app-screen" id="screen-enrollments" aria-label="Controle de Matrículas">
+      <header class="screen-header">
+        <hgroup>
+          <h1 class="screen-title">Controle de Matrículas</h1>
+          <p class="screen-subtitle">Gestão de contratos e vigência</p>
+        </hgroup>
+        <button type="button" class="btn-primary btn-sm desktop-only-btn" data-goto="screen-new-enrollment">+ Nova Matrícula</button>
+      </header>
+
+      <nav class="filter-pills" id="enrollmentFilterPills" role="tablist" aria-label="Filtrar matrículas por status">
+        <button type="button" class="filter-pill active" data-filter="all" role="tab" aria-selected="true">Todas</button>
+        <button type="button" class="filter-pill" data-filter="Ativa" role="tab" aria-selected="false">Ativas</button>
+        <button type="button" class="filter-pill" data-filter="Pendente" role="tab" aria-selected="false">Pendentes</button>
+        <button type="button" class="filter-pill" data-filter="Cancelada" role="tab" aria-selected="false">Canceladas</button>
+      </nav>
+
+      <section class="cards-stack" id="enrollmentsListContainer" aria-label="Lista de Matrículas"></section>
+
+      <button type="button" class="fab-btn" data-goto="screen-new-enrollment" aria-label="Criar Nova Matrícula" title="Nova Matrícula">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <line x1="12" y1="5" x2="12" y2="19"></line>
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+      </button>
+    </section>
+
+    <!-- =========================================================
+         TELA 08: NOVA MATRÍCULA (screen-new-enrollment)
+         ========================================================= -->
+    <section class="app-screen" id="screen-new-enrollment" aria-label="Nova Matrícula">
+      <header class="screen-header with-back">
+        <button type="button" class="btn-back" data-back="screen-enrollments" aria-label="Voltar">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+          </svg>
+        </button>
+        <hgroup>
+          <h1 class="screen-title" id="enrollmentFormTitle">Nova Matrícula</h1>
+          <p class="screen-subtitle">Criar assinatura</p>
+        </hgroup>
+      </header>
+
+      <form class="app-form" id="enrollmentForm" novalidate>
+        <input type="hidden" id="enrollmentEditId" value="" />
+
+        <label class="field-label" for="enrollStudentSelect">
+          <span>Selecionar Aluno</span>
+          <span class="select-affix">
+            <select id="enrollStudentSelect" required></select>
+            <svg class="select-chevron" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </span>
+        </label>
+
+        <fieldset class="form-row-responsive">
+          <label class="field-label" for="enrollPlanSelect">
+            <span>Selecionar Plano</span>
+            <span class="select-affix">
+              <select id="enrollPlanSelect" required></select>
+              <svg class="select-chevron" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </span>
+          </label>
+
+          <label class="field-label" for="enrollInstructorSelect">
+            <span>Selecionar Instrutor</span>
+            <span class="select-affix">
+              <select id="enrollInstructorSelect" required></select>
+              <svg class="select-chevron" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </span>
+          </label>
+        </fieldset>
+
+        <fieldset class="form-row-responsive">
+          <label class="field-label" for="enrollStartDate">
+            <span>Data de Início</span>
+            <span class="input-affix right-only">
+              <input type="text" id="enrollStartDate" value="25/10/2026" placeholder="DD/MM/AAAA" maxlength="10" required />
+              <svg class="affix-static-right" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+            </span>
+            <small class="field-error" id="enrollStartDateError"></small>
+          </label>
+
+          <label class="field-label" for="enrollEndDate">
+            <span>Data de Término (Automático)</span>
+            <input type="text" id="enrollEndDate" value="25/11/2026" readonly class="input-readonly" />
+          </label>
+        </fieldset>
+
+        <fieldset class="field-label status-fieldset">
+          <legend>Status Inicial</legend>
+          <nav class="status-radio-group" role="radiogroup" aria-label="Status Inicial da Matrícula">
+            <button type="button" class="status-radio-pill active" data-status-val="Ativa" id="radioStatusAtiva">
+              <span class="radio-dot"></span>
+              <span>Ativa</span>
+            </button>
+            <button type="button" class="status-radio-pill" data-status-val="Pendente" id="radioStatusPendente">
+              <span class="radio-dot"></span>
+              <span>Pendente</span>
+            </button>
+          </nav>
+        </fieldset>
+
+        <output class="estimated-value-box" for="enrollPlanSelect">
+          <span class="estimated-label">VALOR ESTIMADO</span>
+          <strong class="estimated-price" id="enrollEstimatedPrice">R$ 89,90 / mês</strong>
+        </output>
+
+        <footer class="form-actions-stack">
+          <button type="submit" class="btn-primary btn-block" id="btnConfirmEnrollment">Confirmar Matrícula</button>
+        </footer>
+      </form>
+    </section>
+  </main>
+
+  <!-- Barra de Navegação Inferior (Aparece automaticamente no Mobile e some no Desktop via Media Query) -->
+  <nav class="bottom-nav hidden" id="bottomNav" aria-label="Navegação Inferior Mobile">
+    <button type="button" class="bottom-nav-item active" data-nav="screen-dashboard">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+      </svg>
+      <span>Dashboard</span>
+    </button>
+
+    <button type="button" class="bottom-nav-item" data-nav="screen-students">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+        <circle cx="12" cy="7" r="4"></circle>
+      </svg>
+      <span>Alunos</span>
+    </button>
+
+    <button type="button" class="bottom-nav-item" data-nav="screen-plans">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+      </svg>
+      <span>Planos</span>
+    </button>
+
+    <button type="button" class="bottom-nav-item" data-nav="screen-enrollments">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+        <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+        <line x1="9" y1="12" x2="15" y2="12"></line>
+        <line x1="9" y1="16" x2="13" y2="16"></line>
+      </svg>
+      <span>Matrículas</span>
+    </button>
+
+    <button type="button" class="bottom-nav-item" data-nav="screen-instructors">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="3" y="3" width="7" height="7" rx="1"></rect>
+        <rect x="14" y="3" width="7" height="7" rx="1"></rect>
+        <rect x="14" y="14" width="7" height="7" rx="1"></rect>
+        <rect x="3" y="14" width="7" height="7" rx="1"></rect>
+      </svg>
+      <span>Mais</span>
+    </button>
+  </nav>
+
+  <!-- =========================================================
+       MODAIS E BOTTOM SHEETS SEMÂNTICOS COM <dialog> NATIVO DO HTML5
+       ========================================================= -->
+
+  <!-- Dialog: Cadastrar / Editar Instrutor -->
+  <dialog class="modal-sheet" id="modalInstructor" aria-labelledby="modalInstructorTitle">
+    <header class="modal-header">
+      <h3 id="modalInstructorTitle">Cadastrar Instrutor</h3>
+      <button type="button" class="btn-close-modal" data-close-modal="modalInstructor" aria-label="Fechar">&times;</button>
+    </header>
+    <form id="instructorForm" class="app-form" novalidate>
+      <input type="hidden" id="instructorEditId" value="" />
+      <label class="field-label" for="instructorName">
+        <span>Nome do Professor(a)</span>
+        <input type="text" id="instructorName" placeholder="Ex: Prof. Carlos Mendes" required />
+      </label>
+      <label class="field-label" for="instructorCref">
+        <span>Registro CREF</span>
+        <input type="text" id="instructorCref" placeholder="Ex: CREF 067890-G/SP" required />
+      </label>
+      <label class="field-label" for="instructorSpecialty">
+        <span>Especialidade / Modalidade</span>
+        <input type="text" id="instructorSpecialty" placeholder="Ex: Musculação, Pilates, Crossfit..." required />
+      </label>
+      <footer class="modal-actions">
+        <button type="button" class="btn-secondary" data-close-modal="modalInstructor">Cancelar</button>
+        <button type="submit" class="btn-primary">Salvar Instrutor</button>
+      </footer>
+    </form>
+  </dialog>
+
+  <!-- Dialog: Cadastrar / Editar Plano -->
+  <dialog class="modal-sheet" id="modalPlan" aria-labelledby="modalPlanTitle">
+    <header class="modal-header">
+      <h3 id="modalPlanTitle">Cadastrar Plano</h3>
+      <button type="button" class="btn-close-modal" data-close-modal="modalPlan" aria-label="Fechar">&times;</button>
+    </header>
+    <form id="planForm" class="app-form" novalidate>
+      <input type="hidden" id="planEditId" value="" />
+      <label class="field-label" for="planName">
+        <span>Nome do Plano</span>
+        <input type="text" id="planName" placeholder="Ex: Plano Semestral VIP" required />
+      </label>
+      <fieldset class="form-row-responsive">
+        <label class="field-label" for="planMonths">
+          <span>Duração (Meses)</span>
+          <input type="number" id="planMonths" min="1" max="36" value="1" required />
+        </label>
+        <label class="field-label" for="planPrice">
+          <span>Valor Total (R$)</span>
+          <input type="number" id="planPrice" step="0.10" min="1" placeholder="89.90" required />
+        </label>
+      </fieldset>
+      <label class="checkbox-label" for="planFeatured">
+        <input type="checkbox" id="planFeatured" />
+        <span>Destacar plano (borda âmbar)</span>
+      </label>
+      <footer class="modal-actions">
+        <button type="button" class="btn-secondary" data-close-modal="modalPlan">Cancelar</button>
+        <button type="submit" class="btn-primary">Salvar Plano</button>
+      </footer>
+    </form>
+  </dialog>
+
+  <!-- Dialog Bottom Sheet: Detalhes do Registro -->
+  <dialog class="bottom-sheet" id="modalDetailsSheet" aria-labelledby="detailsSheetTitle">
+    <header class="modal-header">
+      <h3 id="detailsSheetTitle">Detalhes do Registro</h3>
+      <button type="button" class="btn-close-modal" data-close-modal="modalDetailsSheet" aria-label="Fechar">&times;</button>
+    </header>
+    <dl id="detailsSheetBody" class="sheet-body"></dl>
+    <footer id="detailsSheetActions" class="modal-actions"></footer>
+  </dialog>
+
+  <!-- Dialog: Confirmação de Exclusão -->
+  <dialog class="modal-dialog-centered" id="modalConfirmDelete" aria-labelledby="confirmDeleteTitle">
+    <span class="delete-icon-circle" aria-hidden="true">
+      <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.2">
+        <polyline points="3 6 5 6 21 6"></polyline>
+        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+      </svg>
+    </span>
+    <h3 id="confirmDeleteTitle">Confirmar Exclusão</h3>
+    <p id="confirmDeleteText">Tem certeza que deseja excluir este registro?</p>
+    <footer class="modal-actions">
+      <button type="button" class="btn-secondary" data-close-modal="modalConfirmDelete">Cancelar</button>
+      <button type="button" class="btn-danger" id="btnConfirmDeleteAction">Excluir</button>
+    </footer>
+  </dialog>
+
+  <!-- Dialog: Recuperar Senha -->
+  <dialog class="modal-dialog-centered" id="modalForgotPass" aria-labelledby="forgotPassTitle">
+    <h3 id="forgotPassTitle">Recuperar Senha</h3>
+    <p>Informe seu e-mail administrativo para receber o link de redefinição de senha do FitManager.</p>
+    <form id="forgotPassForm" class="app-form" novalidate>
+      <label class="field-label" for="forgotPassEmail">
+        <input type="email" id="forgotPassEmail" value="admin@fitmanager.com" required />
+      </label>
+      <footer class="modal-actions">
+        <button type="button" class="btn-secondary" data-close-modal="modalForgotPass">Cancelar</button>
+        <button type="submit" class="btn-primary">Enviar Link</button>
+      </footer>
+    </form>
+  </dialog>
+
+  <!-- Notificações Toast -->
+  <aside class="toast-container" id="toastContainer" aria-live="polite"></aside>
+
+  <script src="script.js"></script>
+</body>
+</html>
