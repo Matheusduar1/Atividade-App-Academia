@@ -1,28 +1,76 @@
 /**
- * FitManager — Gestão Inteligente de Academias
- * Projeto Prático UC14 — Matheus Duarte & Miguel
- * Semântica HTML5, <dialog> nativo e Responsividade Automática Mobile-First
+ * MaxFit Club — Área do Aluno (Treinos), Área do Instrutor & Painel Admin
+ * Projeto Integrado UC14 — Matheus Duarte & Miguel
+ * HTML5 Estritamente Semântico (Zero <div>), <dialog> nativo e Mobile-First
  */
 
-const STORAGE_KEY = "fitmanager_state_v1";
+const STORAGE_KEY = "maxfit_club_state_v3";
 
-// Estado inicial fiel ao Mockup do Figma (8 Telas)
+const WORKOUT_CATALOG = {
+  A: {
+    code: "A",
+    title: "Peito + Tríceps",
+    duration: "45–60 min",
+    note: "Intervalo padrão de 60 segundos entre as séries. Foco na amplitude do movimento.",
+    exercises: [
+      { index: "01", name: "Supino reto", equipment: "Barra · Peitoral", sets: "4", reps: "12", load: "20 kg" },
+      { index: "02", name: "Crucifixo", equipment: "Halteres · Peitoral", sets: "3", reps: "12", load: "10 kg" },
+      { index: "03", name: "Tríceps pulley", equipment: "Polia · Tríceps", sets: "3", reps: "15", load: "15 kg" }
+    ]
+  },
+  B: {
+    code: "B",
+    title: "Costas + Bíceps",
+    duration: "45–60 min",
+    note: "Mantenha as escápulas estabilizadas nas puxadas e controle a fase excêntrica.",
+    exercises: [
+      { index: "01", name: "Puxada frontal", equipment: "Polia · Costas", sets: "4", reps: "12", load: "25 kg" },
+      { index: "02", name: "Remada baixa", equipment: "Polia · Costas", sets: "3", reps: "12", load: "20 kg" },
+      { index: "03", name: "Rosca direta", equipment: "Barra · Bíceps", sets: "3", reps: "12", load: "10 kg" }
+    ]
+  },
+  C: {
+    code: "C",
+    title: "Pernas + Ombros",
+    duration: "45–60 min",
+    note: "Aqueça bem as articulações antes do agachamento e respeite o alinhamento dos joelhos.",
+    exercises: [
+      { index: "01", name: "Agachamento", equipment: "Barra · Pernas", sets: "4", reps: "12", load: "20 kg" },
+      { index: "02", name: "Leg press", equipment: "Máquina · Pernas", sets: "3", reps: "12", load: "60 kg" },
+      { index: "03", name: "Desenvolvimento", equipment: "Halteres · Ombros", sets: "3", reps: "12", load: "8 kg" }
+    ]
+  }
+};
+
 const INITIAL_STATE = {
   baseMetrics: {
-    activeStudentsBase: 242, // + 5 ativos na lista = 247 no KPI inicial
-    instructorsBase: 9,      // + 3 na lista = 12 no KPI inicial
-    monthlyEnrollmentsBase: 33, // + 5 na lista = 38 no KPI inicial
-    monthlyRevenueBase: 41680.50 // somado às matrículas ativas = R$ 42.890
+    activeStudentsBase: 241,
+    instructorsBase: 8,
+    monthlyEnrollmentsBase: 32,
+    monthlyRevenueBase: 41590.60
+  },
+  activeStudentId: "stu-lucas-martins",
+  instructorSelectedStudentId: "stu-lucas-martins",
+  workoutChecks: {
+    "a-ex-1": false,
+    "a-ex-2": false,
+    "a-ex-3": false,
+    "b-ex-1": false,
+    "b-ex-2": false,
+    "b-ex-3": false,
+    "c-ex-1": false,
+    "c-ex-2": false,
+    "c-ex-3": false
   },
   plans: [
     {
       id: "plan-mensal",
       name: "Plano Mensal",
       months: 1,
-      price: 89.90,
+      price: 99.90,
       studentsCount: 64,
       featured: false,
-      perks: ["Musculação Livre", "Sem fidelidade"]
+      perks: ["Musculação Livre", "Treino no App MaxFit", "Sem fidelidade"]
     },
     {
       id: "plan-trimestral",
@@ -40,7 +88,7 @@ const INITIAL_STATE = {
       price: 429.90,
       studentsCount: 42,
       featured: false,
-      perks: ["Aulas Coletivas", "Treino no App"]
+      perks: ["Aulas Coletivas", "Acompanhamento MaxFit"]
     },
     {
       id: "plan-anual",
@@ -53,6 +101,15 @@ const INITIAL_STATE = {
     }
   ],
   instructors: [
+    {
+      id: "inst-rafael",
+      name: "Prof. Rafael Martins",
+      shortSelectLabel: "Rafael Martins (Musculação)",
+      fullSelectLabel: "Prof. Rafael Martins (Musculação)",
+      cref: "CREF 045890-G/SP",
+      specialty: "Musculação & Hipertrofia",
+      studentsCount: 54
+    },
     {
       id: "inst-rodrigo",
       name: "Prof. Rodrigo",
@@ -83,111 +140,146 @@ const INITIAL_STATE = {
   ],
   students: [
     {
+      id: "stu-lucas-martins",
+      code: "00128",
+      name: "Lucas Martins",
+      cpf: "123.987.456-10",
+      phone: "(11) 99999-1234",
+      email: "lucas@maxfit.com",
+      planName: "Plano Mensal",
+      instructorName: "Prof. Rafael Martins",
+      goal: "Hipertrofia & Evolução (Ficha ABC)",
+      currentSplit: "A",
+      status: "Ativo"
+    },
+    {
       id: "stu-ana",
+      code: "00129",
       name: "Ana Silva",
       cpf: "234.567.890-11",
       phone: "(11) 98765-4321",
-      email: "ana.silva@email.com",
+      email: "ana.silva@maxfit.com",
       planName: "Plano Anual",
       instructorName: "Prof. Rodrigo",
+      goal: "Fortalecimento & Definição (Ficha ABC)",
+      currentSplit: "C",
       status: "Ativo"
     },
     {
       id: "stu-bruno",
+      code: "00130",
       name: "Bruno Costa",
       cpf: "345.678.901-22",
       phone: "(11) 91234-5678",
-      email: "bruno.costa@email.com",
+      email: "bruno.costa@maxfit.com",
       planName: "Plano Mensal",
       instructorName: "Prof.ª Juliana",
+      goal: "Condicionamento & Força (Ficha ABC)",
+      currentSplit: "B",
       status: "Ativo"
     },
     {
       id: "stu-camila",
+      code: "00131",
       name: "Camila Santos",
       cpf: "456.789.012-33",
       phone: "(11) 99876-5432",
-      email: "camila.santos@email.com",
+      email: "camila.santos@maxfit.com",
       planName: "Sem plano",
       instructorName: "Prof. Alex",
+      goal: "Resistência Muscular (Ficha ABC)",
+      currentSplit: "A",
       status: "Inativo"
     },
     {
-      id: "stu-lucas",
-      name: "Lucas Lima",
-      cpf: "567.890.123-44",
-      phone: "(11) 97654-3210",
-      email: "lucas.lima@email.com",
-      planName: "Plano Anual",
-      instructorName: "Prof. Rodrigo",
-      status: "Ativo"
-    },
-    {
       id: "stu-beatriz",
+      code: "00132",
       name: "Beatriz Santos",
       cpf: "678.901.234-55",
       phone: "(11) 96543-2109",
-      email: "beatriz.santos@email.com",
+      email: "beatriz.santos@maxfit.com",
       planName: "Plano Trimestral",
       instructorName: "Prof.ª Juliana",
+      goal: "Membros Inferiores & Core (Ficha ABC)",
+      currentSplit: "C",
       status: "Ativo"
     },
     {
       id: "stu-gabriel",
+      code: "00133",
       name: "Gabriel Souza",
       cpf: "789.012.345-66",
       phone: "(11) 95432-1098",
-      email: "gabriel.souza@email.com",
+      email: "gabriel.souza@maxfit.com",
       planName: "Plano Mensal",
       instructorName: "Prof. Alex",
+      goal: "Hipertrofia Membros Superiores (Ficha ABC)",
+      currentSplit: "A",
       status: "Ativo"
     },
     {
       id: "stu-marina",
+      code: "00134",
       name: "Marina Sol",
       cpf: "890.123.456-77",
       phone: "(11) 94321-0987",
-      email: "marina.sol@email.com",
+      email: "marina.sol@maxfit.com",
       planName: "Plano Mensal",
       instructorName: "Prof.ª Juliana",
+      goal: "Mobilidade & Tonificação (Ficha ABC)",
+      currentSplit: "B",
       status: "Ativo"
     },
     {
       id: "stu-pedro",
+      code: "00135",
       name: "Pedro Alves",
       cpf: "901.234.567-88",
       phone: "(11) 93210-9876",
-      email: "pedro.alves@email.com",
+      email: "pedro.alves@maxfit.com",
       planName: "Plano Trimestral",
       instructorName: "Prof. Alex",
+      goal: "Recondicionamento Físico (Ficha ABC)",
+      currentSplit: "A",
       status: "Inativo"
     }
   ],
   enrollments: [
     {
       id: "enr-1",
-      studentName: "Lucas Lima",
+      studentName: "Lucas Martins",
+      planName: "Plano Mensal",
+      instructorName: "Prof. Rafael Martins",
+      startDate: "10/10/2026",
+      endDate: "10/11/2026",
+      status: "Ativa",
+      monthlyValue: 99.90,
+      showInRecent: true
+    },
+    {
+      id: "enr-2",
+      studentName: "Ana Silva",
       planName: "Plano Anual",
       instructorName: "Prof. Rodrigo",
       startDate: "15/01/2026",
       endDate: "15/01/2027",
       status: "Ativa",
-      monthlyValue: 89.90,
+      monthlyValue: 62.49,
       showInRecent: true
     },
     {
-      id: "enr-2",
+      id: "enr-3",
       studentName: "Marina Sol",
       planName: "Plano Mensal",
       instructorName: "Prof.ª Juliana",
       startDate: "10/10/2026",
       endDate: "10/11/2026",
       status: "Pendente",
-      monthlyValue: 89.90,
+      monthlyValue: 99.90,
       showInRecent: false
     },
     {
-      id: "enr-3",
+      id: "enr-4",
       studentName: "Pedro Alves",
       planName: "Plano Trimestral",
       instructorName: "Prof. Alex",
@@ -198,7 +290,7 @@ const INITIAL_STATE = {
       showInRecent: false
     },
     {
-      id: "enr-4",
+      id: "enr-5",
       studentName: "Beatriz Santos",
       planName: "Plano Trimestral",
       instructorName: "Prof.ª Juliana",
@@ -209,23 +301,42 @@ const INITIAL_STATE = {
       showInRecent: true
     },
     {
-      id: "enr-5",
+      id: "enr-6",
       studentName: "Gabriel Souza",
       planName: "Plano Mensal",
       instructorName: "Prof. Alex",
       startDate: "22/10/2026",
       endDate: "22/11/2026",
       status: "Pendente",
-      monthlyValue: 89.90,
+      monthlyValue: 99.90,
       showInRecent: true
     }
   ]
 };
 
+const STUDENT_SCREENS = new Set([
+  "screen-student-home",
+  "screen-student-workouts",
+  "screen-workout-a",
+  "screen-workout-b",
+  "screen-workout-c",
+  "screen-student-plan",
+  "screen-student-profile",
+  "screen-student-help"
+]);
+
+const INSTRUCTOR_SCREENS = new Set([
+  "screen-instructor-students",
+  "screen-instructor-workout"
+]);
+
 let appState = loadState();
 let currentScreen = "screen-login";
 let screenHistory = ["screen-login"];
+let loginSelectedRole = "student"; // "student" | "instructor" | "admin"
 let studentFilter = "all";
+let instStudentFilter = "all";
+let instActiveSplit = "A";
 let enrollmentFilter = "all";
 let studentViewMode = "cards";
 let pendingDeleteCallback = null;
@@ -238,7 +349,17 @@ let selectedEnrollmentStatus = "Ativa";
 function loadState() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    if (raw) return JSON.parse(raw);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      return {
+        ...structuredClone(INITIAL_STATE),
+        ...parsed,
+        workoutChecks: {
+          ...INITIAL_STATE.workoutChecks,
+          ...(parsed.workoutChecks || {})
+        }
+      };
+    }
   } catch (e) {
     console.warn("Erro ao carregar LocalStorage:", e);
   }
@@ -253,13 +374,13 @@ function saveState() {
   }
 }
 
-function resetToFigmaState() {
+function resetToMaxFitState() {
   appState = structuredClone(INITIAL_STATE);
   saveState();
   renderAll();
   resetStudentFormDefaults();
   resetEnrollmentFormDefaults();
-  showToast("Dados restaurados conforme o Mockup do Figma!");
+  showToast("Dados originais MaxFit Club restaurados!");
 }
 
 // ==========================================================================
@@ -267,12 +388,17 @@ function resetToFigmaState() {
 // ==========================================================================
 
 function getInitials(name, singleLetter = false) {
-  if (!name) return "FM";
+  if (!name) return "MF";
   const cleaned = name.replace(/^Prof\.ª?\s*/i, "").trim();
   if (singleLetter) return cleaned.charAt(0).toUpperCase();
   const parts = cleaned.split(/\s+/);
   if (parts.length === 1) return parts[0].substring(0, 2).toUpperCase();
   return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+}
+
+function cleanCoachName(name) {
+  if (!name) return "Rafael Martins";
+  return name.replace(/^Prof\.ª?\s*/i, "").trim();
 }
 
 function formatBRL(value) {
@@ -334,7 +460,7 @@ function escapeHTML(str) {
 }
 
 // ==========================================================================
-// NAVEGAÇÃO ENTRE TELAS
+// NAVEGAÇÃO ENTRE OS 3 AMBIENTES (ALUNO, INSTRUTOR E ADMIN)
 // ==========================================================================
 
 function navigateTo(screenId, pushHistory = true) {
@@ -352,31 +478,76 @@ function navigateTo(screenId, pushHistory = true) {
   currentScreen = screenId;
 
   const isLogin = screenId === "screen-login";
-  const bottomNav = document.getElementById("bottomNav");
-  const desktopSidebar = document.getElementById("desktopSidebar");
+  const isStudentArea = STUDENT_SCREENS.has(screenId);
+  const isInstructorArea = INSTRUCTOR_SCREENS.has(screenId);
+  const isAdminArea = !isLogin && !isStudentArea && !isInstructorArea;
 
-  bottomNav.classList.toggle("hidden", isLogin);
-  desktopSidebar.classList.toggle("hidden", isLogin);
+  // Alterna barras do Admin
+  document.getElementById("bottomNav").classList.toggle("hidden", !isAdminArea);
+  document.getElementById("desktopSidebar").classList.toggle("hidden", !isAdminArea);
 
-  const navMapping = {
-    "screen-dashboard": "screen-dashboard",
-    "screen-students": "screen-students",
-    "screen-add-student": "screen-students",
-    "screen-plans": "screen-plans",
-    "screen-enrollments": "screen-enrollments",
-    "screen-new-enrollment": "screen-enrollments",
-    "screen-instructors": "screen-instructors"
-  };
-  const activeNavKey = navMapping[screenId] || screenId;
+  // Alterna barras do Instrutor
+  document.getElementById("instructorBottomNav").classList.toggle("hidden", !isInstructorArea);
+  document.getElementById("instructorSidebar").classList.toggle("hidden", !isInstructorArea);
 
-  document.querySelectorAll(".bottom-nav-item").forEach((btn) => {
-    btn.classList.toggle("active", btn.dataset.nav === activeNavKey);
-  });
+  // Alterna barras e topbar do Aluno MaxFit
+  document.getElementById("studentBottomNav").classList.toggle("hidden", !isStudentArea);
+  document.getElementById("studentSidebar").classList.toggle("hidden", !isStudentArea);
+  document.getElementById("studentTopbar").classList.toggle("hidden", !isStudentArea);
+  document.getElementById("studentFooter").classList.toggle("hidden", !isStudentArea);
 
-  document.querySelectorAll(".sidebar-link").forEach((btn) => {
-    btn.classList.toggle("active", btn.dataset.nav === activeNavKey);
-  });
+  if (isAdminArea) {
+    const adminNavMapping = {
+      "screen-dashboard": "screen-dashboard",
+      "screen-students": "screen-students",
+      "screen-add-student": "screen-students",
+      "screen-plans": "screen-plans",
+      "screen-enrollments": "screen-enrollments",
+      "screen-new-enrollment": "screen-enrollments",
+      "screen-instructors": "screen-instructors"
+    };
+    const activeAdminKey = adminNavMapping[screenId] || screenId;
 
+    document.querySelectorAll("#bottomNav .bottom-nav-item").forEach((btn) => {
+      btn.classList.toggle("active", btn.dataset.nav === activeAdminKey);
+    });
+    document.querySelectorAll("#desktopSidebar .sidebar-link").forEach((btn) => {
+      btn.classList.toggle("active", btn.dataset.nav === activeAdminKey);
+    });
+  }
+
+  if (isInstructorArea) {
+    document.querySelectorAll("#instructorBottomNav .bottom-nav-item").forEach((btn) => {
+      btn.classList.toggle("active", btn.dataset.instNav === screenId);
+    });
+    document.querySelectorAll("#instructorSidebar .sidebar-link").forEach((btn) => {
+      btn.classList.toggle("active", btn.dataset.instNav === screenId);
+    });
+  }
+
+  if (isStudentArea) {
+    const studentNavMapping = {
+      "screen-student-home": "screen-student-home",
+      "screen-student-workouts": "screen-student-workouts",
+      "screen-workout-a": "screen-student-workouts",
+      "screen-workout-b": "screen-student-workouts",
+      "screen-workout-c": "screen-student-workouts",
+      "screen-student-plan": "screen-student-plan",
+      "screen-student-profile": "screen-student-profile",
+      "screen-student-help": "screen-student-home"
+    };
+    const activeStudentKey = studentNavMapping[screenId] || "screen-student-home";
+
+    document.querySelectorAll("#studentBottomNav .bottom-nav-item").forEach((btn) => {
+      btn.classList.toggle("active", btn.dataset.studentNav === activeStudentKey);
+    });
+    document.querySelectorAll("#studentSidebar .sidebar-link").forEach((btn) => {
+      btn.classList.toggle("active", btn.dataset.studentNav === activeStudentKey);
+    });
+  }
+
+  const appMain = document.getElementById("appMain");
+  if (appMain) appMain.scrollTop = 0;
   target.scrollTop = 0;
 }
 
@@ -393,7 +564,349 @@ function goBack(fallbackScreen = "screen-dashboard") {
 }
 
 // ==========================================================================
-// RENDERIZAÇÃO SEMÂNTICA
+// SELETOR DE 3 PERFIS NO LOGIN (ALUNO | INSTRUTOR | ADMIN)
+// ==========================================================================
+
+function setLoginRole(role) {
+  loginSelectedRole =
+    role === "instructor" ? "instructor" : role === "admin" ? "admin" : "student";
+
+  const tabStudent = document.getElementById("tabRoleStudent");
+  const tabInstructor = document.getElementById("tabRoleInstructor");
+  const tabAdmin = document.getElementById("tabRoleAdmin");
+  const emailInput = document.getElementById("loginEmail");
+  const submitBtn = document.getElementById("btnLoginSubmit");
+  const eyebrow = document.getElementById("loginEyebrow");
+  const heroTitle = document.getElementById("loginHeroTitle");
+  const heroSubtitle = document.getElementById("loginHeroSubtitle");
+  const demoNote = document.getElementById("loginDemoNote");
+
+  tabStudent.classList.toggle("active", loginSelectedRole === "student");
+  tabStudent.setAttribute("aria-selected", loginSelectedRole === "student" ? "true" : "false");
+
+  tabInstructor.classList.toggle("active", loginSelectedRole === "instructor");
+  tabInstructor.setAttribute("aria-selected", loginSelectedRole === "instructor" ? "true" : "false");
+
+  tabAdmin.classList.toggle("active", loginSelectedRole === "admin");
+  tabAdmin.setAttribute("aria-selected", loginSelectedRole === "admin" ? "true" : "false");
+
+  if (loginSelectedRole === "student") {
+    eyebrow.textContent = "ÁREA DO ALUNO MAXFIT";
+    heroTitle.innerHTML = `O próximo passo<br />é seu<span class="red">.</span>`;
+    heroSubtitle.textContent = "Acesse seus treinos, sua frequência e seu plano MaxFit.";
+    submitBtn.textContent = "Entrar como Aluno";
+    emailInput.value = "lucas@maxfit.com";
+    demoNote.textContent = "Acesso teste Aluno: lucas@maxfit.com";
+  } else if (loginSelectedRole === "instructor") {
+    eyebrow.textContent = "ÁREA DO INSTRUTOR MAXFIT";
+    heroTitle.innerHTML = `Acompanhe cada<br />evolução<span class="red">.</span>`;
+    heroSubtitle.textContent = "Consulte os alunos atuais na academia e veja o treino de cada um.";
+    submitBtn.textContent = "Entrar como Instrutor";
+    emailInput.value = "rafael@maxfit.com";
+    demoNote.textContent = "Acesso teste Instrutor: rafael@maxfit.com";
+  } else {
+    eyebrow.textContent = "GESTÃO DA ACADEMIA MAXFIT";
+    heroTitle.innerHTML = `Comando total<br />da academia<span class="red">.</span>`;
+    heroSubtitle.textContent = "Gerencie alunos, instrutores, planos e matrículas da MaxFit.";
+    submitBtn.textContent = "Entrar como Admin";
+    emailInput.value = "admin@maxfit.com";
+    demoNote.textContent = "Acesso teste Admin: admin@maxfit.com";
+  }
+}
+
+function getActiveStudent() {
+  return (
+    appState.students.find((s) => s.id === "stu-lucas-martins") ||
+    appState.students[0]
+  );
+}
+
+// ==========================================================================
+// RENDERIZAÇÃO MÓDULO 01: ÁREA DO ALUNO (MAXFIT)
+// ==========================================================================
+
+function renderStudentArea() {
+  const st = getActiveStudent();
+  if (!st) return;
+
+  const firstName = st.name.split(" ")[0];
+  const studentInitials = getInitials(st.name);
+  const coachFull = st.instructorName || "Prof. Rafael Martins";
+  const coachClean = cleanCoachName(coachFull);
+  const coachInitials = getInitials(coachClean);
+
+  const planObj =
+    appState.plans.find((p) => p.name === st.planName) || appState.plans[0];
+  const shortPlanTitle = (st.planName || "Plano Mensal")
+    .replace(/^Plano\s+/i, "")
+    .toUpperCase();
+  const shortPlanLabel = (st.planName || "Plano Mensal").replace(/^Plano\s+/i, "");
+  const priceFormatted = formatBRL(planObj ? planObj.price : 99.9);
+  const memberCode = st.code || "00128";
+
+  document.getElementById("studentTopbarAvatar").textContent = studentInitials;
+  document.getElementById("studentSideCoachAvatar").textContent = coachInitials;
+  document.getElementById("studentSideCoachName").textContent = coachClean;
+
+  document.getElementById("studentHomeFirstName").textContent = firstName;
+  document.getElementById("studentQuickPlanName").textContent = shortPlanLabel;
+  document.getElementById("studentCoachCardAvatar").textContent = coachInitials;
+  document.getElementById("studentCoachCardName").textContent = coachClean;
+
+  document.getElementById("workoutNoteCoachAvatar").textContent = coachInitials;
+  document.getElementById("workoutNoteCoachName").textContent = coachClean;
+  document.querySelectorAll(".workout-coach-name").forEach((el) => {
+    el.textContent = coachClean;
+  });
+
+  const isInactive = st.status === "Inativo";
+  const cardPill = document.getElementById("studentCardStatusPill");
+  cardPill.textContent = isInactive ? "INATIVO" : "ATIVO";
+  cardPill.className = `pill ${isInactive ? "red-pill" : "green"}`;
+
+  document.getElementById("studentCardPlanTitle").textContent = shortPlanTitle;
+  document.getElementById("studentCardMemberName").textContent = st.name;
+  document.getElementById("studentCardMemberId").textContent = `MF / ${memberCode}`;
+  document.getElementById("studentBillingPrice").textContent = priceFormatted;
+
+  document.querySelectorAll(".student-pay-plan-name").forEach((el) => {
+    el.textContent = st.planName === "Sem plano" ? "Plano Mensal" : st.planName;
+  });
+  document.querySelectorAll(".student-pay-amount").forEach((el) => {
+    el.textContent = priceFormatted;
+  });
+
+  document.getElementById("studentProfileAvatar").textContent = studentInitials;
+  document.getElementById("studentProfileName").textContent = st.name;
+  const profileBadge = document.getElementById("studentProfileStatusBadge");
+  profileBadge.textContent = isInactive ? "Matrícula inativa" : "Matrícula ativa";
+  profileBadge.className = `pill ${isInactive ? "red-pill" : "green"}`;
+  document.getElementById("studentProfileCode").textContent = `#${memberCode}`;
+
+  document.getElementById("studentDataName").textContent = st.name;
+  document.getElementById("studentDataEmail").textContent = st.email;
+  document.getElementById("studentDataPhone").textContent = st.phone;
+  document.getElementById("studentDataCpf").textContent = st.cpf;
+  document.getElementById("studentDataPlan").textContent = st.planName;
+  document.getElementById("studentDataCoach").textContent = coachFull;
+
+  syncWorkoutCheckboxes();
+}
+
+function syncWorkoutCheckboxes() {
+  document.querySelectorAll(".exercise-toggle").forEach((checkbox) => {
+    const isChecked = !!appState.workoutChecks[checkbox.id];
+    checkbox.checked = isChecked;
+    const exerciseCard = checkbox.closest(".exercise");
+    if (exerciseCard) {
+      exerciseCard.classList.toggle("completed", isChecked);
+    }
+  });
+
+  ["A", "B", "C"].forEach((letter) => {
+    const groupInputs = Array.from(
+      document.querySelectorAll(`.exercise-toggle[data-workout="${letter}"]`)
+    );
+    const total = groupInputs.length || 3;
+    const doneCount = groupInputs.filter((i) => i.checked).length;
+    const pct = Math.round((doneCount / total) * 100);
+
+    const countEl = document.getElementById(`progCount${letter}`);
+    const barEl = document.getElementById(`progBar${letter}`);
+    const msgEl = document.getElementById(`progMsg${letter}`);
+
+    if (countEl) countEl.textContent = doneCount;
+    if (barEl) {
+      barEl.style.width = `${pct}%`;
+      barEl.classList.toggle("done", doneCount === total);
+    }
+    if (msgEl) {
+      msgEl.classList.toggle("visible", doneCount === total);
+    }
+  });
+
+  const aDone =
+    appState.workoutChecks["a-ex-1"] &&
+    appState.workoutChecks["a-ex-2"] &&
+    appState.workoutChecks["a-ex-3"];
+  const weekCountEl = document.getElementById("studentWeekCount");
+  const weekSubEl = document.getElementById("studentWeekSubtext");
+  const weekMeterEl = document.getElementById("studentWeekMeter");
+
+  if (weekCountEl && weekSubEl && weekMeterEl) {
+    if (aDone) {
+      weekCountEl.innerHTML = `3<span>/ 3</span>`;
+      weekSubEl.textContent = "Meta da semana concluída! Excelente treino.";
+      weekMeterEl.style.setProperty("--fill", "100%");
+      weekMeterEl.style.background = "var(--active-green)";
+    } else {
+      weekCountEl.innerHTML = `2<span>/ 3</span>`;
+      weekSubEl.textContent = "Falta um para sua meta.";
+      weekMeterEl.style.setProperty("--fill", "66.67%");
+      weekMeterEl.style.background = "var(--red)";
+    }
+  }
+}
+
+// ==========================================================================
+// RENDERIZAÇÃO MÓDULO 02: ÁREA EXCLUSIVA DO INSTRUTOR
+// (Ver alunos atuais na academia e ver o treino de cada um)
+// ==========================================================================
+
+function renderInstructorPanel() {
+  const query = (
+    document.getElementById("searchInstructorStudentsInput")?.value || ""
+  )
+    .trim()
+    .toLowerCase();
+
+  const totalAll = appState.students.length;
+  const totalActive = appState.students.filter((s) => s.status === "Ativo").length;
+  const totalInactive = appState.students.filter((s) => s.status === "Inativo").length;
+
+  document.getElementById("instSideCountStudents").textContent = totalAll;
+  document.getElementById("instKpiTotalStudents").textContent = totalAll;
+  document.getElementById("instKpiActiveStudents").textContent = totalActive;
+
+  document.getElementById("instCountAll").textContent = totalAll;
+  document.getElementById("instCountActive").textContent = totalActive;
+  document.getElementById("instCountInactive").textContent = totalInactive;
+
+  const filtered = appState.students.filter((st) => {
+    const matchesStatus =
+      instStudentFilter === "all" ? true : st.status === instStudentFilter;
+    const goalText = st.goal || "Hipertrofia (Ficha ABC)";
+    const matchesQuery =
+      !query ||
+      st.name.toLowerCase().includes(query) ||
+      st.planName.toLowerCase().includes(query) ||
+      goalText.toLowerCase().includes(query);
+    return matchesStatus && matchesQuery;
+  });
+
+  const container = document.getElementById("instructorStudentsListContainer");
+  if (!container) return;
+
+  if (filtered.length === 0) {
+    container.innerHTML = `
+      <article class="item-card" style="text-align:center; padding: 1.75rem; cursor: default;">
+        <p class="card-sub">Nenhum aluno encontrado na academia para este filtro.</p>
+      </article>
+    `;
+    return;
+  }
+
+  container.innerHTML = filtered
+    .map((st) => {
+      const initials = getInitials(st.name);
+      const isInactive = st.status === "Inativo";
+      const splitLetter = st.currentSplit || "A";
+      const splitInfo = WORKOUT_CATALOG[splitLetter] || WORKOUT_CATALOG.A;
+      const goalText = st.goal || "Hipertrofia & Evolução (Ficha ABC)";
+      return `
+        <article class="item-card inst-student-card" data-inst-open-workout="${st.id}">
+          <section class="card-row-main">
+            <span class="avatar-circle ${isInactive ? "muted" : ""}" aria-hidden="true">${escapeHTML(initials)}</span>
+            <hgroup class="card-info">
+              <h3 class="card-title">${escapeHTML(st.name)}</h3>
+              <p class="card-sub">${escapeHTML(goalText)}</p>
+              <p class="card-meta">
+                <span>${escapeHTML(st.planName)} • ${escapeHTML(st.instructorName)}</span>
+              </p>
+            </hgroup>
+            <span class="status-badge ${isInactive ? "danger" : "emerald"}">${escapeHTML(st.status)}</span>
+          </section>
+          <footer class="inst-student-card-footer">
+            <span class="inst-workout-tag">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d="M7 5v14M3 8v8M17 5v14M21 8v8M3 12h18"></path>
+              </svg>
+              <span>Treino do dia: <strong>Treino ${escapeHTML(splitInfo.code)} (${escapeHTML(splitInfo.title)})</strong></span>
+            </span>
+            <button type="button" class="btn-view-workout" data-inst-open-workout="${st.id}">
+              <span>Ver Treino</span>
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.3" aria-hidden="true">
+                <path d="m9 5 7 7-7 7"></path>
+              </svg>
+            </button>
+          </footer>
+        </article>
+      `;
+    })
+    .join("");
+}
+
+function openInstructorStudentWorkout(studentId, initialSplit = null) {
+  const st =
+    appState.students.find((s) => s.id === studentId) || appState.students[0];
+  if (!st) return;
+
+  appState.instructorSelectedStudentId = st.id;
+  instActiveSplit = initialSplit || st.currentSplit || "A";
+  saveState();
+
+  renderInstructorWorkoutDetail();
+  navigateTo("screen-instructor-workout");
+}
+
+function renderInstructorWorkoutDetail() {
+  const st =
+    appState.students.find(
+      (s) => s.id === appState.instructorSelectedStudentId
+    ) || appState.students[0];
+  if (!st) return;
+
+  const split = WORKOUT_CATALOG[instActiveSplit] || WORKOUT_CATALOG.A;
+  const goalText = st.goal || "Hipertrofia & Evolução";
+
+  document.getElementById("instWorkoutStudentName").textContent = st.name;
+  document.getElementById(
+    "instWorkoutStudentMeta"
+  ).textContent = `${st.planName} • ${goalText} • ${st.instructorName}`;
+
+  document.querySelectorAll("#instWorkoutSplitTabs .filter-pill").forEach((btn) => {
+    const isCurrent = btn.dataset.splitTab === split.code;
+    btn.classList.toggle("active", isCurrent);
+    btn.setAttribute("aria-selected", isCurrent ? "true" : "false");
+  });
+
+  document.getElementById(
+    "instSplitEyebrow"
+  ).textContent = `FICHA ${split.code} · ACOMPANHAMENTO DO INSTRUTOR`;
+  document.getElementById("instSplitTitle").textContent = split.title;
+  document.getElementById("instSplitDuration").textContent = split.duration;
+  document.getElementById("instSplitNote").textContent = split.note;
+
+  const exercisesContainer = document.getElementById(
+    "instWorkoutExercisesContainer"
+  );
+  exercisesContainer.innerHTML = split.exercises
+    .map(
+      (ex) => `
+      <article class="panel exercise">
+        <header class="exercise-heading">
+          <span class="exercise-index">${escapeHTML(ex.index)}</span>
+          <hgroup>
+            <h2>${escapeHTML(ex.name)}</h2>
+            <p>${escapeHTML(ex.equipment)}</p>
+          </hgroup>
+        </header>
+        <dl class="exercise-data">
+          <section class="stat-pair"><dt>SÉRIES</dt><dd>${escapeHTML(ex.sets)}</dd></section>
+          <section class="stat-pair"><dt>REPETIÇÕES</dt><dd>${escapeHTML(ex.reps)}</dd></section>
+          <section class="stat-pair"><dt>CARGA</dt><dd>${escapeHTML(ex.load)}</dd></section>
+        </dl>
+        <p class="muted small" style="padding-top:0.65rem;">
+          Prescrito para <strong>${escapeHTML(st.name)}</strong> · Descanso: 60s
+        </p>
+      </article>
+    `
+    )
+    .join("");
+}
+
+// ==========================================================================
+// RENDERIZAÇÃO MÓDULO 03: PAINEL DO ADMIN (GESTÃO DA ACADEMIA)
 // ==========================================================================
 
 function renderAll() {
@@ -404,9 +917,12 @@ function renderAll() {
   renderEnrollments();
   populateFormSelects();
   updateEnrollmentAutomaticFields();
+  renderStudentArea();
+  renderInstructorPanel();
+  renderInstructorWorkoutDetail();
 }
 
-// 1. Dashboard
+// 1. Dashboard Admin
 function renderDashboard() {
   const activeStudentsCount =
     appState.baseMetrics.activeStudentsBase +
@@ -418,8 +934,10 @@ function renderDashboard() {
 
   const activeRevenueDelta = appState.enrollments
     .filter((e) => e.status === "Ativa")
-    .reduce((acc, cur) => acc + (Number(cur.monthlyValue) || 89.9), 0);
-  const totalRevenue = Math.round(appState.baseMetrics.monthlyRevenueBase + activeRevenueDelta * 6.72);
+    .reduce((acc, cur) => acc + (Number(cur.monthlyValue) || 99.9), 0);
+  const totalRevenue = Math.round(
+    appState.baseMetrics.monthlyRevenueBase + activeRevenueDelta * 5.4
+  );
 
   document.getElementById("kpiActiveStudents").textContent = activeStudentsCount;
   document.getElementById("kpiInstructors").textContent = instructorsCount;
@@ -512,7 +1030,7 @@ function renderStudents() {
           <span class="avatar-circle ${isInactive ? "muted" : ""}" aria-hidden="true">${escapeHTML(initials)}</span>
           <hgroup class="card-info">
             <h3 class="card-title">${escapeHTML(st.name)}</h3>
-            <p class="card-sub">${escapeHTML(st.planName)}</p>
+            <p class="card-sub">${escapeHTML(st.planName)} • ${escapeHTML(st.instructorName)}</p>
             <p class="card-meta">
               <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                 <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"></path>
@@ -573,10 +1091,10 @@ function renderInstructors() {
 
   container.innerHTML = filtered
     .map((ins) => {
-      const letter = getInitials(ins.name, true);
+      const initials = getInitials(ins.name);
       return `
         <article class="item-card card-row-main" data-open-instructor="${ins.id}">
-          <span class="avatar-circle" aria-hidden="true">${escapeHTML(letter)}</span>
+          <span class="avatar-circle" aria-hidden="true">${escapeHTML(initials)}</span>
           <hgroup class="card-info">
             <h3 class="card-title">${escapeHTML(ins.name)}</h3>
             <p class="card-sub">${escapeHTML(ins.cref)}</p>
@@ -598,17 +1116,18 @@ function renderPlans() {
     .map((plan) => {
       const durationText =
         plan.months === 1 ? "Duração: 1 mês" : `Duração: ${plan.months} meses`;
-      const perks = plan.perks && plan.perks.length
-        ? plan.perks
-        : ["Musculação Livre", "Avaliação Física"];
+      const perks =
+        plan.perks && plan.perks.length
+          ? plan.perks
+          : ["Musculação Livre", "Treino no App MaxFit"];
       return `
         <article class="item-card plan-card ${plan.featured ? "featured" : ""}" data-open-plan="${plan.id}">
-          <div class="plan-card-top">
+          <header class="plan-card-top">
             <hgroup class="card-info">
               <h3 class="card-title">${escapeHTML(plan.name)}</h3>
               <p class="card-sub">${durationText}</p>
             </hgroup>
-            <footer class="plan-price-col">
+            <section class="plan-price-col">
               <strong class="plan-price-val">${formatBRL(plan.price)}</strong>
               <small class="plan-students-count">
                 <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
@@ -617,11 +1136,11 @@ function renderPlans() {
                 </svg>
                 ${plan.studentsCount} alunos
               </small>
-            </footer>
-          </div>
-          <div class="plan-perks-row">
+            </section>
+          </header>
+          <footer class="plan-perks-row">
             ${perks.map((pk) => `<span class="plan-perk-tag">✓ ${escapeHTML(pk)}</span>`).join("")}
-          </div>
+          </footer>
         </article>
       `;
     })
@@ -705,10 +1224,10 @@ function populateFormSelects() {
   const enrollInstructorSelect = document.getElementById("enrollInstructorSelect");
 
   const currentStuPlan = studentPlanSelect.value || "Plano Trimestral";
-  const currentStuInst = studentInstructorSelect.value || "Prof. Rodrigo";
-  const currentEnrStu = enrollStudentSelect.value || "Lucas Lima";
+  const currentStuInst = studentInstructorSelect.value || "Prof. Rafael Martins";
+  const currentEnrStu = enrollStudentSelect.value || "Lucas Martins";
   const currentEnrPlan = enrollPlanSelect.value || "Plano Mensal";
-  const currentEnrInst = enrollInstructorSelect.value || "Prof. Rodrigo";
+  const currentEnrInst = enrollInstructorSelect.value || "Prof. Rafael Martins";
 
   studentPlanSelect.innerHTML = appState.plans
     .map((p) => `<option value="${escapeHTML(p.name)}">${escapeHTML(p.name)}</option>`)
@@ -729,16 +1248,12 @@ function populateFormSelects() {
     ? currentStuInst
     : appState.instructors[0]?.name || "";
 
-  const sortedStudentsForEnroll = [...appState.students].sort((a, b) =>
-    a.name === "Lucas Lima" ? -1 : b.name === "Lucas Lima" ? 1 : 0
-  );
-
-  enrollStudentSelect.innerHTML = sortedStudentsForEnroll
+  enrollStudentSelect.innerHTML = appState.students
     .map((s) => `<option value="${escapeHTML(s.name)}">${escapeHTML(s.name)}</option>`)
     .join("");
   enrollStudentSelect.value = appState.students.some((s) => s.name === currentEnrStu)
     ? currentEnrStu
-    : sortedStudentsForEnroll[0]?.name || "";
+    : appState.students[0]?.name || "";
 
   enrollPlanSelect.innerHTML = appState.plans
     .map((p) => `<option value="${escapeHTML(p.name)}">${escapeHTML(p.name)}</option>`)
@@ -751,7 +1266,7 @@ function populateFormSelects() {
     .map(
       (i) =>
         `<option value="${escapeHTML(i.name)}">${escapeHTML(
-          i.shortSelectLabel || `${i.name.replace(/^Prof\.ª?\s*/i, "")} (${i.specialty})`
+          i.shortSelectLabel || `${cleanCoachName(i.name)} (${i.specialty})`
         )}</option>`
     )
     .join("");
@@ -762,7 +1277,7 @@ function populateFormSelects() {
 
 function updateEnrollmentAutomaticFields() {
   const planName = document.getElementById("enrollPlanSelect")?.value;
-  const startDate = document.getElementById("enrollStartDate")?.value || "25/10/2026";
+  const startDate = document.getElementById("enrollStartDate")?.value || "06/11/2026";
   const planObj =
     appState.plans.find((p) => p.name === planName) || appState.plans[0];
 
@@ -811,12 +1326,12 @@ function openStudentDetails(studentId) {
 
   document.getElementById("detailsSheetTitle").textContent = st.name;
   document.getElementById("detailsSheetBody").innerHTML = `
-    <div class="detail-row"><dt>Status</dt><dd>${escapeHTML(st.status)}</dd></div>
-    <div class="detail-row"><dt>CPF</dt><dd>${escapeHTML(st.cpf)}</dd></div>
-    <div class="detail-row"><dt>Telefone</dt><dd>${escapeHTML(st.phone)}</dd></div>
-    <div class="detail-row"><dt>E-mail</dt><dd>${escapeHTML(st.email)}</dd></div>
-    <div class="detail-row"><dt>Plano Contratado</dt><dd>${escapeHTML(st.planName)}</dd></div>
-    <div class="detail-row"><dt>Professor Responsável</dt><dd>${escapeHTML(st.instructorName)}</dd></div>
+    <section class="detail-row"><dt>Status</dt><dd>${escapeHTML(st.status)}</dd></section>
+    <section class="detail-row"><dt>CPF</dt><dd>${escapeHTML(st.cpf)}</dd></section>
+    <section class="detail-row"><dt>Telefone</dt><dd>${escapeHTML(st.phone)}</dd></section>
+    <section class="detail-row"><dt>E-mail</dt><dd>${escapeHTML(st.email)}</dd></section>
+    <section class="detail-row"><dt>Plano Contratado</dt><dd>${escapeHTML(st.planName)}</dd></section>
+    <section class="detail-row"><dt>Professor Responsável</dt><dd>${escapeHTML(st.instructorName)}</dd></section>
   `;
 
   document.getElementById("detailsSheetActions").innerHTML = `
@@ -850,7 +1365,7 @@ function openStudentDetails(studentId) {
     closeModal("modalDetailsSheet");
     confirmDelete(
       "Excluir Aluno",
-      `Deseja realmente remover o aluno "${st.name}" do sistema?`,
+      `Deseja realmente remover o aluno "${st.name}" do sistema MaxFit?`,
       () => {
         appState.students = appState.students.filter((x) => x.id !== st.id);
         saveState();
@@ -867,9 +1382,9 @@ function openInstructorDetails(instId) {
 
   document.getElementById("detailsSheetTitle").textContent = ins.name;
   document.getElementById("detailsSheetBody").innerHTML = `
-    <div class="detail-row"><dt>Registro CREF</dt><dd>${escapeHTML(ins.cref)}</dd></div>
-    <div class="detail-row"><dt>Especialidade</dt><dd>${escapeHTML(ins.specialty)}</dd></div>
-    <div class="detail-row"><dt>Alunos Vinculados</dt><dd>${ins.studentsCount} alunos</dd></div>
+    <section class="detail-row"><dt>Registro CREF</dt><dd>${escapeHTML(ins.cref)}</dd></section>
+    <section class="detail-row"><dt>Especialidade</dt><dd>${escapeHTML(ins.specialty)}</dd></section>
+    <section class="detail-row"><dt>Alunos Vinculados</dt><dd>${ins.studentsCount} alunos</dd></section>
   `;
 
   document.getElementById("detailsSheetActions").innerHTML = `
@@ -888,7 +1403,7 @@ function openInstructorDetails(instId) {
     closeModal("modalDetailsSheet");
     confirmDelete(
       "Excluir Instrutor",
-      `Deseja remover "${ins.name}" do corpo técnico?`,
+      `Deseja remover "${ins.name}" do corpo técnico MaxFit?`,
       () => {
         appState.instructors = appState.instructors.filter((x) => x.id !== ins.id);
         saveState();
@@ -905,9 +1420,9 @@ function openPlanDetails(planId) {
 
   document.getElementById("detailsSheetTitle").textContent = plan.name;
   document.getElementById("detailsSheetBody").innerHTML = `
-    <div class="detail-row"><dt>Duração</dt><dd>${plan.months} ${plan.months === 1 ? "mês" : "meses"}</dd></div>
-    <div class="detail-row"><dt>Valor do Pacote</dt><dd>${formatBRL(plan.price)}</dd></div>
-    <div class="detail-row"><dt>Alunos Ativos no Plano</dt><dd>${plan.studentsCount} alunos</dd></div>
+    <section class="detail-row"><dt>Duração</dt><dd>${plan.months} ${plan.months === 1 ? "mês" : "meses"}</dd></section>
+    <section class="detail-row"><dt>Valor do Pacote</dt><dd>${formatBRL(plan.price)}</dd></section>
+    <section class="detail-row"><dt>Alunos Ativos no Plano</dt><dd>${plan.studentsCount} alunos</dd></section>
   `;
 
   document.getElementById("detailsSheetActions").innerHTML = `
@@ -935,7 +1450,7 @@ function openPlanDetails(planId) {
     closeModal("modalDetailsSheet");
     confirmDelete(
       "Excluir Plano",
-      `Deseja excluir o "${plan.name}" da academia?`,
+      `Deseja excluir o "${plan.name}" da MaxFit?`,
       () => {
         appState.plans = appState.plans.filter((x) => x.id !== plan.id);
         saveState();
@@ -952,12 +1467,12 @@ function openEnrollmentDetails(enrId) {
 
   document.getElementById("detailsSheetTitle").textContent = `Matrícula • ${enr.studentName}`;
   document.getElementById("detailsSheetBody").innerHTML = `
-    <div class="detail-row"><dt>Aluno(a)</dt><dd>${escapeHTML(enr.studentName)}</dd></div>
-    <div class="detail-row"><dt>Plano Contratado</dt><dd>${escapeHTML(enr.planName)}</dd></div>
-    <div class="detail-row"><dt>Instrutor Responsável</dt><dd>${escapeHTML(enr.instructorName)}</dd></div>
-    <div class="detail-row"><dt>Data de Início</dt><dd>${escapeHTML(enr.startDate)}</dd></div>
-    <div class="detail-row"><dt>Data de Término</dt><dd>${escapeHTML(enr.endDate)}</dd></div>
-    <div class="detail-row"><dt>Status Atual</dt><dd>${escapeHTML(enr.status)}</dd></div>
+    <section class="detail-row"><dt>Aluno(a)</dt><dd>${escapeHTML(enr.studentName)}</dd></section>
+    <section class="detail-row"><dt>Plano Contratado</dt><dd>${escapeHTML(enr.planName)}</dd></section>
+    <section class="detail-row"><dt>Instrutor Responsável</dt><dd>${escapeHTML(enr.instructorName)}</dd></section>
+    <section class="detail-row"><dt>Data de Início</dt><dd>${escapeHTML(enr.startDate)}</dd></section>
+    <section class="detail-row"><dt>Data de Término</dt><dd>${escapeHTML(enr.endDate)}</dd></section>
+    <section class="detail-row"><dt>Status Atual</dt><dd>${escapeHTML(enr.status)}</dd></section>
   `;
 
   const nextStatus =
@@ -1011,14 +1526,14 @@ function openEnrollmentDetails(enrId) {
 function resetStudentFormDefaults() {
   document.getElementById("studentEditId").value = "";
   document.getElementById("studentFormTitle").textContent = "Cadastrar Aluno";
-  document.getElementById("studentFormSubtitle").textContent = "Novo registro";
+  document.getElementById("studentFormSubtitle").textContent = "Novo registro MaxFit";
   document.getElementById("studentName").value = "Matheus Duarte Silva";
   document.getElementById("studentCpf").value = "123.456.789-00";
   document.getElementById("studentPhone").value = "(11) 98765-4321";
-  document.getElementById("studentEmail").value = "matheus@email.com";
+  document.getElementById("studentEmail").value = "matheus@maxfit.com";
   populateFormSelects();
   document.getElementById("studentPlan").value = "Plano Trimestral";
-  document.getElementById("studentInstructor").value = "Prof. Rodrigo";
+  document.getElementById("studentInstructor").value = "Prof. Rafael Martins";
 }
 
 function startEditStudent(studentId) {
@@ -1045,10 +1560,10 @@ function startEditStudent(studentId) {
 function resetEnrollmentFormDefaults() {
   document.getElementById("enrollmentEditId").value = "";
   populateFormSelects();
-  document.getElementById("enrollStudentSelect").value = "Lucas Lima";
+  document.getElementById("enrollStudentSelect").value = "Lucas Martins";
   document.getElementById("enrollPlanSelect").value = "Plano Mensal";
-  document.getElementById("enrollInstructorSelect").value = "Prof. Rodrigo";
-  document.getElementById("enrollStartDate").value = "25/10/2026";
+  document.getElementById("enrollInstructorSelect").value = "Prof. Rafael Martins";
+  document.getElementById("enrollStartDate").value = "06/11/2026";
   setEnrollmentStatusRadio("Ativa");
   updateEnrollmentAutomaticFields();
 }
@@ -1087,7 +1602,11 @@ function toggleTheme() {
   const html = document.documentElement;
   const nextTheme = html.getAttribute("data-theme") === "dark" ? "light" : "dark";
   html.setAttribute("data-theme", nextTheme);
-  showToast(nextTheme === "dark" ? "Modo Escuro ativado" : "Modo Claro ativado");
+  showToast(
+    nextTheme === "dark"
+      ? "Modo Escuro MaxFit ativado"
+      : "Modo Claro MaxFit ativado"
+  );
 }
 
 // ==========================================================================
@@ -1124,8 +1643,40 @@ document.addEventListener("DOMContentLoaded", () => {
   resetStudentFormDefaults();
   resetEnrollmentFormDefaults();
   renderAll();
+  setLoginRole("student");
 
   document.body.addEventListener("click", (e) => {
+    const loginRoleBtn = e.target.closest("[data-login-role]");
+    if (loginRoleBtn) {
+      setLoginRole(loginRoleBtn.dataset.loginRole);
+      return;
+    }
+
+    const studentNavBtn = e.target.closest("[data-student-nav]");
+    if (studentNavBtn) {
+      navigateTo(studentNavBtn.dataset.studentNav);
+      return;
+    }
+
+    const instNavBtn = e.target.closest("[data-inst-nav]");
+    if (instNavBtn) {
+      navigateTo(instNavBtn.dataset.instNav);
+      return;
+    }
+
+    const instOpenWorkoutBtn = e.target.closest("[data-inst-open-workout]");
+    if (instOpenWorkoutBtn) {
+      openInstructorStudentWorkout(instOpenWorkoutBtn.dataset.instOpenWorkout);
+      return;
+    }
+
+    const splitTabBtn = e.target.closest("[data-split-tab]");
+    if (splitTabBtn) {
+      instActiveSplit = splitTabBtn.dataset.splitTab;
+      renderInstructorWorkoutDetail();
+      return;
+    }
+
     const gotoBtn = e.target.closest("[data-goto]");
     if (gotoBtn) {
       const targetScreen = gotoBtn.dataset.goto;
@@ -1141,6 +1692,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const navBtn = e.target.closest("[data-nav]");
     if (navBtn) {
+      e.preventDefault();
       navigateTo(navBtn.dataset.nav);
       return;
     }
@@ -1204,6 +1756,22 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  // Checkboxes dos Exercícios na Área do Aluno
+  document.querySelectorAll(".exercise-toggle").forEach((checkbox) => {
+    checkbox.addEventListener("change", () => {
+      appState.workoutChecks[checkbox.id] = checkbox.checked;
+      saveState();
+      syncWorkoutCheckboxes();
+      const workoutLetter = checkbox.dataset.workout;
+      const groupInputs = Array.from(
+        document.querySelectorAll(`.exercise-toggle[data-workout="${workoutLetter}"]`)
+      );
+      if (groupInputs.every((i) => i.checked)) {
+        showToast(`Treino ${workoutLetter} concluído! Excelente evolução.`);
+      }
+    });
+  });
+
   // Fechar <dialog> ao clicar fora (no backdrop)
   document.querySelectorAll("dialog").forEach((dlg) => {
     dlg.addEventListener("click", (e) => {
@@ -1219,7 +1787,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Login Form
+  // Submissão do Login Unificado com 3 Opções (Aluno | Instrutor | Admin)
   document.getElementById("loginForm").addEventListener("submit", (e) => {
     e.preventDefault();
     const email = document.getElementById("loginEmail").value.trim();
@@ -1241,15 +1809,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const submitBtn = document.getElementById("btnLoginSubmit");
     const origText = submitBtn.textContent;
-    submitBtn.textContent = "Autenticando...";
+    submitBtn.textContent = "Entrando na MaxFit...";
     submitBtn.disabled = true;
 
     setTimeout(() => {
       submitBtn.textContent = origText;
       submitBtn.disabled = false;
-      navigateTo("screen-dashboard");
-      showToast("Bem-vindo ao FitManager, Admin!");
-    }, 300);
+
+      if (loginSelectedRole === "student") {
+        renderStudentArea();
+        navigateTo("screen-student-home");
+        showToast("Bem-vindo à Área do Aluno, Lucas!");
+      } else if (loginSelectedRole === "instructor") {
+        renderInstructorPanel();
+        navigateTo("screen-instructor-students");
+        showToast("Bem-vindo à Área do Instrutor, Prof. Rafael!");
+      } else {
+        navigateTo("screen-dashboard");
+        showToast("Bem-vindo ao Painel Admin MaxFit!");
+      }
+    }, 240);
   });
 
   document.getElementById("btnTogglePassword").addEventListener("click", () => {
@@ -1267,19 +1846,40 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("forgotPassForm").addEventListener("submit", (e) => {
     e.preventDefault();
     closeModal("modalForgotPass");
-    showToast("Link de recuperação enviado para seu e-mail!");
+    showToast("Instruções de acesso enviadas para seu e-mail!");
   });
 
-  document.getElementById("btnLogoutDesktop").addEventListener("click", () => {
+  // Botões de Logout (Aluno, Instrutor e Admin)
+  const handleLogoutToLogin = () => {
     navigateTo("screen-login");
-    showToast("Sessão encerrada.");
+    showToast("Sessão MaxFit encerrada.");
+  };
+
+  document.getElementById("btnLogoutDesktop").addEventListener("click", handleLogoutToLogin);
+  document.getElementById("btnQuickLogoutMobile").addEventListener("click", handleLogoutToLogin);
+  document.getElementById("btnLogoutStudentSidebar").addEventListener("click", handleLogoutToLogin);
+  document.getElementById("btnLogoutStudentProfile").addEventListener("click", handleLogoutToLogin);
+  document.getElementById("btnLogoutInstructorSidebar").addEventListener("click", handleLogoutToLogin);
+  document.getElementById("btnLogoutInstructorMobile").addEventListener("click", handleLogoutToLogin);
+  document.getElementById("btnLogoutInstructorNav").addEventListener("click", handleLogoutToLogin);
+
+  // Busca e Filtros do Painel do Instrutor
+  document
+    .getElementById("searchInstructorStudentsInput")
+    .addEventListener("input", renderInstructorPanel);
+
+  document.getElementById("instStudentFilterPills").addEventListener("click", (e) => {
+    const pill = e.target.closest(".filter-pill");
+    if (!pill) return;
+    instStudentFilter = pill.dataset.instFilter;
+    document.querySelectorAll("#instStudentFilterPills .filter-pill").forEach((p) => {
+      p.classList.toggle("active", p === pill);
+      p.setAttribute("aria-selected", p === pill ? "true" : "false");
+    });
+    renderInstructorPanel();
   });
 
-  document.getElementById("btnQuickLogoutMobile").addEventListener("click", () => {
-    navigateTo("screen-login");
-    showToast("Sessão encerrada.");
-  });
-
+  // Busca e Filtros de Alunos (Admin)
   document.getElementById("searchStudentsInput").addEventListener("input", renderStudents);
 
   document.getElementById("studentFilterPills").addEventListener("click", (e) => {
@@ -1317,6 +1917,7 @@ document.addEventListener("DOMContentLoaded", () => {
     renderEnrollments();
   });
 
+  // Máscaras
   document.getElementById("studentCpf").addEventListener("input", (e) => {
     e.target.value = maskCPF(e.target.value);
   });
@@ -1331,6 +1932,7 @@ document.addEventListener("DOMContentLoaded", () => {
     updateEnrollmentAutomaticFields();
   });
 
+  // Salvar Aluno
   document.getElementById("studentForm").addEventListener("submit", (e) => {
     e.preventDefault();
     const editId = document.getElementById("studentEditId").value;
@@ -1354,21 +1956,25 @@ document.addEventListener("DOMContentLoaded", () => {
         existing.name = name;
         existing.cpf = cpf || "000.000.000-00";
         existing.phone = phone || "(11) 90000-0000";
-        existing.email = email || "aluno@email.com";
+        existing.email = email || "aluno@maxfit.com";
         existing.planName = planName;
         existing.instructorName = instructorName;
         existing.status = planName === "Sem plano" ? "Inativo" : "Ativo";
       }
       showToast(`Dados de ${name} atualizados!`);
     } else {
+      const nextCode = String(130 + appState.students.length).padStart(5, "0");
       const newStudent = {
         id: "stu-" + Date.now(),
+        code: nextCode,
         name,
         cpf: cpf || "000.000.000-00",
         phone: phone || "(11) 90000-0000",
-        email: email || "aluno@email.com",
+        email: email || "aluno@maxfit.com",
         planName,
         instructorName,
+        goal: "Hipertrofia & Evolução (Ficha ABC)",
+        currentSplit: "A",
         status: "Ativo"
       };
       appState.students.unshift(newStudent);
@@ -1378,7 +1984,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const instObj = appState.instructors.find((i) => i.name === instructorName);
       if (instObj) instObj.studentsCount += 1;
 
-      showToast(`Aluno ${name} cadastrado com sucesso!`);
+      showToast(`Aluno ${name} cadastrado na MaxFit!`);
     }
 
     saveState();
@@ -1392,16 +1998,19 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
+  // Confirmar Nova Matrícula
   document.getElementById("enrollmentForm").addEventListener("submit", (e) => {
     e.preventDefault();
     const studentName = document.getElementById("enrollStudentSelect").value;
     const planName = document.getElementById("enrollPlanSelect").value;
     const instructorName = document.getElementById("enrollInstructorSelect").value;
-    const startDate = document.getElementById("enrollStartDate").value.trim() || "25/10/2026";
-    const endDate = document.getElementById("enrollEndDate").value.trim() || "25/11/2026";
+    const startDate =
+      document.getElementById("enrollStartDate").value.trim() || "06/11/2026";
+    const endDate =
+      document.getElementById("enrollEndDate").value.trim() || "06/12/2026";
 
     const planObj = appState.plans.find((p) => p.name === planName);
-    const monthlyVal = planObj ? planObj.price / planObj.months : 89.9;
+    const monthlyVal = planObj ? planObj.price / planObj.months : 99.9;
 
     const newEnr = {
       id: "enr-" + Date.now(),
@@ -1427,11 +2036,16 @@ document.addEventListener("DOMContentLoaded", () => {
     saveState();
     renderAll();
     navigateTo("screen-enrollments");
-    showToast(`Matrícula de ${studentName} confirmada!`);
+    showToast(`Matrícula MaxFit de ${studentName} confirmada!`);
   });
 
-  document.getElementById("btnFabAddInstructor").addEventListener("click", () => openInstructorModal());
-  document.getElementById("btnOpenAddInstructorDesktop").addEventListener("click", () => openInstructorModal());
+  // Modal Instrutor
+  document
+    .getElementById("btnFabAddInstructor")
+    .addEventListener("click", () => openInstructorModal());
+  document
+    .getElementById("btnOpenAddInstructorDesktop")
+    .addEventListener("click", () => openInstructorModal());
 
   document.getElementById("instructorForm").addEventListener("submit", (e) => {
     e.preventDefault();
@@ -1443,7 +2057,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!name || !specialty) return;
 
     const formattedName = name.startsWith("Prof") ? name : `Prof. ${name}`;
-    const shortName = formattedName.replace(/^Prof\.ª?\s*/i, "");
+    const shortName = cleanCoachName(formattedName);
 
     if (editId) {
       const ins = appState.instructors.find((i) => i.id === editId);
@@ -1473,15 +2087,18 @@ document.addEventListener("DOMContentLoaded", () => {
     closeModal("modalInstructor");
   });
 
+  // Modal Plano
   document.getElementById("btnFabAddPlan").addEventListener("click", () => openPlanModal());
-  document.getElementById("btnOpenAddPlanDesktop").addEventListener("click", () => openPlanModal());
+  document
+    .getElementById("btnOpenAddPlanDesktop")
+    .addEventListener("click", () => openPlanModal());
 
   document.getElementById("planForm").addEventListener("submit", (e) => {
     e.preventDefault();
     const editId = document.getElementById("planEditId").value;
     const name = document.getElementById("planName").value.trim();
     const months = parseInt(document.getElementById("planMonths").value, 10) || 1;
-    const price = parseFloat(document.getElementById("planPrice").value) || 89.9;
+    const price = parseFloat(document.getElementById("planPrice").value) || 99.9;
     const featured = document.getElementById("planFeatured").checked;
 
     if (!name) return;
@@ -1494,7 +2111,7 @@ document.addEventListener("DOMContentLoaded", () => {
         plan.price = price;
         plan.featured = featured;
       }
-      showToast("Plano atualizado!");
+      showToast("Plano MaxFit atualizado!");
     } else {
       appState.plans.push({
         id: "plan-" + Date.now(),
@@ -1503,7 +2120,7 @@ document.addEventListener("DOMContentLoaded", () => {
         price,
         studentsCount: 0,
         featured,
-        perks: ["Musculação Livre", "Avaliação Física"]
+        perks: ["Musculação Livre", "Treino no App MaxFit"]
       });
       showToast(`${name} criado com sucesso!`);
     }
@@ -1521,7 +2138,11 @@ document.addEventListener("DOMContentLoaded", () => {
     closeModal("modalConfirmDelete");
   });
 
+  // Tema Escuro / Claro e Restauração de Dados
   document.getElementById("btnToggleThemeDesktop").addEventListener("click", toggleTheme);
   document.getElementById("btnToggleThemeMobile").addEventListener("click", toggleTheme);
-  document.getElementById("btnResetData").addEventListener("click", resetToFigmaState);
+  document.getElementById("btnToggleThemeStudent").addEventListener("click", toggleTheme);
+  document.getElementById("btnToggleThemeInstructor").addEventListener("click", toggleTheme);
+  document.getElementById("btnToggleThemeInstMobile").addEventListener("click", toggleTheme);
+  document.getElementById("btnResetData").addEventListener("click", resetToMaxFitState);
 });
