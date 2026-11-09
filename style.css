@@ -1,18 +1,19 @@
 /* ==========================================================================
    FitManager — Gestão Inteligente de Academias
    Autores: Matheus Duarte & Miguel | UC14
+   Identidade Visual Fiel ao Figma (Dark Slate & Emerald #10b981)
    Arquitetura Mobile-First com Unidades Relativas (rem / em) e Semântica HTML5
-   Adaptação automática Mobile App <-> Desktop via Media Queries (F12 / Resize)
    ========================================================================== */
 
 :root,
 [data-theme="dark"] {
   --bg-screen: #0b0f19;
   --bg-surface: #131c2e;
-  --bg-surface-hover: #19253c;
+  --bg-surface-hover: #182338;
   --bg-input: #131c2e;
-  --bg-nav: #0f1626;
+  --bg-nav: rgba(15, 22, 38, 0.94);
   --border-subtle: #1e293b;
+  --border-strong: #283548;
   --border-focus: #10b981;
 
   --text-primary: #f8fafc;
@@ -32,12 +33,15 @@
   --danger-soft: rgba(239, 68, 68, 0.15);
   --danger-border: rgba(239, 68, 68, 0.35);
 
-  --shadow-card: 0 0.25rem 1.25rem rgba(0, 0, 0, 0.28);
+  --shadow-card: 0 0.35rem 1.25rem rgba(0, 0, 0, 0.3);
   --shadow-fab: 0 0.5rem 1.5rem rgba(16, 185, 129, 0.42);
   --radius-sm: 0.5rem;
-  --radius-md: 0.75rem;
-  --radius-lg: 1rem;
+  --radius-md: 0.8rem;
+  --radius-lg: 1.05rem;
   --radius-pill: 999rem;
+
+  --font-display: "Outfit", system-ui, -apple-system, sans-serif;
+  --font-sans: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
 }
 
 [data-theme="light"] {
@@ -45,8 +49,9 @@
   --bg-surface: #ffffff;
   --bg-surface-hover: #f8fafc;
   --bg-input: #ffffff;
-  --bg-nav: #ffffff;
-  --border-subtle: #cbd5e1;
+  --bg-nav: rgba(255, 255, 255, 0.95);
+  --border-subtle: #e2e8f0;
+  --border-strong: #cbd5e1;
   --border-focus: #059669;
 
   --text-primary: #0f172a;
@@ -55,8 +60,8 @@
 
   --emerald: #10b981;
   --emerald-hover: #059669;
-  --emerald-soft: rgba(16, 185, 129, 0.14);
-  --emerald-border: rgba(16, 185, 129, 0.4);
+  --emerald-soft: rgba(16, 185, 129, 0.12);
+  --emerald-border: rgba(16, 185, 129, 0.38);
 
   --shadow-card: 0 0.25rem 0.875rem rgba(15, 23, 42, 0.06);
 }
@@ -72,7 +77,7 @@
 }
 
 html {
-  font-size: 100%; /* 1rem = 16px */
+  font-size: 100%;
   height: 100%;
 }
 
@@ -81,12 +86,17 @@ body {
   height: 100dvh;
   display: flex;
   flex-direction: column;
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: var(--font-sans);
   background-color: var(--bg-screen);
+  background-image: radial-gradient(circle at 50% 0%, rgba(16, 185, 129, 0.07), transparent 45%);
   color: var(--text-primary);
   line-height: 1.45;
   overflow: hidden;
   -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, .kpi-value, .login-title, .plan-price-val {
+  font-family: var(--font-display);
 }
 
 button,
@@ -118,7 +128,7 @@ button {
 }
 
 .desktop-only-btn {
-  display: none;
+  display: none !important;
 }
 
 .app-main {
@@ -129,7 +139,6 @@ button {
   flex-direction: column;
   position: relative;
   overflow: hidden;
-  background: var(--bg-screen);
 }
 
 .app-screen {
@@ -212,7 +221,7 @@ button {
 }
 
 .login-title {
-  font-size: 1.65rem;
+  font-size: 1.75rem;
   font-weight: 800;
   letter-spacing: -0.02em;
   color: var(--text-primary);
@@ -237,7 +246,7 @@ button {
 
 .link-forgot {
   font-size: 0.82rem;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--emerald);
   text-decoration: underline;
   text-underline-offset: 0.25em;
@@ -258,6 +267,7 @@ button {
   justify-content: space-between;
   gap: 0.75rem;
   margin-bottom: 1.125rem;
+  flex-shrink: 0;
 }
 
 .screen-header.with-back {
@@ -266,7 +276,7 @@ button {
 }
 
 .screen-title {
-  font-size: 1.3rem;
+  font-size: 1.35rem;
   font-weight: 700;
   letter-spacing: -0.02em;
   color: var(--text-primary);
@@ -282,6 +292,7 @@ button {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  flex-shrink: 0;
 }
 
 .btn-back,
@@ -331,6 +342,7 @@ button {
   position: relative;
   display: block;
   margin-bottom: 0.875rem;
+  flex-shrink: 0;
 }
 
 .search-box .search-icon {
@@ -344,7 +356,7 @@ button {
 
 .search-box input {
   width: 100%;
-  height: 2.75rem;
+  height: 2.8rem;
   padding: 0 0.875rem 0 2.625rem;
   border-radius: var(--radius-md);
   background: var(--bg-surface);
@@ -364,14 +376,17 @@ button {
   box-shadow: 0 0 0 0.1875rem var(--emerald-soft);
 }
 
-/* Pílulas de Filtro (Abas) */
+/* Pílulas de Filtro (Abas) — Altura protegida em telas Mobile */
 .filter-pills {
   display: flex;
   align-items: center;
   gap: 0.5rem;
   overflow-x: auto;
+  overflow-y: hidden;
   padding-bottom: 0.25rem;
   margin-bottom: 1rem;
+  min-height: 2.45rem;
+  flex-shrink: 0;
   scrollbar-width: none;
 }
 
@@ -380,9 +395,16 @@ button {
 }
 
 .filter-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  flex-shrink: 0;
+  min-height: 2.05rem;
   padding: 0.4rem 0.9rem;
   border-radius: var(--radius-pill);
-  font-size: 0.76rem;
+  font-size: 0.77rem;
+  line-height: 1.2;
   font-weight: 600;
   background: var(--bg-surface);
   border: 1px solid var(--border-subtle);
@@ -393,7 +415,7 @@ button {
 
 .filter-pill:hover {
   color: var(--text-primary);
-  border-color: var(--text-muted);
+  border-color: var(--emerald-border);
 }
 
 .filter-pill.active {
@@ -401,6 +423,25 @@ button {
   border-color: var(--emerald);
   color: #042f2e;
   font-weight: 700;
+}
+
+.pill-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.25rem;
+  height: 1.15rem;
+  padding: 0 0.32rem;
+  border-radius: var(--radius-pill);
+  font-size: 0.67rem;
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.07);
+  color: inherit;
+}
+
+.filter-pill.active .pill-count {
+  background: rgba(4, 47, 46, 0.18);
+  color: #042f2e;
 }
 
 /* ==========================================================================
@@ -412,17 +453,18 @@ button {
   grid-template-columns: repeat(2, 1fr);
   gap: 0.75rem;
   margin-bottom: 1.125rem;
+  flex-shrink: 0;
 }
 
 .kpi-card {
   background: var(--bg-surface);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
-  padding: 0.875rem;
+  padding: 0.9rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 0.625rem;
+  gap: 0.45rem;
   cursor: pointer;
   transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
 }
@@ -447,8 +489,8 @@ button {
 }
 
 .kpi-icon-badge {
-  width: 1.75rem;
-  height: 1.75rem;
+  width: 1.8rem;
+  height: 1.8rem;
   border-radius: 0.5rem;
   background: var(--emerald-soft);
   color: var(--emerald);
@@ -459,23 +501,61 @@ button {
 }
 
 .kpi-value {
-  font-size: 1.4rem;
+  font-size: 1.45rem;
   font-weight: 800;
   letter-spacing: -0.02em;
   color: var(--text-primary);
+  line-height: 1.15;
 }
 
 .kpi-value.kpi-currency {
-  font-size: 1.15rem;
+  font-size: 1.2rem;
+}
+
+.kpi-foot {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  margin-top: 0.1rem;
+}
+
+.kpi-trend {
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--emerald);
+}
+
+.kpi-bar {
+  width: 100%;
+  height: 0.22rem;
+  border-radius: var(--radius-pill);
+  background: rgba(255, 255, 255, 0.06);
+  overflow: hidden;
+  display: block;
+}
+
+[data-theme="light"] .kpi-bar {
+  background: #e2e8f0;
+}
+
+.kpi-bar i {
+  display: block;
+  height: 100%;
+  border-radius: var(--radius-pill);
+  background: var(--emerald);
 }
 
 /* Atalhos Rápidos */
 .quick-shortcuts-row {
   display: flex;
+  align-items: center;
   gap: 0.5rem;
   overflow-x: auto;
+  overflow-y: hidden;
   margin-bottom: 1.25rem;
   padding-bottom: 0.125rem;
+  min-height: 2.35rem;
+  flex-shrink: 0;
   scrollbar-width: none;
 }
 
@@ -487,7 +567,7 @@ button {
   display: inline-flex;
   align-items: center;
   gap: 0.375rem;
-  padding: 0.5rem 0.825rem;
+  padding: 0.5rem 0.85rem;
   border-radius: var(--radius-md);
   background: var(--emerald-soft);
   border: 1px solid var(--emerald-border);
@@ -495,6 +575,7 @@ button {
   font-size: 0.76rem;
   font-weight: 600;
   white-space: nowrap;
+  flex-shrink: 0;
   transition: all 0.18s ease;
 }
 
@@ -508,10 +589,11 @@ button {
   align-items: center;
   justify-content: space-between;
   margin-bottom: 0.75rem;
+  flex-shrink: 0;
 }
 
 .section-heading {
-  font-size: 0.96rem;
+  font-size: 0.98rem;
   font-weight: 700;
   color: var(--text-primary);
 }
@@ -540,36 +622,40 @@ button {
   background: var(--bg-surface);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
-  padding: 0.875rem;
-  transition: transform 0.16s ease, border-color 0.16s ease, background-color 0.16s ease;
+  padding: 0.9rem;
+  transition: transform 0.16s ease, border-color 0.16s ease, background-color 0.16s ease, box-shadow 0.16s ease;
   cursor: pointer;
   position: relative;
 }
 
 .item-card:hover {
+  transform: translateY(-0.08rem);
   border-color: var(--emerald-border);
   background: var(--bg-surface-hover);
+  box-shadow: var(--shadow-card);
 }
 
 .card-row-main {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.8rem;
 }
 
 .avatar-circle {
-  width: 2.625rem;
-  height: 2.625rem;
+  width: 2.7rem;
+  height: 2.7rem;
   border-radius: 50%;
   background: var(--emerald-soft);
   border: 1px solid var(--emerald-border);
   color: var(--emerald);
-  font-size: 0.82rem;
+  font-family: var(--font-display);
+  font-size: 0.84rem;
   font-weight: 700;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  position: relative;
 }
 
 .avatar-circle.muted {
@@ -584,7 +670,7 @@ button {
 }
 
 .card-title {
-  font-size: 0.92rem;
+  font-size: 0.94rem;
   font-weight: 700;
   color: var(--text-primary);
   white-space: nowrap;
@@ -595,13 +681,13 @@ button {
 .card-sub {
   font-size: 0.76rem;
   color: var(--text-secondary);
-  margin-top: 0.125rem;
+  margin-top: 0.15rem;
 }
 
 .card-meta {
   font-size: 0.72rem;
   color: var(--text-muted);
-  margin-top: 0.25rem;
+  margin-top: 0.28rem;
   display: flex;
   align-items: center;
   gap: 0.375rem;
@@ -609,7 +695,7 @@ button {
 
 /* Status Badges */
 .status-badge {
-  padding: 0.25rem 0.625rem;
+  padding: 0.25rem 0.65rem;
   border-radius: var(--radius-pill);
   font-size: 0.68rem;
   font-weight: 700;
@@ -643,12 +729,12 @@ button {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  margin-top: 0.375rem;
+  margin-top: 0.4rem;
   flex-wrap: wrap;
 }
 
 .specialty-badge {
-  padding: 0.125rem 0.5625rem;
+  padding: 0.15rem 0.58rem;
   border-radius: 0.375rem;
   font-size: 0.68rem;
   font-weight: 600;
@@ -664,9 +750,9 @@ button {
 /* Cards de Planos (screen-plans) */
 .plan-card {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1rem 1rem 1rem 1.125rem;
+  flex-direction: column;
+  gap: 0.7rem;
+  padding: 1rem 1rem 1rem 1.15rem;
   position: relative;
   overflow: hidden;
 }
@@ -685,12 +771,20 @@ button {
   background: var(--amber);
 }
 
+.plan-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
 .plan-price-col {
   text-align: right;
+  flex-shrink: 0;
 }
 
 .plan-price-val {
-  font-size: 1.05rem;
+  font-size: 1.15rem;
   font-weight: 800;
   color: var(--emerald);
   display: block;
@@ -699,10 +793,32 @@ button {
 .plan-students-count {
   font-size: 0.72rem;
   color: var(--text-secondary);
-  margin-top: 0.25rem;
+  margin-top: 0.2rem;
   display: inline-flex;
   align-items: center;
   gap: 0.25rem;
+}
+
+.plan-perks-row {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  flex-wrap: wrap;
+  padding-top: 0.55rem;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.plan-perk-tag {
+  font-size: 0.67rem;
+  font-weight: 500;
+  padding: 0.12rem 0.48rem;
+  border-radius: 0.35rem;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-secondary);
+}
+
+[data-theme="light"] .plan-perk-tag {
+  background: #f1f5f9;
 }
 
 /* Cards de Matrículas (screen-enrollments) */
@@ -740,6 +856,35 @@ button {
 
 .date-col.right {
   text-align: right;
+}
+
+.contract-progress-track {
+  width: 100%;
+  height: 0.22rem;
+  border-radius: var(--radius-pill);
+  background: rgba(255, 255, 255, 0.06);
+  margin-top: 0.5rem;
+  overflow: hidden;
+  display: block;
+}
+
+[data-theme="light"] .contract-progress-track {
+  background: #e2e8f0;
+}
+
+.contract-progress-fill {
+  display: block;
+  height: 100%;
+  border-radius: var(--radius-pill);
+  background: var(--emerald);
+}
+
+.contract-progress-fill.amber {
+  background: var(--amber);
+}
+
+.contract-progress-fill.danger {
+  background: var(--danger);
 }
 
 .btn-card-action {
@@ -945,7 +1090,8 @@ button {
 }
 
 .estimated-price {
-  font-size: 1rem;
+  font-family: var(--font-display);
+  font-size: 1.05rem;
   font-weight: 800;
   color: var(--emerald);
 }
@@ -1062,6 +1208,7 @@ button {
   right: 0;
   height: 4rem;
   background: var(--bg-nav);
+  backdrop-filter: blur(0.75rem);
   border-top: 1px solid var(--border-subtle);
   display: grid;
   grid-template-columns: repeat(5, 1fr);
@@ -1310,8 +1457,6 @@ dialog.modal-dialog-centered p {
 
 /* ==========================================================================
    9. ADAPTAÇÃO AUTOMÁTICA PARA DESKTOP (>= 48rem / 768px)
-   Ao abrir no PC ou redimensionar no F12 acima de 768px, vira sistema Desktop;
-   abaixo de 768px ou no celular, vira App Mobile automaticamente!
    ========================================================================== */
 
 @media (min-width: 48rem) {
@@ -1319,13 +1464,12 @@ dialog.modal-dialog-centered p {
     flex-direction: row;
   }
 
-  /* Oculta a barra inferior mobile e exibe a Sidebar lateral no Desktop */
   .bottom-nav {
     display: none !important;
   }
 
   .desktop-only-btn {
-    display: inline-flex;
+    display: inline-flex !important;
   }
 
   .desktop-sidebar:not(.hidden) {
@@ -1473,7 +1617,6 @@ dialog.modal-dialog-centered p {
     text-overflow: ellipsis;
   }
 
-  /* Expansão das Telas Internas para Desktop */
   .app-screen {
     padding: 2rem 2.75rem 4rem;
     max-width: 74rem;

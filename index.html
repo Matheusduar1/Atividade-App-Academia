@@ -5,9 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>FitManager — Gestão Inteligente de Academias | Matheus Duarte &amp; Miguel</title>
   <meta name="description" content="Sistema mobile-first e responsivo para gestão de academias: Alunos, Instrutores, Planos e Controle de Matrículas. Desenvolvido por Matheus Duarte e Miguel." />
+  <meta name="author" content="Matheus Duarte e Miguel" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -219,6 +220,10 @@
             </span>
           </header>
           <output class="kpi-value" id="kpiActiveStudents">247</output>
+          <footer class="kpi-foot">
+            <span class="kpi-trend">+12% este mês</span>
+            <span class="kpi-bar"><i style="width: 82%"></i></span>
+          </footer>
         </article>
 
         <article class="kpi-card" data-goto="screen-instructors" role="button" tabindex="0" aria-label="Ver Instrutores">
@@ -232,6 +237,10 @@
             </span>
           </header>
           <output class="kpi-value" id="kpiInstructors">12</output>
+          <footer class="kpi-foot">
+            <span class="kpi-trend">3 turnos ativos</span>
+            <span class="kpi-bar"><i style="width: 90%"></i></span>
+          </footer>
         </article>
 
         <article class="kpi-card" data-goto="screen-enrollments" role="button" tabindex="0" aria-label="Ver Matrículas no Mês">
@@ -245,6 +254,10 @@
             </span>
           </header>
           <output class="kpi-value" id="kpiMonthlyEnrollments">38</output>
+          <footer class="kpi-foot">
+            <span class="kpi-trend">+8 na semana</span>
+            <span class="kpi-bar"><i style="width: 74%"></i></span>
+          </footer>
         </article>
 
         <article class="kpi-card" data-goto="screen-plans" role="button" tabindex="0" aria-label="Ver Receita Mensal e Planos">
@@ -258,6 +271,10 @@
             </span>
           </header>
           <output class="kpi-value kpi-currency" id="kpiMonthlyRevenue">R$ 42.890</output>
+          <footer class="kpi-foot">
+            <span class="kpi-trend">95% da meta</span>
+            <span class="kpi-bar"><i style="width: 95%"></i></span>
+          </footer>
         </article>
       </section>
 
@@ -328,9 +345,18 @@
       </label>
 
       <nav class="filter-pills" id="studentFilterPills" role="tablist" aria-label="Filtrar alunos por status">
-        <button type="button" class="filter-pill active" data-filter="all" role="tab" aria-selected="true">Todos</button>
-        <button type="button" class="filter-pill" data-filter="Ativo" role="tab" aria-selected="false">Ativos</button>
-        <button type="button" class="filter-pill" data-filter="Inativo" role="tab" aria-selected="false">Inativos</button>
+        <button type="button" class="filter-pill active" data-filter="all" role="tab" aria-selected="true">
+          <span>Todos</span>
+          <b class="pill-count" id="countFilterAll">8</b>
+        </button>
+        <button type="button" class="filter-pill" data-filter="Ativo" role="tab" aria-selected="false">
+          <span>Ativos</span>
+          <b class="pill-count" id="countFilterActive">6</b>
+        </button>
+        <button type="button" class="filter-pill" data-filter="Inativo" role="tab" aria-selected="false">
+          <span>Inativos</span>
+          <b class="pill-count" id="countFilterInactive">2</b>
+        </button>
       </nav>
 
       <section class="cards-stack" id="studentsListContainer" aria-label="Cards de Alunos"></section>
@@ -499,10 +525,22 @@
       </header>
 
       <nav class="filter-pills" id="enrollmentFilterPills" role="tablist" aria-label="Filtrar matrículas por status">
-        <button type="button" class="filter-pill active" data-filter="all" role="tab" aria-selected="true">Todas</button>
-        <button type="button" class="filter-pill" data-filter="Ativa" role="tab" aria-selected="false">Ativas</button>
-        <button type="button" class="filter-pill" data-filter="Pendente" role="tab" aria-selected="false">Pendentes</button>
-        <button type="button" class="filter-pill" data-filter="Cancelada" role="tab" aria-selected="false">Canceladas</button>
+        <button type="button" class="filter-pill active" data-filter="all" role="tab" aria-selected="true">
+          <span>Todas</span>
+          <b class="pill-count" id="countEnrAll">5</b>
+        </button>
+        <button type="button" class="filter-pill" data-filter="Ativa" role="tab" aria-selected="false">
+          <span>Ativas</span>
+          <b class="pill-count" id="countEnrActive">2</b>
+        </button>
+        <button type="button" class="filter-pill" data-filter="Pendente" role="tab" aria-selected="false">
+          <span>Pendentes</span>
+          <b class="pill-count" id="countEnrPending">2</b>
+        </button>
+        <button type="button" class="filter-pill" data-filter="Cancelada" role="tab" aria-selected="false">
+          <span>Canceladas</span>
+          <b class="pill-count" id="countEnrCanceled">1</b>
+        </button>
       </nav>
 
       <section class="cards-stack" id="enrollmentsListContainer" aria-label="Lista de Matrículas"></section>
@@ -656,7 +694,7 @@
         <rect x="14" y="14" width="7" height="7" rx="1"></rect>
         <rect x="3" y="14" width="7" height="7" rx="1"></rect>
       </svg>
-      <span>Mais</span>
+      <span>Instrutores</span>
     </button>
   </nav>
 

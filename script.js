@@ -21,7 +21,8 @@ const INITIAL_STATE = {
       months: 1,
       price: 89.90,
       studentsCount: 64,
-      featured: false
+      featured: false,
+      perks: ["Musculação Livre", "Sem fidelidade"]
     },
     {
       id: "plan-trimestral",
@@ -29,7 +30,8 @@ const INITIAL_STATE = {
       months: 3,
       price: 239.90,
       studentsCount: 85,
-      featured: true
+      featured: true,
+      perks: ["Musculação + Cardio", "Avaliação Física", "Acesso 7 dias"]
     },
     {
       id: "plan-semestral",
@@ -37,7 +39,8 @@ const INITIAL_STATE = {
       months: 6,
       price: 429.90,
       studentsCount: 42,
-      featured: false
+      featured: false,
+      perks: ["Aulas Coletivas", "Treino no App"]
     },
     {
       id: "plan-anual",
@@ -45,7 +48,8 @@ const INITIAL_STATE = {
       months: 12,
       price: 749.90,
       studentsCount: 56,
-      featured: false
+      featured: false,
+      perks: ["Acesso Total VIP", "Convidados", "Avaliação Trimestral"]
     }
   ],
   instructors: [
@@ -389,7 +393,7 @@ function goBack(fallbackScreen = "screen-dashboard") {
 }
 
 // ==========================================================================
-// RENDERIZAÇÃO SEMÂNTICA (SEM DIVS DESNECESSÁRIAS)
+// RENDERIZAÇÃO SEMÂNTICA
 // ==========================================================================
 
 function renderAll() {
@@ -462,6 +466,17 @@ function renderStudents() {
   const query = (document.getElementById("searchStudentsInput")?.value || "")
     .trim()
     .toLowerCase();
+
+  const totalAll = appState.students.length;
+  const totalActive = appState.students.filter((s) => s.status === "Ativo").length;
+  const totalInactive = appState.students.filter((s) => s.status === "Inativo").length;
+
+  const elAll = document.getElementById("countFilterAll");
+  const elAct = document.getElementById("countFilterActive");
+  const elInact = document.getElementById("countFilterInactive");
+  if (elAll) elAll.textContent = totalAll;
+  if (elAct) elAct.textContent = totalActive;
+  if (elInact) elInact.textContent = totalInactive;
 
   const filtered = appState.students.filter((st) => {
     const matchesStatus =
@@ -583,22 +598,30 @@ function renderPlans() {
     .map((plan) => {
       const durationText =
         plan.months === 1 ? "Duração: 1 mês" : `Duração: ${plan.months} meses`;
+      const perks = plan.perks && plan.perks.length
+        ? plan.perks
+        : ["Musculação Livre", "Avaliação Física"];
       return `
         <article class="item-card plan-card ${plan.featured ? "featured" : ""}" data-open-plan="${plan.id}">
-          <hgroup class="card-info">
-            <h3 class="card-title">${escapeHTML(plan.name)}</h3>
-            <p class="card-sub">${durationText}</p>
-          </hgroup>
-          <footer class="plan-price-col">
-            <strong class="plan-price-val">${formatBRL(plan.price)}</strong>
-            <small class="plan-students-count">
-              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                <circle cx="9" cy="7" r="4"></circle>
-              </svg>
-              ${plan.studentsCount} alunos
-            </small>
-          </footer>
+          <div class="plan-card-top">
+            <hgroup class="card-info">
+              <h3 class="card-title">${escapeHTML(plan.name)}</h3>
+              <p class="card-sub">${durationText}</p>
+            </hgroup>
+            <footer class="plan-price-col">
+              <strong class="plan-price-val">${formatBRL(plan.price)}</strong>
+              <small class="plan-students-count">
+                <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="9" cy="7" r="4"></circle>
+                </svg>
+                ${plan.studentsCount} alunos
+              </small>
+            </footer>
+          </div>
+          <div class="plan-perks-row">
+            ${perks.map((pk) => `<span class="plan-perk-tag">✓ ${escapeHTML(pk)}</span>`).join("")}
+          </div>
         </article>
       `;
     })
@@ -607,6 +630,20 @@ function renderPlans() {
 
 // 5. Matrículas (screen-enrollments)
 function renderEnrollments() {
+  const countAll = appState.enrollments.length;
+  const countAct = appState.enrollments.filter((e) => e.status === "Ativa").length;
+  const countPend = appState.enrollments.filter((e) => e.status === "Pendente").length;
+  const countCanc = appState.enrollments.filter((e) => e.status === "Cancelada").length;
+
+  const elAll = document.getElementById("countEnrAll");
+  const elAct = document.getElementById("countEnrActive");
+  const elPend = document.getElementById("countEnrPending");
+  const elCanc = document.getElementById("countEnrCanceled");
+  if (elAll) elAll.textContent = countAll;
+  if (elAct) elAct.textContent = countAct;
+  if (elPend) elPend.textContent = countPend;
+  if (elCanc) elCanc.textContent = countCanc;
+
   const filtered = appState.enrollments.filter((enr) => {
     return enrollmentFilter === "all" ? true : enr.status === enrollmentFilter;
   });
@@ -629,6 +666,8 @@ function renderEnrollments() {
           : enr.status === "Pendente"
           ? "amber"
           : "danger";
+      const progressWidth =
+        enr.status === "Ativa" ? "75%" : enr.status === "Pendente" ? "40%" : "100%";
       return `
         <article class="item-card" data-open-enrollment="${enr.id}">
           <header class="enrollment-card-top">
@@ -648,6 +687,9 @@ function renderEnrollments() {
               <strong>${escapeHTML(enr.endDate)}</strong>
             </p>
           </footer>
+          <span class="contract-progress-track">
+            <i class="contract-progress-fill ${badgeClass}" style="width: ${progressWidth}"></i>
+          </span>
         </article>
       `;
     })
@@ -1246,6 +1288,7 @@ document.addEventListener("DOMContentLoaded", () => {
     studentFilter = pill.dataset.filter;
     document.querySelectorAll("#studentFilterPills .filter-pill").forEach((p) => {
       p.classList.toggle("active", p === pill);
+      p.setAttribute("aria-selected", p === pill ? "true" : "false");
     });
     renderStudents();
   });
@@ -1269,6 +1312,7 @@ document.addEventListener("DOMContentLoaded", () => {
     enrollmentFilter = pill.dataset.filter;
     document.querySelectorAll("#enrollmentFilterPills .filter-pill").forEach((p) => {
       p.classList.toggle("active", p === pill);
+      p.setAttribute("aria-selected", p === pill ? "true" : "false");
     });
     renderEnrollments();
   });
@@ -1458,7 +1502,8 @@ document.addEventListener("DOMContentLoaded", () => {
         months,
         price,
         studentsCount: 0,
-        featured
+        featured,
+        perks: ["Musculação Livre", "Avaliação Física"]
       });
       showToast(`${name} criado com sucesso!`);
     }
