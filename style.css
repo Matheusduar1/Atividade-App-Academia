@@ -1,72 +1,116 @@
 /* ==========================================================================
-   FitManager — Gestão Inteligente de Academias
+   MAXFIT CLUB — Área do Aluno (Treinos), Área do Instrutor & Painel Admin
    Autores: Matheus Duarte & Miguel | UC14
-   Identidade Visual Fiel ao Figma (Dark Slate & Emerald #10b981)
-   Arquitetura Mobile-First com Unidades Relativas (rem / em) e Semântica HTML5
+   Identidade Visual Oficial MaxFit (Dark Carbon #101112 & Red #ff5145)
+   Arquitetura Mobile-First Responsiva + HTML5 Estritamente Semântico
    ========================================================================== */
+
+@font-face {
+  font-family: "Barlow Condensed";
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url("assets/barlow-condensed.ttf") format("truetype");
+}
 
 :root,
 [data-theme="dark"] {
-  --bg-screen: #0b0f19;
-  --bg-surface: #131c2e;
-  --bg-surface-hover: #182338;
-  --bg-input: #131c2e;
-  --bg-nav: rgba(15, 22, 38, 0.94);
-  --border-subtle: #1e293b;
-  --border-strong: #283548;
-  --border-focus: #10b981;
+  --bg: #101112;
+  --surface: #1b1d1f;
+  --raised: #232527;
+  --border: #323436;
+  --text: #f5f4f0;
+  --muted: #aaaeb1;
+  --red: #ff5145;
+  --red-hover: #ff7265;
+  --red-light: #ff9b92;
+  --green: #a2dcb5;
+  --radius: 16px;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
 
-  --text-primary: #f8fafc;
-  --text-secondary: #94a3b8;
-  --text-muted: #64748b;
+  --bg-screen: #101112;
+  --bg-surface: #1b1d1f;
+  --bg-surface-hover: #232527;
+  --bg-input: #141618;
+  --bg-nav: rgba(21, 23, 25, 0.96);
+  --border-subtle: #2d3032;
+  --border-strong: #43474a;
+  --border-focus: #ff5145;
 
-  --emerald: #10b981;
-  --emerald-hover: #059669;
-  --emerald-soft: rgba(16, 185, 129, 0.14);
-  --emerald-border: rgba(16, 185, 129, 0.35);
+  --text-primary: #f5f4f0;
+  --text-secondary: #aaaeb1;
+  --text-muted: #7d878d;
+
+  --accent: #ff5145;
+  --accent-hover: #ff7265;
+  --accent-soft: #33231f;
+  --accent-border: #75453c;
+
+  --active-green: #a2dcb5;
+  --active-green-bg: #20332a;
+  --active-green-border: #355140;
 
   --amber: #f59e0b;
   --amber-soft: rgba(245, 158, 11, 0.15);
   --amber-border: rgba(245, 158, 11, 0.35);
 
-  --danger: #ef4444;
-  --danger-soft: rgba(239, 68, 68, 0.15);
-  --danger-border: rgba(239, 68, 68, 0.35);
+  --danger: #ff5145;
+  --danger-soft: rgba(255, 81, 69, 0.16);
+  --danger-border: rgba(255, 81, 69, 0.42);
 
-  --shadow-card: 0 0.35rem 1.25rem rgba(0, 0, 0, 0.3);
-  --shadow-fab: 0 0.5rem 1.5rem rgba(16, 185, 129, 0.42);
+  --shadow-card: 0 0.4rem 1.4rem rgba(0, 0, 0, 0.38);
+  --shadow-fab: 0 0.5rem 1.5rem rgba(255, 81, 69, 0.4);
   --radius-sm: 0.5rem;
-  --radius-md: 0.8rem;
-  --radius-lg: 1.05rem;
+  --radius-md: 0.85rem;
+  --radius-lg: 1rem;
   --radius-pill: 999rem;
 
-  --font-display: "Outfit", system-ui, -apple-system, sans-serif;
-  --font-sans: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+  --font-display: "Outfit", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-condensed: "Barlow Condensed", Impact, "Arial Narrow", sans-serif;
+  --font-sans: "Plus Jakarta Sans", "Segoe UI", Arial, sans-serif;
 }
 
 [data-theme="light"] {
-  --bg-screen: #f1f5f9;
+  --bg: #f4f3ef;
+  --surface: #ffffff;
+  --raised: #f9f8f6;
+  --border: #dcdad3;
+  --text: #151618;
+  --muted: #5a6065;
+  --red: #e03e33;
+  --red-hover: #ff5145;
+  --red-light: #c83227;
+  --green: #156d3b;
+
+  --bg-screen: #f4f3ef;
   --bg-surface: #ffffff;
-  --bg-surface-hover: #f8fafc;
+  --bg-surface-hover: #f9f8f6;
   --bg-input: #ffffff;
-  --bg-nav: rgba(255, 255, 255, 0.95);
-  --border-subtle: #e2e8f0;
-  --border-strong: #cbd5e1;
-  --border-focus: #059669;
+  --bg-nav: rgba(255, 255, 255, 0.96);
+  --border-subtle: #dcdad3;
+  --border-strong: #c4c1b8;
+  --border-focus: #e03e33;
 
-  --text-primary: #0f172a;
-  --text-secondary: #475569;
-  --text-muted: #64748b;
+  --text-primary: #151618;
+  --text-secondary: #52585d;
+  --text-muted: #767d82;
 
-  --emerald: #10b981;
-  --emerald-hover: #059669;
-  --emerald-soft: rgba(16, 185, 129, 0.12);
-  --emerald-border: rgba(16, 185, 129, 0.38);
+  --accent: #e03e33;
+  --accent-hover: #c83227;
+  --accent-soft: rgba(224, 62, 51, 0.1);
+  --accent-border: rgba(224, 62, 51, 0.35);
 
-  --shadow-card: 0 0.25rem 0.875rem rgba(15, 23, 42, 0.06);
+  --active-green: #146c38;
+  --active-green-bg: #e3f5ea;
+  --active-green-border: #a3dfb9;
+
+  --shadow-card: 0 0.25rem 0.9rem rgba(20, 20, 20, 0.06);
 }
 
-/* Reset & Base */
+/* ==========================================================================
+   RESET E ELEMENTOS GLOBAIS MAXFIT
+   ========================================================================== */
+
 *,
 *::before,
 *::after {
@@ -79,6 +123,7 @@
 html {
   font-size: 100%;
   height: 100%;
+  scroll-behavior: smooth;
 }
 
 body {
@@ -88,15 +133,21 @@ body {
   flex-direction: column;
   font-family: var(--font-sans);
   background-color: var(--bg-screen);
-  background-image: radial-gradient(circle at 50% 0%, rgba(16, 185, 129, 0.07), transparent 45%);
+  background-image: radial-gradient(circle at 50% 0%, rgba(255, 81, 69, 0.07), transparent 45%);
   color: var(--text-primary);
-  line-height: 1.45;
+  line-height: 1.5;
   overflow: hidden;
   -webkit-font-smoothing: antialiased;
 }
 
-h1, h2, h3, .kpi-value, .login-title, .plan-price-val {
-  font-family: var(--font-display);
+::selection {
+  background: var(--red);
+  color: #101112;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
 }
 
 button,
@@ -109,18 +160,213 @@ fieldset {
   color: inherit;
   border: none;
   background: none;
+  min-width: 0;
+}
+
+button,
+a,
+summary,
+input,
+select {
+  touch-action: manipulation;
 }
 
 button {
   cursor: pointer;
 }
 
+h1,
+h2,
+h3,
+.kpi-value,
+.login-title,
+.plan-price-val {
+  font-family: var(--font-display);
+}
+
+h1 {
+  font-size: 2.1rem;
+  line-height: 1.06;
+  letter-spacing: -0.04em;
+  font-weight: 800;
+}
+
+h2 {
+  font-size: 1.28rem;
+  line-height: 1.25;
+  letter-spacing: -0.025em;
+  font-weight: 700;
+}
+
+h3 {
+  font-size: 1.06rem;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+  font-weight: 700;
+}
+
+small,
+.small {
+  font-size: 0.85rem;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.red {
+  color: var(--red);
+}
+
 .hidden {
   display: none !important;
 }
 
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: fixed;
+  left: 1rem;
+  top: -5rem;
+  padding: 0.85rem 1.1rem;
+  background: var(--red);
+  color: #101112;
+  font-weight: 700;
+  border-radius: 0.5rem;
+  z-index: 200;
+}
+
+.skip-link:focus {
+  top: 0.75rem;
+}
+
 /* ==========================================================================
-   1. LAYOUT BASE MOBILE-FIRST (ESTILO APP MOBILE POR PADRÃO)
+   LOGOTIPO E ASSINATURA VISUAL MAXFIT (//MAXFIT)
+   ========================================================================== */
+
+.logo {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  font-weight: 900;
+  font-style: italic;
+  letter-spacing: -0.06em;
+  white-space: nowrap;
+  line-height: 1;
+  color: var(--text-primary);
+  display: inline-flex;
+  align-items: center;
+}
+
+.brand-mark {
+  color: var(--red);
+  font-style: normal;
+  letter-spacing: -0.18em;
+  margin-right: 0.42rem;
+}
+
+.eyebrow,
+.subtle-label {
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.eyebrow {
+  color: var(--muted);
+  margin-bottom: 0.4rem;
+}
+
+.subtle-label {
+  color: var(--muted);
+  letter-spacing: 0.09em;
+}
+
+.subtle-label.red {
+  color: var(--red);
+}
+
+.icon {
+  width: 1.3rem;
+  height: 1.3rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.75;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex-shrink: 0;
+}
+
+.panel {
+  padding: 1.3rem;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius);
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.28rem 0.6rem;
+  border: 1px solid var(--border-subtle);
+  border-radius: 0.35rem;
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.pill.green {
+  background: var(--active-green-bg);
+  border-color: var(--active-green-border);
+  color: var(--active-green);
+}
+
+.pill.red-pill {
+  background: var(--accent-soft);
+  border-color: var(--accent-border);
+  color: var(--red-light);
+}
+
+.button {
+  min-height: 3rem;
+  padding: 0.85rem 1.35rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid transparent;
+  border-radius: 0.5rem;
+  background: var(--red);
+  color: #121313;
+  font-size: 0.92rem;
+  font-weight: 800;
+  line-height: 1.3;
+  transition: background 0.2s, transform 0.2s var(--ease), box-shadow 0.2s;
+}
+
+.button:hover {
+  background: var(--red-hover);
+  box-shadow: 0 0.35rem 1.35rem rgba(255, 81, 69, 0.22);
+  transform: translateY(-1px);
+}
+
+.button:active {
+  transform: scale(0.98);
+}
+
+/* ==========================================================================
+   1. ESTRUTURA GERAL E TELAS (MOBILE-FIRST)
    ========================================================================== */
 
 .desktop-sidebar {
@@ -138,7 +384,18 @@ button {
   display: flex;
   flex-direction: column;
   position: relative;
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+.app-main::-webkit-scrollbar {
+  width: 0.35rem;
+}
+
+.app-main::-webkit-scrollbar-thumb {
+  background: var(--border-subtle);
+  border-radius: var(--radius-pill);
 }
 
 .app-screen {
@@ -146,11 +403,8 @@ button {
   flex: 1;
   flex-direction: column;
   position: relative;
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding: 1.125rem 1.25rem 6rem;
-  scroll-behavior: smooth;
-  animation: screenFadeIn 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+  padding: 1.2rem 1.15rem 6.25rem;
+  animation: screenFadeIn 0.26s var(--ease);
 }
 
 .app-screen.active {
@@ -160,7 +414,7 @@ button {
 @keyframes screenFadeIn {
   from {
     opacity: 0;
-    transform: translateY(0.5rem);
+    transform: translateY(0.45rem);
   }
   to {
     opacity: 1;
@@ -168,97 +422,1252 @@ button {
   }
 }
 
-.app-screen::-webkit-scrollbar {
-  width: 0.35rem;
+/* Topbar da Área do Aluno */
+.student-topbar {
+  height: 4.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.15rem;
+  border-bottom: 1px solid var(--border-subtle);
+  flex-shrink: 0;
 }
 
-.app-screen::-webkit-scrollbar-thumb {
-  background: var(--border-subtle);
-  border-radius: var(--radius-pill);
+.desktop-caption {
+  display: none;
+}
+
+.topbar-end {
+  display: flex;
+  gap: 0.55rem;
+  align-items: center;
+}
+
+.demo-label {
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.3rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-subtle);
 }
 
 /* ==========================================================================
-   2. TELA DE LOGIN (screen-login)
+   2. TELA DE LOGIN UNIFICADA COM 3 PERFIS (ALUNO, INSTRUTOR, ADMIN)
+   Corrigido para nunca vazar horizontalmente em telas mobile!
    ========================================================================== */
 
 #screen-login {
   justify-content: center;
   align-items: center;
-  padding: 1.5rem;
+  padding: 1.25rem 1rem;
+  min-height: 100%;
 }
 
 .login-card {
   width: 100%;
-  max-width: 24rem;
+  max-width: 25.5rem;
+  padding: 1.6rem 1.35rem;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 1.1rem;
+  box-shadow: var(--shadow-card);
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  overflow: hidden;
 }
 
 .login-brand {
-  text-align: center;
-  margin-bottom: 2.25rem;
+  margin-bottom: 1.15rem;
 }
 
-.logo-icon-box {
-  width: 2.75rem;
-  height: 2.75rem;
-  border-radius: 0.75rem;
-  background: var(--emerald);
-  color: #ffffff;
-  display: inline-flex;
+.login-brand-top {
+  display: flex;
   align-items: center;
-  justify-content: center;
-  box-shadow: 0 0.5rem 1.5rem rgba(16, 185, 129, 0.35);
-  flex-shrink: 0;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 1.05rem;
 }
 
-.logo-icon-box.large {
-  width: 4rem;
-  height: 4rem;
-  border-radius: 1.125rem;
-  margin-bottom: 1rem;
+.login-logo {
+  font-size: 1.85rem;
 }
 
 .login-title {
-  font-size: 1.75rem;
+  font-size: 1.95rem;
   font-weight: 800;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
+  line-height: 1.06;
   color: var(--text-primary);
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.35rem;
 }
 
 .login-subtitle {
-  font-size: 0.85rem;
+  font-size: 0.84rem;
   color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+/* Grid de 3 Perfis (Aluno | Instrutor | Admin) 100% Responsivo */
+.role-selector-fieldset {
+  width: 100%;
+  margin-bottom: 1.15rem;
+}
+
+.role-selector-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.45rem;
+  width: 100%;
+}
+
+.role-tab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+  padding: 0.65rem 0.35rem;
+  border-radius: 0.7rem;
+  background: var(--bg-input);
+  border: 1px solid var(--border-subtle);
+  text-align: center;
+  min-width: 0;
+  width: 100%;
+  transition: all 0.18s var(--ease);
+}
+
+.role-tab:hover {
+  border-color: var(--accent-border);
+  background: var(--bg-surface-hover);
+}
+
+.role-tab.active {
+  background: var(--accent-soft);
+  border-color: var(--red);
+  box-shadow: 0 0 0 1px rgba(255, 81, 69, 0.28);
+}
+
+.role-tab-icon {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.45rem;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-secondary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-bottom: 0.1rem;
+}
+
+.role-tab.active .role-tab-icon {
+  background: var(--red);
+  color: #121313;
+}
+
+.role-tab-title {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.15;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.role-tab-sub {
+  font-size: 0.64rem;
+  color: var(--text-secondary);
+  line-height: 1.15;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .login-form {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.9rem;
 }
 
 .login-footer {
-  margin-top: 2.25rem;
+  margin-top: 1.2rem;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
 }
 
 .link-forgot {
-  font-size: 0.82rem;
+  font-size: 0.8rem;
   font-weight: 600;
-  color: var(--emerald);
+  color: var(--red-light);
   text-decoration: underline;
   text-underline-offset: 0.25em;
-  transition: opacity 0.15s;
 }
 
 .link-forgot:hover {
-  opacity: 0.85;
+  color: var(--red);
 }
 
 /* ==========================================================================
-   3. CABEÇALHOS, BUSCA E FILTROS (ABAS)
+   3. ESTILOS DA ÁREA DO ALUNO (MAXFIT — TREINOS, PLANO E PERFIL)
+   ========================================================================== */
+
+.page-heading {
+  margin-bottom: 1.4rem;
+}
+
+.page-heading .muted,
+.greeting .muted {
+  font-size: 0.92rem;
+  margin-top: 0.45rem;
+}
+
+.member-label {
+  display: none;
+}
+
+.section-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.section-top .eyebrow {
+  margin: 0;
+}
+
+.section-spacing {
+  margin: 1.75rem 0 1rem;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.95rem;
+}
+
+/* Card Hero Treino do Dia */
+.workout-feature {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius);
+  border: 1px solid #5b4943;
+  isolation: isolate;
+  min-height: 22rem;
+  background: #242322;
+  padding: 1.4rem;
+  color: #f5f4f0;
+}
+
+.workout-feature > img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 75% center;
+  z-index: -3;
+  filter: grayscale(1) brightness(0.82);
+  transition: transform 0.8s var(--ease);
+}
+
+.workout-feature:hover > img {
+  transform: scale(1.035);
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  display: block;
+  background: linear-gradient(90deg, #151615e8, #15161522), linear-gradient(0deg, #171716cc, transparent 65%);
+  z-index: -2;
+}
+
+.hero-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.hero-tag {
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  border: 1px solid rgba(255, 255, 255, 0.38);
+  border-radius: 0.25rem;
+  padding: 0.32rem 0.52rem;
+  background: rgba(28, 28, 27, 0.35);
+}
+
+.workout-letter {
+  font-style: italic;
+  font-size: 1.7rem;
+  font-weight: 800;
+  line-height: 1;
+  color: #ff9d90;
+}
+
+.hero-content {
+  margin-top: 1.55rem;
+}
+
+.hero-content .eyebrow {
+  font-size: 0.58rem;
+  color: #d5c0b9;
+  letter-spacing: 0.16em;
+  margin-bottom: 0.55rem;
+}
+
+.hero-content h2 {
+  font-family: var(--font-condensed);
+  font-weight: 800;
+  font-size: 3.45rem;
+  letter-spacing: -0.02em;
+  line-height: 0.94;
+}
+
+.hero-content h2 span {
+  color: var(--red);
+}
+
+.hero-metadata {
+  display: flex;
+  gap: 1.1rem;
+  font-size: 0.72rem;
+  color: #ddd7d2;
+  margin: 1.2rem 0;
+}
+
+.hero-metadata span {
+  display: flex;
+  align-items: center;
+  gap: 0.38rem;
+}
+
+.hero-metadata .icon {
+  width: 0.98rem;
+  height: 0.98rem;
+}
+
+.hero-vertical {
+  position: absolute;
+  right: 0.95rem;
+  bottom: 1.4rem;
+  writing-mode: vertical-rl;
+  color: #c6bcb5;
+  font-size: 0.55rem;
+  letter-spacing: 0.16em;
+}
+
+/* Painel Semana / Ritmo */
+.week-panel {
+  padding: 1.35rem 1.2rem;
+}
+
+.week-days {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 0.45rem;
+  margin-top: 1.3rem;
+}
+
+.day {
+  text-align: center;
+  display: block;
+}
+
+.day > span {
+  font-size: 0.64rem;
+  color: var(--muted);
+}
+
+.day b {
+  display: grid;
+  place-items: center;
+  font-size: 0.8rem;
+  font-weight: 700;
+  height: 2.3rem;
+  margin-top: 0.45rem;
+  border-radius: 0.5rem;
+  background: var(--bg-surface-hover);
+  color: var(--text-secondary);
+}
+
+.day .icon {
+  width: 0.95rem;
+  height: 0.95rem;
+}
+
+.day.done b {
+  background: #38302c;
+  color: #eeb5a5;
+}
+
+.day.today b {
+  background: var(--red);
+  color: #121313;
+  box-shadow: 0 0.3rem 0.9rem rgba(255, 81, 69, 0.25);
+}
+
+.week-summary {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+  margin: 1.35rem 0 0.95rem;
+}
+
+.large-number {
+  font-size: 2.75rem;
+  letter-spacing: -0.05em;
+  line-height: 1;
+  font-weight: 800;
+}
+
+.large-number > span {
+  font-size: 1.3rem;
+  font-weight: 400;
+  color: var(--text-muted);
+  margin-left: 0.25rem;
+}
+
+.week-summary strong {
+  font-size: 0.84rem;
+  display: block;
+}
+
+.week-summary p {
+  font-size: 0.75rem;
+  color: var(--muted);
+  margin-top: 0.18rem;
+}
+
+.meter,
+.exercise-progress-track {
+  display: block;
+  height: 0.35rem;
+  background: #383c3e;
+  border-radius: 99rem;
+  overflow: hidden;
+}
+
+.meter > span {
+  width: var(--fill, 66.67%);
+  height: 100%;
+  display: block;
+  background: var(--red);
+  border-radius: 99rem;
+  transition: width 0.4s var(--ease);
+}
+
+.panel-footnote {
+  padding-top: 1.05rem;
+  margin-top: 1.05rem;
+  border-top: 1px solid var(--border-subtle);
+  font-size: 0.75rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+/* Quick Stats Aluno */
+.quick-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.7rem;
+}
+
+.small-stat {
+  padding: 1.05rem 0.95rem;
+  position: relative;
+  transition: border-color 0.2s, transform 0.2s;
+}
+
+.small-stat:hover {
+  border-color: var(--accent-border);
+}
+
+.icon-box {
+  display: inline-grid;
+  place-items: center;
+  background: #312525;
+  color: #ff8075;
+  border-radius: 0.55rem;
+  width: 2.35rem;
+  height: 2.35rem;
+}
+
+.small-stat .icon-box {
+  margin-bottom: 0.8rem;
+}
+
+.small-stat strong {
+  display: block;
+  font-size: 1.35rem;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.small-stat strong > span {
+  font-size: 0.7rem;
+  font-weight: 400;
+  color: var(--text-secondary);
+  margin-left: 0.35rem;
+}
+
+.small-stat p {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.72rem;
+  color: var(--muted);
+  margin-top: 0.3rem;
+}
+
+.check-small {
+  width: 0.85rem;
+  height: 0.85rem;
+  color: var(--active-green);
+}
+
+.coach-card h2 {
+  margin-top: 0.55rem;
+}
+
+.coach-card > .muted {
+  font-size: 0.8rem;
+  margin-top: 0.2rem;
+}
+
+.coach-tip {
+  display: flex;
+  gap: 0.8rem;
+  border-top: 1px solid var(--border-subtle);
+  margin-top: 1.15rem;
+  padding-top: 1rem;
+  font-size: 0.8rem;
+  line-height: 1.65;
+  color: var(--text-secondary);
+}
+
+.coach-tip > span {
+  font-size: 1.6rem;
+  font-style: italic;
+  line-height: 1.1;
+}
+
+.text-link {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--red-light);
+  padding: 0.3rem 0;
+}
+
+.text-link:hover {
+  color: var(--red);
+}
+
+/* Lista de Treinos (A, B, C) */
+.workout-list {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.workout-row {
+  width: 100%;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.15rem 1rem;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 0.85rem;
+  transition: transform 0.22s var(--ease), border-color 0.2s, background 0.2s;
+}
+
+.workout-row:hover {
+  transform: translateY(-2px);
+  border-color: #826258;
+  background: var(--bg-surface-hover);
+}
+
+.workout-row-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.letter-box {
+  display: grid;
+  place-items: center;
+  width: 2.95rem;
+  height: 3.5rem;
+  border: 1px solid #484b4c;
+  border-radius: 0.5rem;
+  font-size: 1.7rem;
+  font-weight: 800;
+  font-style: italic;
+  flex-shrink: 0;
+  background: #252829;
+  color: #f5f4f0;
+}
+
+.red-box {
+  border-color: #75453c;
+  color: #ff9d90;
+  background: #3c2925;
+}
+
+.workout-row .subtle-label {
+  font-size: 0.58rem;
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.workout-row h3 {
+  font-size: 0.98rem;
+}
+
+.workout-row p {
+  font-size: 0.74rem;
+  color: var(--muted);
+  margin-top: 0.25rem;
+}
+
+.workout-row > .icon {
+  margin-left: auto;
+  color: var(--text-secondary);
+  width: 1.05rem;
+}
+
+.big-workout {
+  align-items: flex-start;
+  padding: 1.3rem 1.15rem;
+}
+
+.big-workout h2 {
+  font-size: 1.18rem;
+}
+
+.big-workout p {
+  font-size: 0.78rem;
+  line-height: 1.55;
+}
+
+.big-workout small {
+  font-size: 0.7rem;
+  color: #c3b7b0;
+  display: block;
+  margin-top: 0.6rem;
+}
+
+.training-layout {
+  display: grid;
+  gap: 1.15rem;
+}
+
+.training-note .eyebrow {
+  margin-top: 1.15rem;
+}
+
+.training-note > .muted {
+  font-size: 0.84rem;
+  margin-top: 0.75rem;
+  line-height: 1.65;
+}
+
+.coach-mini {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.coach-mini strong {
+  display: block;
+  font-size: 0.85rem;
+}
+
+.coach-mini small {
+  display: block;
+  font-size: 0.72rem;
+  color: var(--muted);
+  margin-top: 0.12rem;
+}
+
+.training-note .coach-mini {
+  padding-top: 1.1rem;
+  margin-top: 1.25rem;
+  border-top: 1px solid var(--border-subtle);
+}
+
+/* Detalhe do Treino (Exercícios e Progresso) */
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 0.3rem 0;
+  margin-bottom: 1.1rem;
+  text-decoration: underline;
+  text-underline-offset: 0.3em;
+  width: fit-content;
+}
+
+.back-link:hover {
+  color: var(--red-light);
+}
+
+.completion {
+  font-size: 1.7rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  white-space: nowrap;
+}
+
+.completion > .muted {
+  font-size: 1.05rem;
+  font-weight: 400;
+}
+
+.exercise-progress-track {
+  margin-top: 1.15rem;
+}
+
+.exercise-progress-track > span {
+  display: block;
+  background: var(--red);
+  height: 100%;
+  width: 0%;
+  border-radius: 99rem;
+  transition: width 0.4s var(--ease), background-color 0.3s;
+}
+
+.exercise-progress-track > span.done {
+  background: var(--active-green);
+}
+
+.finished-message {
+  display: none;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--active-green);
+  margin-top: 0.95rem;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.finished-message.visible {
+  display: flex;
+}
+
+.finished-message .icon {
+  width: 1.05rem;
+  height: 1.05rem;
+}
+
+.exercise-list {
+  display: grid;
+  gap: 0.9rem;
+  margin-top: 1.15rem;
+}
+
+.exercise {
+  transition: border-color 0.2s;
+}
+
+.exercise.completed {
+  border-color: #47634e;
+}
+
+.exercise-heading {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.exercise-index {
+  height: 2.5rem;
+  width: 2.5rem;
+  background: #2b2e30;
+  display: grid;
+  place-items: center;
+  border-radius: 0.5rem;
+  flex-shrink: 0;
+  color: #b8bdc0;
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+.exercise-heading h2 {
+  font-size: 1.12rem;
+}
+
+.exercise-heading p {
+  font-size: 0.75rem;
+  color: var(--muted);
+  margin-top: 0.2rem;
+}
+
+.exercise-data {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin-top: 1.3rem;
+  padding-bottom: 1.1rem;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.exercise-data > .stat-pair {
+  padding-left: 0.9rem;
+  border-left: 1px solid var(--border-subtle);
+}
+
+.exercise-data > .stat-pair:first-child {
+  border: 0;
+  padding: 0;
+}
+
+.exercise-data dt {
+  font-size: 0.56rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+
+.exercise-data dd {
+  font-size: 1.25rem;
+  margin-top: 0.25rem;
+  font-weight: 700;
+}
+
+.exercise-check {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  cursor: pointer;
+  position: relative;
+  min-height: 2.7rem;
+  padding-top: 0.6rem;
+}
+
+.exercise-toggle {
+  position: absolute;
+  opacity: 0;
+  width: 1.4rem;
+  height: 1.4rem;
+}
+
+.check-box {
+  width: 1.4rem;
+  height: 1.4rem;
+  display: grid;
+  place-items: center;
+  border: 1px solid #64696d;
+  border-radius: 0.35rem;
+  transition: all 0.18s;
+}
+
+.check-box .icon {
+  width: 0.95rem;
+  height: 0.95rem;
+  opacity: 0;
+}
+
+.checked-label {
+  display: none;
+}
+
+.exercise-toggle:checked ~ .check-box {
+  background: #263e30;
+  color: var(--active-green);
+  border-color: #6a9a78;
+}
+
+.exercise-toggle:checked ~ .check-box .icon {
+  opacity: 1;
+}
+
+.exercise-toggle:checked ~ .checked-label {
+  display: inline;
+  color: var(--active-green);
+}
+
+.exercise-toggle:checked ~ .check-label {
+  display: none;
+}
+
+.rest-note {
+  display: flex;
+  gap: 0.8rem;
+  margin-top: 1.4rem;
+  color: var(--text-secondary);
+}
+
+.rest-note > .icon {
+  color: var(--red-light);
+  margin-top: 0.15rem;
+}
+
+.rest-note strong {
+  font-size: 0.86rem;
+  color: var(--text-primary);
+}
+
+.rest-note p {
+  font-size: 0.75rem;
+  color: var(--muted);
+  margin-top: 0.18rem;
+}
+
+.demo-note {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+/* Tela Meu Plano (Cartão MaxFit Vermelho) */
+.plan-layout,
+.profile-layout {
+  display: grid;
+  gap: 1.1rem;
+}
+
+.membership-card {
+  background: #d85245;
+  min-height: 16rem;
+  padding: 1.5rem;
+  color: #151515;
+  border-radius: 0.95rem;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.membership-card::after {
+  content: "//";
+  position: absolute;
+  right: 0.35rem;
+  top: 2.4rem;
+  font-size: 9rem;
+  font-weight: 900;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.06);
+  letter-spacing: -1.15rem;
+  transform: skew(-8deg);
+  pointer-events: none;
+}
+
+.membership-card .logo {
+  font-size: 1.6rem;
+  color: #151515;
+}
+
+.membership-card .logo .red,
+.membership-card .brand-mark {
+  color: #151515;
+}
+
+.membership-card .pill {
+  background: #101812;
+  border-color: #101812;
+  color: #bfe5c9;
+  font-size: 0.62rem;
+}
+
+.membership-title {
+  margin-top: 1.9rem;
+}
+
+.membership-title .eyebrow {
+  color: #3c2520;
+  font-size: 0.58rem;
+  margin-bottom: 0.3rem;
+}
+
+.membership-title h2 {
+  font-family: var(--font-condensed);
+  font-weight: 800;
+  font-size: 3rem;
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+}
+
+.membership-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-top: 1.75rem;
+  gap: 0.75rem;
+}
+
+.membership-bottom small {
+  font-size: 0.55rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  display: block;
+}
+
+.membership-bottom strong {
+  font-size: 0.86rem;
+  display: block;
+  margin-top: 0.2rem;
+}
+
+.member-number {
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.billing h2 {
+  font-size: 2.15rem;
+  letter-spacing: -0.03em;
+  margin: 0.95rem 0 1.25rem;
+}
+
+.billing h2 > span {
+  font-size: 1.05rem;
+  color: var(--muted);
+  font-weight: 400;
+  display: block;
+  margin-top: 0.2rem;
+}
+
+.bill-price {
+  display: block;
+  font-size: 1.5rem;
+  letter-spacing: -0.03em;
+  margin-top: 0.15rem;
+}
+
+.payments {
+  padding: 0 1.1rem;
+}
+
+.payment-row {
+  padding: 1.1rem 0;
+  border-bottom: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.payment-row:last-child {
+  border: 0;
+}
+
+.payment-icon {
+  background: #292c2e;
+  color: #aeb5b7;
+  width: 2.25rem;
+  height: 2.45rem;
+  border-radius: 0.45rem;
+  display: grid;
+  place-items: center;
+}
+
+.payment-row strong {
+  font-size: 0.86rem;
+}
+
+.payment-row p {
+  font-size: 0.72rem;
+  color: var(--muted);
+  margin-top: 0.18rem;
+}
+
+.payment-value {
+  margin-left: auto;
+  text-align: right;
+}
+
+.payment-value .pill {
+  display: block;
+  width: fit-content;
+  margin: 0.3rem 0 0 auto;
+  font-size: 0.58rem;
+  padding: 0.15rem 0.48rem;
+}
+
+.faq {
+  margin-top: 0.8rem;
+  padding: 1.15rem;
+}
+
+.faq summary {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  cursor: pointer;
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+.faq summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq summary > span {
+  color: var(--red);
+  font-size: 1.4rem;
+  font-weight: 400;
+  line-height: 1;
+  transition: transform 0.2s;
+}
+
+.faq[open] summary > span {
+  transform: rotate(45deg);
+}
+
+.faq p {
+  margin-top: 0.95rem;
+  font-size: 0.84rem;
+  line-height: 1.65;
+  color: var(--muted);
+}
+
+/* Tela Perfil do Aluno */
+.profile-card {
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  padding: 0 1.4rem 1.4rem;
+}
+
+.profile-cover {
+  display: block;
+  height: 4.6rem;
+  background: #302421;
+  border-bottom: 1px solid #4c3530;
+  margin: 0 -1.4rem;
+}
+
+.profile-avatar {
+  width: 4.6rem !important;
+  height: 4.6rem !important;
+  border: 5px solid var(--bg-surface) !important;
+  background: var(--red) !important;
+  color: #171717 !important;
+  font-size: 1.45rem !important;
+  margin: -2.3rem auto 0.85rem;
+  position: relative;
+}
+
+.profile-card h2 {
+  font-size: 1.45rem;
+}
+
+.profile-card > .muted {
+  font-size: 0.76rem;
+  margin: 0.45rem 0 0.95rem;
+}
+
+.profile-id {
+  border-top: 1px solid var(--border-subtle);
+  margin-top: 1.4rem;
+  padding-top: 1.1rem;
+  color: var(--muted);
+  font-size: 0.64rem;
+  letter-spacing: 0.08em;
+  display: flex;
+  justify-content: space-between;
+}
+
+.profile-id strong {
+  color: var(--text-primary);
+  font-size: 0.76rem;
+}
+
+.personal-data {
+  display: grid;
+  gap: 0 1.25rem;
+  margin-top: 1.15rem;
+}
+
+.personal-data > .data-pair {
+  padding: 0.85rem 0;
+  border-top: 1px solid var(--border-subtle);
+  min-width: 0;
+}
+
+.personal-data dt {
+  color: var(--muted);
+  font-size: 0.74rem;
+}
+
+.personal-data dd {
+  font-size: 0.92rem;
+  font-weight: 600;
+  margin-top: 0.25rem;
+  overflow-wrap: anywhere;
+}
+
+.logout-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin-top: 1.4rem;
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: var(--red-light);
+  min-height: 2.7rem;
+}
+
+.logout-link:hover {
+  color: var(--red);
+}
+
+.help-panel {
+  max-width: 44rem;
+}
+
+.help-panel > .muted {
+  margin: 0.95rem 0 1.4rem;
+  line-height: 1.75;
+}
+
+.app-footer {
+  padding: 1.4rem 1.15rem 6.5rem;
+  border-top: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  justify-content: space-between;
+}
+
+.app-footer .logo {
+  font-size: 1.1rem;
+  opacity: 0.72;
+}
+
+.app-footer > span {
+  font-size: 0.56rem;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+}
+
+.photo-credit {
+  font-size: 0.58rem;
+  color: var(--text-muted);
+  width: 100%;
+}
+
+/* ==========================================================================
+   4. ÁREA DO INSTRUTOR & PAINEL ADMIN (CABEÇALHOS, BUSCA, FILTROS E CARDS)
    ========================================================================== */
 
 .screen-header {
@@ -266,32 +1675,32 @@ button {
   align-items: center;
   justify-content: space-between;
   gap: 0.75rem;
-  margin-bottom: 1.125rem;
+  margin-bottom: 1.15rem;
   flex-shrink: 0;
 }
 
 .screen-header.with-back {
   justify-content: flex-start;
-  gap: 0.875rem;
+  gap: 0.85rem;
 }
 
 .screen-title {
-  font-size: 1.35rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
   color: var(--text-primary);
 }
 
 .screen-subtitle {
   font-size: 0.78rem;
   color: var(--text-secondary);
-  margin-top: 0.125rem;
+  margin-top: 0.12rem;
 }
 
 .header-actions {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.45rem;
   flex-shrink: 0;
 }
 
@@ -299,7 +1708,7 @@ button {
 .btn-icon {
   width: 2.35rem;
   height: 2.35rem;
-  border-radius: 0.625rem;
+  border-radius: 0.58rem;
   background: var(--bg-surface);
   border: 1px solid var(--border-subtle);
   color: var(--text-secondary);
@@ -313,8 +1722,8 @@ button {
 .btn-back:hover,
 .btn-icon:hover,
 .btn-icon.active {
-  border-color: var(--emerald);
-  color: var(--emerald);
+  border-color: var(--red);
+  color: var(--red);
 }
 
 .btn-icon.danger-hover:hover {
@@ -327,21 +1736,21 @@ button {
   width: 2.35rem;
   height: 2.35rem;
   border-radius: 50%;
-  background: var(--emerald-soft);
-  border: 1px solid var(--emerald-border);
-  color: var(--emerald);
-  font-size: 0.78rem;
+  background: #3a2e2b;
+  border: 1px solid var(--accent-border);
+  color: #e9b8af;
+  font-size: 0.76rem;
   font-weight: 700;
   display: inline-flex;
   align-items: center;
   justify-content: center;
 }
 
-/* Campo de Busca Semântico (<label class="search-box">) */
+/* Campo de Busca Semântico */
 .search-box {
   position: relative;
   display: block;
-  margin-bottom: 0.875rem;
+  margin-bottom: 0.85rem;
   flex-shrink: 0;
 }
 
@@ -356,13 +1765,13 @@ button {
 
 .search-box input {
   width: 100%;
-  height: 2.8rem;
-  padding: 0 0.875rem 0 2.625rem;
+  height: 2.85rem;
+  padding: 0 0.875rem 0 2.6rem;
   border-radius: var(--radius-md);
   background: var(--bg-surface);
   border: 1px solid var(--border-subtle);
   color: var(--text-primary);
-  font-size: 0.875rem;
+  font-size: 0.86rem;
   outline: none;
   transition: border-color 0.18s, box-shadow 0.18s;
 }
@@ -372,20 +1781,20 @@ button {
 }
 
 .search-box input:focus {
-  border-color: var(--emerald);
-  box-shadow: 0 0 0 0.1875rem var(--emerald-soft);
+  border-color: var(--red);
+  box-shadow: 0 0 0 0.18rem rgba(255, 81, 69, 0.15);
 }
 
-/* Pílulas de Filtro (Abas) — Altura protegida em telas Mobile */
+/* Pílulas de Filtro (Abas) */
 .filter-pills {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.45rem;
   overflow-x: auto;
   overflow-y: hidden;
   padding-bottom: 0.25rem;
-  margin-bottom: 1rem;
-  min-height: 2.45rem;
+  margin-bottom: 0.95rem;
+  min-height: 2.4rem;
   flex-shrink: 0;
   scrollbar-width: none;
 }
@@ -398,12 +1807,12 @@ button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.4rem;
+  gap: 0.38rem;
   flex-shrink: 0;
   min-height: 2.05rem;
-  padding: 0.4rem 0.9rem;
+  padding: 0.38rem 0.9rem;
   border-radius: var(--radius-pill);
-  font-size: 0.77rem;
+  font-size: 0.76rem;
   line-height: 1.2;
   font-weight: 600;
   background: var(--bg-surface);
@@ -415,44 +1824,41 @@ button {
 
 .filter-pill:hover {
   color: var(--text-primary);
-  border-color: var(--emerald-border);
+  border-color: var(--accent-border);
 }
 
 .filter-pill.active {
-  background: var(--emerald);
-  border-color: var(--emerald);
-  color: #042f2e;
-  font-weight: 700;
+  background: var(--red);
+  border-color: var(--red);
+  color: #121313;
+  font-weight: 800;
 }
 
 .pill-count {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 1.25rem;
-  height: 1.15rem;
-  padding: 0 0.32rem;
+  min-width: 1.2rem;
+  height: 1.1rem;
+  padding: 0 0.3rem;
   border-radius: var(--radius-pill);
-  font-size: 0.67rem;
+  font-size: 0.65rem;
   font-weight: 700;
-  background: rgba(255, 255, 255, 0.07);
+  background: rgba(255, 255, 255, 0.08);
   color: inherit;
 }
 
 .filter-pill.active .pill-count {
-  background: rgba(4, 47, 46, 0.18);
-  color: #042f2e;
+  background: rgba(18, 19, 19, 0.2);
+  color: #121313;
 }
 
-/* ==========================================================================
-   4. DASHBOARD: KPIs E ATALHOS RÁPIDOS
-   ========================================================================== */
-
+/* KPIs Dashboard */
 .kpi-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 0.75rem;
-  margin-bottom: 1.125rem;
+  gap: 0.7rem;
+  margin-bottom: 1.1rem;
   flex-shrink: 0;
 }
 
@@ -460,18 +1866,18 @@ button {
   background: var(--bg-surface);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
-  padding: 0.9rem;
+  padding: 0.95rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 0.45rem;
+  gap: 0.4rem;
   cursor: pointer;
-  transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+  transition: transform 0.18s var(--ease), border-color 0.18s, box-shadow 0.18s;
 }
 
 .kpi-card:hover {
-  transform: translateY(-0.125rem);
-  border-color: var(--emerald-border);
+  transform: translateY(-2px);
+  border-color: var(--accent-border);
   box-shadow: var(--shadow-card);
 }
 
@@ -479,21 +1885,21 @@ button {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 0.375rem;
+  gap: 0.35rem;
 }
 
 .kpi-label {
-  font-size: 0.75rem;
-  font-weight: 500;
+  font-size: 0.72rem;
+  font-weight: 600;
   color: var(--text-secondary);
 }
 
 .kpi-icon-badge {
-  width: 1.8rem;
-  height: 1.8rem;
-  border-radius: 0.5rem;
-  background: var(--emerald-soft);
-  color: var(--emerald);
+  width: 1.85rem;
+  height: 1.85rem;
+  border-radius: 0.48rem;
+  background: #312525;
+  color: #ff8075;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -501,59 +1907,56 @@ button {
 }
 
 .kpi-value {
-  font-size: 1.45rem;
+  font-family: var(--font-condensed);
+  font-size: 1.95rem;
   font-weight: 800;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
   color: var(--text-primary);
-  line-height: 1.15;
+  line-height: 1.05;
 }
 
 .kpi-value.kpi-currency {
-  font-size: 1.2rem;
+  font-size: 1.6rem;
 }
 
 .kpi-foot {
   display: flex;
   flex-direction: column;
-  gap: 0.3rem;
+  gap: 0.28rem;
   margin-top: 0.1rem;
 }
 
 .kpi-trend {
-  font-size: 0.68rem;
+  font-size: 0.67rem;
   font-weight: 600;
-  color: var(--emerald);
+  color: var(--active-green);
 }
 
 .kpi-bar {
   width: 100%;
-  height: 0.22rem;
+  height: 0.24rem;
   border-radius: var(--radius-pill);
-  background: rgba(255, 255, 255, 0.06);
+  background: #383c3e;
   overflow: hidden;
   display: block;
-}
-
-[data-theme="light"] .kpi-bar {
-  background: #e2e8f0;
 }
 
 .kpi-bar i {
   display: block;
   height: 100%;
   border-radius: var(--radius-pill);
-  background: var(--emerald);
+  background: var(--red);
 }
 
 /* Atalhos Rápidos */
 .quick-shortcuts-row {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.45rem;
   overflow-x: auto;
   overflow-y: hidden;
   margin-bottom: 1.25rem;
-  padding-bottom: 0.125rem;
+  padding-bottom: 0.15rem;
   min-height: 2.35rem;
   flex-shrink: 0;
   scrollbar-width: none;
@@ -566,52 +1969,51 @@ button {
 .shortcut-pill {
   display: inline-flex;
   align-items: center;
-  gap: 0.375rem;
+  gap: 0.38rem;
   padding: 0.5rem 0.85rem;
-  border-radius: var(--radius-md);
-  background: var(--emerald-soft);
-  border: 1px solid var(--emerald-border);
-  color: var(--emerald);
-  font-size: 0.76rem;
-  font-weight: 600;
+  border-radius: 0.52rem;
+  background: var(--accent-soft);
+  border: 1px solid var(--accent-border);
+  color: var(--red-light);
+  font-size: 0.75rem;
+  font-weight: 700;
   white-space: nowrap;
   flex-shrink: 0;
   transition: all 0.18s ease;
 }
 
 .shortcut-pill:hover {
-  background: var(--emerald);
-  color: #052e16;
+  background: var(--red);
+  border-color: var(--red);
+  color: #121313;
 }
 
 .section-header-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.7rem;
   flex-shrink: 0;
 }
 
 .section-heading {
-  font-size: 0.98rem;
+  font-size: 1rem;
   font-weight: 700;
   color: var(--text-primary);
 }
 
 .link-action {
-  font-size: 0.78rem;
+  font-size: 0.76rem;
   font-weight: 600;
-  color: var(--emerald);
+  color: var(--red-light);
 }
 
 .link-action:hover {
+  color: var(--red);
   text-decoration: underline;
 }
 
-/* ==========================================================================
-   5. CARDS (ALUNOS, INSTRUTORES, PLANOS E MATRÍCULAS)
-   ========================================================================== */
-
+/* Cards de Alunos, Instrutores, Planos e Matrículas */
 .cards-stack {
   display: flex;
   flex-direction: column;
@@ -622,15 +2024,15 @@ button {
   background: var(--bg-surface);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
-  padding: 0.9rem;
-  transition: transform 0.16s ease, border-color 0.16s ease, background-color 0.16s ease, box-shadow 0.16s ease;
+  padding: 0.92rem 0.98rem;
+  transition: transform 0.18s var(--ease), border-color 0.18s, background-color 0.18s, box-shadow 0.18s;
   cursor: pointer;
   position: relative;
 }
 
 .item-card:hover {
-  transform: translateY(-0.08rem);
-  border-color: var(--emerald-border);
+  transform: translateY(-2px);
+  border-color: #826258;
   background: var(--bg-surface-hover);
   box-shadow: var(--shadow-card);
 }
@@ -641,26 +2043,79 @@ button {
   gap: 0.8rem;
 }
 
+/* Card Especial do Instrutor com botão Ver Treino */
+.inst-student-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.inst-student-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.65rem;
+  padding-top: 0.65rem;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.inst-workout-tag {
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.btn-view-workout {
+  height: 2.1rem;
+  padding: 0 0.85rem;
+  border-radius: 0.45rem;
+  background: var(--red);
+  color: #121313;
+  font-size: 0.74rem;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  flex-shrink: 0;
+  transition: background 0.18s, transform 0.15s;
+}
+
+.btn-view-workout:hover {
+  background: var(--red-hover);
+  transform: translateY(-1px);
+}
+
+.inst-workout-summary-box {
+  margin-bottom: 0.35rem;
+}
+
 .avatar-circle {
-  width: 2.7rem;
-  height: 2.7rem;
+  width: 2.65rem;
+  height: 2.65rem;
   border-radius: 50%;
-  background: var(--emerald-soft);
-  border: 1px solid var(--emerald-border);
-  color: var(--emerald);
+  background: #3a2e2b;
+  border: 1px solid var(--accent-border);
+  color: #e9b8af;
   font-family: var(--font-display);
-  font-size: 0.84rem;
+  font-size: 0.8rem;
   font-weight: 700;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  position: relative;
+}
+
+.avatar-circle.account-avatar {
+  width: 2.25rem;
+  height: 2.25rem;
+  font-size: 0.7rem;
 }
 
 .avatar-circle.muted {
-  background: rgba(148, 163, 184, 0.12);
-  border-color: rgba(148, 163, 184, 0.25);
+  background: rgba(148, 163, 184, 0.1);
+  border-color: var(--border-subtle);
   color: var(--text-secondary);
 }
 
@@ -679,27 +2134,27 @@ button {
 }
 
 .card-sub {
-  font-size: 0.76rem;
+  font-size: 0.75rem;
   color: var(--text-secondary);
-  margin-top: 0.15rem;
+  margin-top: 0.14rem;
 }
 
 .card-meta {
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   color: var(--text-muted);
-  margin-top: 0.28rem;
+  margin-top: 0.26rem;
   display: flex;
   align-items: center;
-  gap: 0.375rem;
+  gap: 0.35rem;
 }
 
 /* Status Badges */
 .status-badge {
-  padding: 0.25rem 0.65rem;
-  border-radius: var(--radius-pill);
-  font-size: 0.68rem;
+  padding: 0.24rem 0.62rem;
+  border-radius: 0.35rem;
+  font-size: 0.66rem;
   font-weight: 700;
-  letter-spacing: 0.01em;
+  letter-spacing: 0.03em;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -707,9 +2162,9 @@ button {
 }
 
 .status-badge.emerald {
-  background: var(--emerald-soft);
-  color: var(--emerald);
-  border: 1px solid var(--emerald-border);
+  background: var(--active-green-bg);
+  color: var(--active-green);
+  border: 1px solid var(--active-green-border);
 }
 
 .status-badge.amber {
@@ -720,7 +2175,7 @@ button {
 
 .status-badge.danger {
   background: var(--danger-soft);
-  color: var(--danger);
+  color: var(--red-light);
   border: 1px solid var(--danger-border);
 }
 
@@ -728,30 +2183,31 @@ button {
 .instructor-tags-row {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  margin-top: 0.4rem;
+  gap: 0.45rem;
+  margin-top: 0.38rem;
   flex-wrap: wrap;
 }
 
 .specialty-badge {
-  padding: 0.15rem 0.58rem;
-  border-radius: 0.375rem;
-  font-size: 0.68rem;
-  font-weight: 600;
-  background: var(--emerald-soft);
-  color: var(--emerald);
+  padding: 0.15rem 0.55rem;
+  border-radius: 0.35rem;
+  font-size: 0.66rem;
+  font-weight: 700;
+  background: var(--accent-soft);
+  border: 1px solid var(--accent-border);
+  color: var(--red-light);
 }
 
 .student-count-meta {
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   color: var(--text-muted);
 }
 
-/* Cards de Planos (screen-plans) */
+/* Cards de Planos */
 .plan-card {
   display: flex;
   flex-direction: column;
-  gap: 0.7rem;
+  gap: 0.65rem;
   padding: 1rem 1rem 1rem 1.15rem;
   position: relative;
   overflow: hidden;
@@ -763,19 +2219,19 @@ button {
   left: 0;
   top: 0;
   bottom: 0;
-  width: 0.25rem;
-  background: var(--emerald);
+  width: 0.26rem;
+  background: var(--border-strong);
 }
 
 .plan-card.featured::before {
-  background: var(--amber);
+  background: var(--red);
 }
 
 .plan-card-top {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 0.75rem;
+  gap: 0.7rem;
 }
 
 .plan-price-col {
@@ -784,16 +2240,18 @@ button {
 }
 
 .plan-price-val {
-  font-size: 1.15rem;
+  font-family: var(--font-condensed);
+  font-size: 1.5rem;
   font-weight: 800;
-  color: var(--emerald);
+  color: var(--red);
   display: block;
+  line-height: 1;
 }
 
 .plan-students-count {
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   color: var(--text-secondary);
-  margin-top: 0.2rem;
+  margin-top: 0.22rem;
   display: inline-flex;
   align-items: center;
   gap: 0.25rem;
@@ -802,51 +2260,47 @@ button {
 .plan-perks-row {
   display: flex;
   align-items: center;
-  gap: 0.375rem;
+  gap: 0.35rem;
   flex-wrap: wrap;
-  padding-top: 0.55rem;
+  padding-top: 0.52rem;
   border-top: 1px solid var(--border-subtle);
 }
 
 .plan-perk-tag {
-  font-size: 0.67rem;
+  font-size: 0.66rem;
   font-weight: 500;
-  padding: 0.12rem 0.48rem;
+  padding: 0.14rem 0.48rem;
   border-radius: 0.35rem;
   background: rgba(255, 255, 255, 0.04);
   color: var(--text-secondary);
 }
 
-[data-theme="light"] .plan-perk-tag {
-  background: #f1f5f9;
-}
-
-/* Cards de Matrículas (screen-enrollments) */
+/* Cards de Matrículas */
 .enrollment-card-top {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 0.625rem;
+  gap: 0.6rem;
 }
 
 .enrollment-dates-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 0.74rem;
-  margin-top: 0.75rem;
-  padding-top: 0.625rem;
+  font-size: 0.72rem;
+  margin-top: 0.7rem;
+  padding-top: 0.6rem;
   border-top: 1px solid var(--border-subtle);
 }
 
 .date-col span {
   display: block;
-  font-size: 0.62rem;
+  font-size: 0.6rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.06em;
   color: var(--text-muted);
-  margin-bottom: 0.125rem;
+  margin-bottom: 0.1rem;
 }
 
 .date-col strong {
@@ -860,23 +2314,19 @@ button {
 
 .contract-progress-track {
   width: 100%;
-  height: 0.22rem;
+  height: 0.24rem;
   border-radius: var(--radius-pill);
-  background: rgba(255, 255, 255, 0.06);
+  background: #383c3e;
   margin-top: 0.5rem;
   overflow: hidden;
   display: block;
-}
-
-[data-theme="light"] .contract-progress-track {
-  background: #e2e8f0;
 }
 
 .contract-progress-fill {
   display: block;
   height: 100%;
   border-radius: var(--radius-pill);
-  background: var(--emerald);
+  background: var(--active-green);
 }
 
 .contract-progress-fill.amber {
@@ -884,14 +2334,14 @@ button {
 }
 
 .contract-progress-fill.danger {
-  background: var(--danger);
+  background: var(--red);
 }
 
 .btn-card-action {
-  width: 1.75rem;
-  height: 1.75rem;
-  border-radius: 0.4375rem;
-  color: var(--text-muted);
+  width: 1.8rem;
+  height: 1.8rem;
+  border-radius: 0.42rem;
+  color: var(--text-secondary);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -909,25 +2359,25 @@ button {
 }
 
 /* ==========================================================================
-   6. FORMULÁRIOS SEMÂNTICOS (<label>, <fieldset>, <select>, <output>)
+   5. FORMULÁRIOS E BOTÕES MAXFIT
    ========================================================================== */
 
 .app-form {
   display: flex;
   flex-direction: column;
-  gap: 0.875rem;
+  gap: 0.85rem;
 }
 
 .form-row-responsive {
   display: flex;
   flex-direction: column;
-  gap: 0.875rem;
+  gap: 0.85rem;
 }
 
 .field-label {
   display: flex;
   flex-direction: column;
-  gap: 0.375rem;
+  gap: 0.35rem;
   font-size: 0.76rem;
   font-weight: 600;
   color: var(--text-secondary);
@@ -937,19 +2387,19 @@ button {
   font-size: 0.76rem;
   font-weight: 600;
   color: var(--text-secondary);
-  margin-bottom: 0.375rem;
+  margin-bottom: 0.35rem;
 }
 
 .field-label input,
 .field-label select {
   width: 100%;
-  height: 2.875rem;
-  padding: 0 0.875rem;
-  border-radius: var(--radius-md);
+  height: 2.9rem;
+  padding: 0 0.85rem;
+  border-radius: 0.55rem;
   background: var(--bg-input);
-  border: 1px solid var(--border-subtle);
+  border: 1px solid var(--border-strong);
   color: var(--text-primary);
-  font-size: 0.875rem;
+  font-size: 0.88rem;
   font-weight: 400;
   outline: none;
   transition: border-color 0.18s, box-shadow 0.18s;
@@ -961,8 +2411,8 @@ button {
 
 .field-label input:focus,
 .field-label select:focus {
-  border-color: var(--emerald);
-  box-shadow: 0 0 0 0.1875rem var(--emerald-soft);
+  border-color: var(--red);
+  box-shadow: 0 0 0 0.18rem rgba(255, 81, 69, 0.18);
 }
 
 .input-readonly {
@@ -975,21 +2425,22 @@ button {
   position: relative;
   display: flex;
   align-items: center;
+  width: 100%;
 }
 
 .input-affix input {
-  padding-left: 2.625rem;
-  padding-right: 2.5rem;
+  padding-left: 2.6rem;
+  padding-right: 2.45rem;
 }
 
 .input-affix.right-only input {
-  padding-left: 0.875rem;
-  padding-right: 2.5rem;
+  padding-left: 0.85rem;
+  padding-right: 2.45rem;
 }
 
 .affix-left {
   position: absolute;
-  left: 0.875rem;
+  left: 0.85rem;
   color: var(--text-muted);
   pointer-events: none;
 }
@@ -1011,13 +2462,13 @@ button {
 .select-affix select {
   appearance: none;
   -webkit-appearance: none;
-  padding-right: 2.375rem;
+  padding-right: 2.35rem;
   cursor: pointer;
 }
 
 .select-chevron {
   position: absolute;
-  right: 0.875rem;
+  right: 0.85rem;
   top: 50%;
   transform: translateY(-50%);
   color: var(--text-muted);
@@ -1025,119 +2476,119 @@ button {
 }
 
 .field-error {
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   font-weight: 500;
-  color: var(--danger);
+  color: var(--red-light);
 }
 
-/* Status Radio Group (screen-new-enrollment) */
+/* Status Radio Group */
 .status-radio-group {
   display: flex;
   align-items: center;
-  gap: 0.625rem;
+  gap: 0.6rem;
 }
 
 .status-radio-pill {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.5625rem 1rem;
-  border-radius: var(--radius-sm);
+  gap: 0.45rem;
+  padding: 0.52rem 0.95rem;
+  border-radius: 0.5rem;
   background: var(--bg-surface);
   border: 1px solid var(--border-subtle);
   color: var(--text-secondary);
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   font-weight: 600;
   transition: all 0.16s ease;
 }
 
 .status-radio-pill .radio-dot {
-  width: 0.5rem;
-  height: 0.5rem;
+  width: 0.48rem;
+  height: 0.48rem;
   border-radius: 50%;
   background: transparent;
   border: 1.5px solid var(--text-muted);
 }
 
 .status-radio-pill.active {
-  background: var(--emerald-soft);
-  border-color: var(--emerald);
-  color: var(--emerald);
+  background: var(--accent-soft);
+  border-color: var(--red);
+  color: var(--red-light);
 }
 
 .status-radio-pill.active .radio-dot {
-  background: var(--emerald);
-  border-color: var(--emerald);
+  background: var(--red);
+  border-color: var(--red);
 }
 
-/* Box Valor Estimado (<output>) */
+/* Box Valor Estimado */
 .estimated-value-box {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.875rem 1rem;
-  border-radius: var(--radius-md);
-  background: rgba(16, 185, 129, 0.1);
-  border: 1px solid var(--emerald-border);
-  margin-top: 0.25rem;
+  padding: 0.85rem 0.95rem;
+  border-radius: 0.62rem;
+  background: var(--accent-soft);
+  border: 1px solid var(--accent-border);
+  margin-top: 0.2rem;
 }
 
 .estimated-label {
-  font-size: 0.7rem;
+  font-size: 0.66rem;
   font-weight: 700;
-  letter-spacing: 0.05em;
-  color: var(--emerald);
+  letter-spacing: 0.08em;
+  color: var(--red-light);
 }
 
 .estimated-price {
-  font-family: var(--font-display);
-  font-size: 1.05rem;
+  font-family: var(--font-condensed);
+  font-size: 1.3rem;
   font-weight: 800;
-  color: var(--emerald);
+  color: var(--red);
 }
 
-/* Botões */
+/* Botões Padrão MaxFit */
 .form-actions-stack {
   display: flex;
   flex-direction: column;
-  gap: 0.625rem;
-  margin-top: 0.75rem;
+  gap: 0.6rem;
+  margin-top: 0.7rem;
 }
 
 .btn-primary {
-  height: 2.875rem;
-  padding: 0 1.25rem;
-  border-radius: var(--radius-md);
-  background: var(--emerald);
-  color: #042f2e;
-  font-weight: 700;
+  height: 2.95rem;
+  padding: 0 1.3rem;
+  border-radius: 0.5rem;
+  background: var(--red);
+  color: #121313;
+  font-weight: 800;
   font-size: 0.9rem;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
+  gap: 0.45rem;
   transition: background-color 0.18s, transform 0.15s, box-shadow 0.18s;
-  box-shadow: 0 0.25rem 0.875rem rgba(16, 185, 129, 0.28);
+  box-shadow: 0 0.25rem 0.9rem rgba(255, 81, 69, 0.25);
 }
 
 .btn-primary:hover {
-  background: var(--emerald-hover);
-  color: #ffffff;
+  background: var(--red-hover);
+  box-shadow: 0 0.35rem 1.25rem rgba(255, 81, 69, 0.35);
 }
 
 .btn-primary:active {
-  transform: scale(0.99);
+  transform: scale(0.98);
 }
 
 .btn-secondary {
-  height: 2.75rem;
-  padding: 0 1.125rem;
-  border-radius: var(--radius-md);
+  height: 2.8rem;
+  padding: 0 1.1rem;
+  border-radius: 0.5rem;
   background: var(--bg-surface);
   border: 1px solid var(--border-subtle);
   color: var(--text-secondary);
   font-weight: 600;
-  font-size: 0.86rem;
+  font-size: 0.85rem;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -1150,13 +2601,13 @@ button {
 }
 
 .btn-danger {
-  height: 2.75rem;
-  padding: 0 1.125rem;
-  border-radius: var(--radius-md);
-  background: var(--danger);
+  height: 2.8rem;
+  padding: 0 1.1rem;
+  border-radius: 0.5rem;
+  background: #991b1b;
   color: #ffffff;
   font-weight: 700;
-  font-size: 0.86rem;
+  font-size: 0.85rem;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -1168,21 +2619,21 @@ button {
 
 .btn-sm {
   height: 2.35rem;
-  padding: 0 0.875rem;
-  font-size: 0.8rem;
-  border-radius: 0.625rem;
+  padding: 0 0.9rem;
+  font-size: 0.78rem;
+  border-radius: 0.5rem;
 }
 
-/* Botão de Ação Flutuante (+ FAB no Mobile) */
+/* Botão Flutuante (+ FAB) */
 .fab-btn {
   position: fixed;
-  right: 1.25rem;
+  right: 1.2rem;
   bottom: 4.85rem;
   width: 3.25rem;
   height: 3.25rem;
   border-radius: 50%;
-  background: var(--emerald);
-  color: #042f2e;
+  background: var(--red);
+  color: #121313;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -1193,12 +2644,11 @@ button {
 
 .fab-btn:hover {
   transform: scale(1.08);
-  background: var(--emerald-hover);
-  color: #ffffff;
+  background: var(--red-hover);
 }
 
 /* ==========================================================================
-   7. BARRA DE NAVEGAÇÃO INFERIOR MOBILE (bottom-nav)
+   6. BARRAS DE NAVEGAÇÃO INFERIORES MOBILE (ADMIN, INSTRUTOR E ALUNO)
    ========================================================================== */
 
 .bottom-nav {
@@ -1206,40 +2656,61 @@ button {
   bottom: 0;
   left: 0;
   right: 0;
-  height: 4rem;
-  background: var(--bg-nav);
-  backdrop-filter: blur(0.75rem);
-  border-top: 1px solid var(--border-subtle);
+  height: 4.1rem;
+  background: #161819f7;
+  backdrop-filter: blur(1.25rem);
+  border-top: 1px solid #37393b;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   align-items: center;
-  padding: 0 0.375rem;
+  padding: 0 0.35rem;
   z-index: 40;
 }
 
+.bottom-nav.student-bottom-nav {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.bottom-nav.instructor-bottom-nav {
+  grid-template-columns: repeat(3, 1fr);
+}
+
 .bottom-nav-item {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.25rem;
-  padding: 0.375rem 0.125rem;
-  color: var(--text-muted);
-  font-size: 0.68rem;
+  gap: 0.24rem;
+  padding: 0.38rem 0.15rem;
+  color: #a9aeb1;
+  font-size: 0.66rem;
   font-weight: 600;
-  transition: color 0.18s ease, transform 0.15s ease;
+  transition: color 0.18s ease;
+}
+
+.bottom-nav-item::before {
+  content: "";
+  position: absolute;
+  top: -0.32rem;
+  width: 1.55rem;
+  height: 2px;
+  background: var(--red);
+  opacity: 0;
+  border-radius: 2px;
+  transition: opacity 0.2s;
 }
 
 .bottom-nav-item.active {
-  color: var(--emerald);
+  color: var(--red);
 }
 
-.bottom-nav-item.active svg {
-  transform: translateY(-0.0625rem);
+.bottom-nav-item.active::before {
+  opacity: 1;
 }
 
 /* ==========================================================================
-   8. ELEMENTOS <dialog> NATIVOS DO HTML5, TABELA E TOASTS
+   7. MODAIS <dialog>, TABELAS E NOTIFICAÇÕES TOAST
    ========================================================================== */
 
 dialog {
@@ -1249,7 +2720,7 @@ dialog {
 }
 
 dialog::backdrop {
-  background: rgba(5, 8, 15, 0.75);
+  background: rgba(10, 11, 12, 0.78);
   backdrop-filter: blur(0.25rem);
 }
 
@@ -1260,9 +2731,9 @@ dialog.bottom-sheet {
   max-height: 88dvh;
   margin: auto 0 0 0;
   border-radius: 1.25rem 1.25rem 0 0;
-  padding: 1.25rem;
+  padding: 1.3rem;
   overflow-y: auto;
-  animation: sheetSlideUp 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+  animation: sheetSlideUp 0.22s var(--ease);
 }
 
 @keyframes sheetSlideUp {
@@ -1276,88 +2747,89 @@ dialog.bottom-sheet {
 
 dialog.modal-dialog-centered {
   width: calc(100% - 2.25rem);
-  max-width: 23rem;
+  max-width: 24rem;
   margin: auto;
   border-radius: var(--radius-lg);
-  padding: 1.375rem;
+  padding: 1.45rem;
   text-align: center;
   box-shadow: var(--shadow-card);
 }
 
 dialog.modal-dialog-centered h3 {
-  font-size: 1.05rem;
+  font-size: 1.08rem;
   margin-bottom: 0.5rem;
 }
 
 dialog.modal-dialog-centered p {
   font-size: 0.82rem;
   color: var(--text-secondary);
-  margin-bottom: 1.125rem;
+  margin-bottom: 1.1rem;
 }
 
 .modal-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 1rem;
+  margin-bottom: 0.95rem;
 }
 
 .modal-header h3 {
-  font-size: 1.05rem;
+  font-size: 1.08rem;
   font-weight: 700;
 }
 
 .btn-close-modal {
-  font-size: 1.5rem;
+  font-size: 1.45rem;
   line-height: 1;
   color: var(--text-secondary);
-  padding: 0.125rem 0.375rem;
+  padding: 0.125rem 0.35rem;
 }
 
 .delete-icon-circle {
-  width: 3rem;
-  height: 3rem;
+  width: 2.9rem;
+  height: 2.9rem;
   border-radius: 50%;
   background: var(--danger-soft);
-  color: var(--danger);
+  color: var(--red);
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.7rem;
 }
 
 .modal-actions {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 0.625rem;
+  gap: 0.55rem;
   margin-top: 1rem;
+  flex-wrap: wrap;
 }
 
 .modal-actions > button {
   flex: 1;
+  min-width: 6.2rem;
 }
 
 .checkbox-label {
   display: flex;
   align-items: center;
-  gap: 0.625rem;
-  font-size: 0.82rem;
+  gap: 0.6rem;
+  font-size: 0.8rem;
   color: var(--text-secondary);
   cursor: pointer;
 }
 
 .checkbox-label input[type="checkbox"] {
-  width: 1.125rem;
-  height: 1.125rem;
-  accent-color: var(--emerald);
+  width: 1.1rem;
+  height: 1.1rem;
+  accent-color: var(--red);
 }
 
-/* Lista de Descrição Semântica (<dl class="sheet-body">) */
 .sheet-body {
   display: flex;
   flex-direction: column;
-  font-size: 0.85rem;
+  font-size: 0.84rem;
 }
 
 .detail-row {
@@ -1390,22 +2862,22 @@ dialog.modal-dialog-centered p {
 .data-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.82rem;
+  font-size: 0.8rem;
 }
 
 .data-table th,
 .data-table td {
-  padding: 0.75rem 0.875rem;
+  padding: 0.75rem 0.85rem;
   text-align: left;
   border-bottom: 1px solid var(--border-subtle);
 }
 
 .data-table th {
-  font-size: 0.72rem;
+  font-size: 0.68rem;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.06em;
   color: var(--text-muted);
-  background: rgba(15, 22, 38, 0.5);
+  background: rgba(16, 17, 18, 0.55);
 }
 
 .data-table tr:last-child td {
@@ -1416,7 +2888,7 @@ dialog.modal-dialog-centered p {
   text-align: right !important;
 }
 
-/* Notificações Toast (<aside class="toast-container">) */
+/* Notificações Toast MaxFit */
 .toast-container {
   position: fixed;
   top: 1rem;
@@ -1424,24 +2896,29 @@ dialog.modal-dialog-centered p {
   right: 1rem;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-  z-index: 100;
+  gap: 0.45rem;
+  z-index: 120;
   pointer-events: none;
 }
 
 .toast-item {
-  background: #064e3b;
-  border: 1px solid var(--emerald);
-  color: #ecfdf5;
-  padding: 0.7rem 0.9rem;
-  border-radius: var(--radius-md);
-  font-size: 0.82rem;
+  background: #231917;
+  border: 1px solid var(--red);
+  color: #f5f4f0;
+  padding: 0.72rem 0.95rem;
+  border-radius: 0.58rem;
+  font-size: 0.8rem;
   font-weight: 600;
   display: flex;
   align-items: center;
-  gap: 0.625rem;
-  box-shadow: 0 0.625rem 1.5rem rgba(0, 0, 0, 0.4);
-  animation: toastDrop 0.24s cubic-bezier(0.22, 1, 0.36, 1);
+  gap: 0.6rem;
+  box-shadow: 0 0.6rem 1.5rem rgba(0, 0, 0, 0.5);
+  animation: toastDrop 0.24s var(--ease);
+}
+
+.toast-item svg {
+  color: var(--red);
+  flex-shrink: 0;
 }
 
 @keyframes toastDrop {
@@ -1456,8 +2933,57 @@ dialog.modal-dialog-centered p {
 }
 
 /* ==========================================================================
-   9. ADAPTAÇÃO AUTOMÁTICA PARA DESKTOP (>= 48rem / 768px)
+   8. RESPONSIVIDADE INTERMEDIÁRIA E DESKTOP (>= 48rem / 768px)
    ========================================================================== */
+
+@media (min-width: 44rem) {
+  .dashboard-grid {
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+    gap: 1.15rem;
+  }
+
+  .workout-feature {
+    min-height: 23.5rem;
+    grid-column: 1;
+    grid-row: 1 / span 2;
+  }
+
+  .week-panel {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .quick-stats {
+    grid-column: 1;
+    grid-row: 3;
+  }
+
+  .coach-card {
+    grid-column: 2;
+    grid-row: 2 / span 2;
+  }
+
+  .home-workouts {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .exercise-list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.9rem;
+  }
+
+  .plan-layout {
+    grid-template-columns: 1.2fr 1fr;
+  }
+
+  .profile-layout {
+    grid-template-columns: 1fr 1.6fr;
+  }
+
+  .personal-data {
+    grid-template-columns: 1fr 1fr;
+  }
+}
 
 @media (min-width: 48rem) {
   body {
@@ -1472,127 +2998,155 @@ dialog.modal-dialog-centered p {
     display: inline-flex !important;
   }
 
+  /* Sidebars Desktop (Admin, Instrutor e Aluno) */
   .desktop-sidebar:not(.hidden) {
-    width: 16.5rem;
-    background: var(--bg-nav);
-    border-right: 1px solid var(--border-subtle);
+    width: 15.5rem;
+    background: #151719;
+    border-right: 1px solid #2d3032;
     display: flex;
     flex-direction: column;
-    padding: 1.375rem 1rem;
+    padding: 1.9rem 1.2rem 1.4rem;
     flex-shrink: 0;
+  }
+
+  [data-theme="light"] .desktop-sidebar:not(.hidden) {
+    background: #ffffff;
+    border-right-color: var(--border-subtle);
   }
 
   .sidebar-header {
     display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0 0.5rem 1.375rem;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0 0.45rem 1.2rem;
     border-bottom: 1px solid var(--border-subtle);
-    margin-bottom: 1.125rem;
+    margin-bottom: 1.2rem;
   }
 
-  .sidebar-brand-text h2 {
-    font-size: 1.15rem;
-    font-weight: 800;
-    color: var(--text-primary);
+  .sidebar-header .logo {
+    font-size: 1.95rem;
   }
 
-  .sidebar-brand-text p {
-    font-size: 0.72rem;
-    color: var(--text-secondary);
+  .workspace-label {
+    color: #828b90;
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    margin-top: 0.8rem;
   }
 
   .sidebar-nav {
     display: flex;
     flex-direction: column;
-    gap: 0.375rem;
+    gap: 0.38rem;
     flex: 1;
   }
 
   .sidebar-link {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    padding: 0.7rem 0.75rem;
-    border-radius: var(--radius-md);
-    color: var(--text-secondary);
-    font-size: 0.875rem;
+    gap: 0.8rem;
+    padding: 0.78rem 0.85rem;
+    border-radius: 0.5rem;
+    border-left: 2px solid transparent;
+    color: var(--muted);
+    font-size: 0.86rem;
     font-weight: 600;
     transition: all 0.16s;
   }
 
   .sidebar-link:hover {
-    background: var(--bg-surface);
+    background: #242729;
     color: var(--text-primary);
   }
 
+  [data-theme="light"] .sidebar-link:hover {
+    background: var(--bg-surface-hover);
+  }
+
   .sidebar-link.active {
-    background: var(--emerald-soft);
-    color: var(--emerald);
-    border: 1px solid var(--emerald-border);
+    background: #33231f;
+    color: var(--text-primary);
+    border-left-color: var(--red);
+  }
+
+  [data-theme="light"] .sidebar-link.active {
+    background: var(--accent-soft);
+    color: var(--red);
   }
 
   .sidebar-counter {
     margin-left: auto;
-    font-size: 0.72rem;
-    padding: 0.125rem 0.5rem;
+    font-size: 0.68rem;
+    padding: 0.12rem 0.48rem;
     border-radius: var(--radius-pill);
     background: rgba(255, 255, 255, 0.06);
     color: var(--text-secondary);
   }
 
   .sidebar-link.active .sidebar-counter {
-    background: var(--emerald);
-    color: #042f2e;
-    font-weight: 700;
+    background: var(--red);
+    color: #121313;
+    font-weight: 800;
   }
 
   .sidebar-quick-actions {
-    margin-top: 1rem;
-    padding-top: 1rem;
+    margin-top: 0.95rem;
+    padding-top: 0.95rem;
     border-top: 1px solid var(--border-subtle);
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.45rem;
   }
 
   .sidebar-section-label {
-    font-size: 0.68rem;
+    font-size: 0.6rem;
     text-transform: uppercase;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.1em;
     color: var(--text-muted);
     font-weight: 700;
-    margin-bottom: 0.125rem;
+    margin-bottom: 0.12rem;
   }
 
   .btn-sidebar-action {
-    height: 2.375rem;
-    border-radius: 0.625rem;
-    background: var(--emerald);
-    color: #042f2e;
-    font-size: 0.8rem;
-    font-weight: 700;
+    height: 2.35rem;
+    border-radius: 0.5rem;
+    background: var(--red);
+    color: #121313;
+    font-size: 0.78rem;
+    font-weight: 800;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
     transition: all 0.16s;
   }
 
   .btn-sidebar-action.outline {
     background: transparent;
-    border: 1px solid var(--emerald-border);
-    color: var(--emerald);
+    border: 1px solid var(--accent-border);
+    color: var(--red-light);
   }
 
   .btn-sidebar-action:hover {
-    opacity: 0.92;
-    transform: translateY(-0.0625rem);
+    transform: translateY(-1px);
+    opacity: 0.94;
   }
 
-  .sidebar-footer {
-    margin-top: 1.125rem;
-    padding-top: 0.875rem;
+  .sidebar-footer,
+  .sidebar-bottom-student {
+    margin-top: 1.1rem;
+    padding-top: 0.85rem;
     border-top: 1px solid var(--border-subtle);
     display: flex;
+    flex-direction: column;
+    gap: 0.48rem;
+  }
+
+  .sidebar-user-row {
+    display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.48rem;
   }
 
   .admin-info-mini {
@@ -1602,7 +3156,7 @@ dialog.modal-dialog-centered p {
 
   .admin-info-mini strong {
     display: block;
-    font-size: 0.78rem;
+    font-size: 0.76rem;
     color: var(--text-primary);
     white-space: nowrap;
     overflow: hidden;
@@ -1610,16 +3164,70 @@ dialog.modal-dialog-centered p {
   }
 
   .admin-info-mini p {
-    font-size: 0.68rem;
+    font-size: 0.66rem;
     color: var(--text-muted);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  }
+
+  .sidebar-bottom-student .coach-mini {
+    padding: 0.45rem 0.2rem 0.85rem;
+    border-bottom: 1px solid var(--border-subtle);
+    margin-bottom: 0.3rem;
+  }
+
+  .help-link {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    font-size: 0.76rem;
+    color: #a7afb3;
+    padding: 0.52rem 0.45rem;
+    border-radius: 0.4rem;
+    text-align: left;
+  }
+
+  .help-link:hover {
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--text-primary);
+  }
+
+  .sidebar-edition {
+    font-size: 0.55rem;
+    letter-spacing: 0.14em;
+    display: flex;
+    justify-content: space-between;
+    padding: 0.7rem 0.3rem 0;
+    color: #7d878d;
+  }
+
+  /* Topbar Desktop da Área do Aluno */
+  .student-topbar {
+    height: 5rem;
+    padding: 0 2.5rem;
+  }
+
+  .mobile-logo {
+    display: none;
+  }
+
+  .desktop-caption {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    color: var(--text-secondary);
+  }
+
+  .tiny-red-line {
+    width: 1.4rem;
+    height: 2px;
+    background: var(--red);
   }
 
   .app-screen {
-    padding: 2rem 2.75rem 4rem;
-    max-width: 74rem;
+    padding: 1.9rem 2.4rem 3.5rem;
+    max-width: 82rem;
     width: 100%;
     margin: 0 auto;
   }
@@ -1628,39 +3236,104 @@ dialog.modal-dialog-centered p {
     max-width: 100%;
   }
 
-  #screen-login .login-card {
-    max-width: 26rem;
-    background: var(--bg-surface);
-    border: 1px solid var(--border-subtle);
-    border-radius: 1.25rem;
-    padding: 2.5rem 2.125rem 2rem;
-    box-shadow: var(--shadow-card);
+  .greeting {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.25rem;
   }
 
-  #screen-login .field-label input {
-    background: var(--bg-screen);
+  .member-label {
+    display: flex;
+    gap: 0.45rem;
+    align-items: center;
+    font-size: 0.6rem;
+    font-weight: 700;
+    color: #b6b0a8;
+    letter-spacing: 0.1em;
+    white-space: nowrap;
   }
 
-  .screen-title {
-    font-size: 1.6rem;
+  .member-label .icon {
+    width: 1rem;
+    height: 1rem;
+    color: var(--red);
+  }
+
+  .dashboard-grid {
+    grid-template-columns: minmax(0, 1.55fr) minmax(17.5rem, 1fr);
+    grid-template-rows: auto auto;
+    gap: 1.2rem;
+  }
+
+  .workout-feature {
+    grid-column: 1;
+    grid-row: 1;
+    min-height: 22.5rem;
+    padding: 1.6rem 1.7rem;
+  }
+
+  .hero-content h2 {
+    font-size: 4.25rem;
+  }
+
+  .week-panel {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .quick-stats {
+    grid-column: 1;
+    grid-row: 2;
+    gap: 1rem;
+  }
+
+  .small-stat {
+    padding: 1.3rem;
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+  }
+
+  .small-stat .icon-box {
+    margin: 0;
+    flex-shrink: 0;
+  }
+
+  .coach-card {
+    grid-column: 2;
+    grid-row: 2;
+  }
+
+  .training-layout {
+    grid-template-columns: minmax(0, 1.7fr) minmax(16.5rem, 1fr);
+    gap: 1.45rem;
+  }
+
+  .training-note {
+    align-self: start;
   }
 
   .kpi-grid {
     grid-template-columns: repeat(4, 1fr);
-    gap: 1rem;
+    gap: 0.95rem;
+  }
+
+  .kpi-grid.inst-kpi-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .cards-stack {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(21rem, 1fr));
-    gap: 0.875rem;
+    gap: 0.85rem;
   }
 
   .app-form {
     max-width: 45rem;
     background: var(--bg-surface);
     border: 1px solid var(--border-subtle);
-    padding: 1.75rem;
+    padding: 1.7rem;
     border-radius: var(--radius-lg);
   }
 
@@ -1688,6 +3361,17 @@ dialog.modal-dialog-centered p {
     top: 1.5rem;
     left: auto;
     right: 2rem;
-    width: 22.5rem;
+    width: 23rem;
+  }
+
+  .app-footer {
+    max-width: 82rem;
+    width: 100%;
+    margin: 0 auto;
+    padding: 1.4rem 2.4rem 2.4rem;
+  }
+
+  .photo-credit {
+    width: auto;
   }
 }
