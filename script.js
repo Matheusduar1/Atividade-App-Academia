@@ -1,6 +1,8 @@
 /**
- * MaxFit Club — Área do Aluno (Treinos), Área do Instrutor & Painel Admin
- * Projeto Integrado UC14 — Matheus Duarte & Miguel
+ * MaxFit Club — Sistema Integrado de Treinos e Gestão da Academia
+ * Autores: Matheus Duarte & Miguel | UC14 (Senac)
+ * Multi-páginas: index.html (Portal), login.html (Login), aluno.html (Aluno),
+ * instrutor.html (Instrutor), admin.html (Administrador)
  * HTML5 Estritamente Semântico (Zero <div>), <dialog> nativo e Mobile-First
  */
 
@@ -327,12 +329,41 @@ const STUDENT_SCREENS = new Set([
 
 const INSTRUCTOR_SCREENS = new Set([
   "screen-instructor-students",
-  "screen-instructor-workout"
+  "screen-instructor-workout",
+  "screen-instructor-profile"
 ]);
 
+// Mapeamento de telas para os arquivos HTML correspondentes
+const SCREEN_PAGE_MAP = {
+  // Aluno
+  "screen-student-home": "aluno.html",
+  "screen-student-workouts": "aluno.html",
+  "screen-workout-a": "aluno.html",
+  "screen-workout-b": "aluno.html",
+  "screen-workout-c": "aluno.html",
+  "screen-student-plan": "aluno.html",
+  "screen-student-profile": "aluno.html",
+  "screen-student-help": "aluno.html",
+  // Instrutor
+  "screen-instructor-students": "instrutor.html",
+  "screen-instructor-workout": "instrutor.html",
+  "screen-instructor-profile": "instrutor.html",
+  // Admin
+  "screen-dashboard": "admin.html",
+  "screen-students": "admin.html",
+  "screen-add-student": "admin.html",
+  "screen-instructors": "admin.html",
+  "screen-plans": "admin.html",
+  "screen-enrollments": "admin.html",
+  "screen-new-enrollment": "admin.html",
+  "screen-admin-profile": "admin.html",
+  // Login
+  "screen-login": "login.html"
+};
+
 let appState = loadState();
-let currentScreen = "screen-login";
-let screenHistory = ["screen-login"];
+let currentScreen = "screen-dashboard";
+let screenHistory = [];
 let loginSelectedRole = "student"; // "student" | "instructor" | "admin"
 let studentFilter = "all";
 let instStudentFilter = "all";
@@ -386,6 +417,30 @@ function resetToMaxFitState() {
 // ==========================================================================
 // FUNÇÕES UTILITÁRIAS E MÁSCARAS
 // ==========================================================================
+
+function $(id) {
+  return document.getElementById(id);
+}
+
+function on(id, event, handler) {
+  const el = $(id);
+  if (el) el.addEventListener(event, handler);
+}
+
+function safeSetText(id, text) {
+  const el = $(id);
+  if (el) el.textContent = text;
+}
+
+function safeSetHtml(id, html) {
+  const el = $(id);
+  if (el) el.innerHTML = html;
+}
+
+function safeToggleClass(id, className, force) {
+  const el = $(id);
+  if (el) el.classList.toggle(className, force);
+}
 
 function getInitials(name, singleLetter = false) {
   if (!name) return "MF";
@@ -460,13 +515,22 @@ function escapeHTML(str) {
 }
 
 // ==========================================================================
-// NAVEGAÇÃO ENTRE OS 3 AMBIENTES (ALUNO, INSTRUTOR E ADMIN)
+// NAVEGAÇÃO ENTRE TELAS E PÁGINAS DO SISTEMA
 // ==========================================================================
 
 function navigateTo(screenId, pushHistory = true) {
   const target = document.getElementById(screenId);
-  if (!target) return;
 
+  // Se a tela não estiver no documento HTML atual, redireciona para a página correspondente
+  if (!target) {
+    const targetPage = SCREEN_PAGE_MAP[screenId];
+    if (targetPage) {
+      window.location.href = targetPage + (screenId ? "#" + screenId : "");
+    }
+    return;
+  }
+
+  // Remove classe active das telas presentes
   document.querySelectorAll(".app-screen").forEach((sec) => {
     sec.classList.remove("active");
   });
@@ -477,85 +541,71 @@ function navigateTo(screenId, pushHistory = true) {
   }
   currentScreen = screenId;
 
-  const isLogin = screenId === "screen-login";
-  const isStudentArea = STUDENT_SCREENS.has(screenId);
-  const isInstructorArea = INSTRUCTOR_SCREENS.has(screenId);
-  const isAdminArea = !isLogin && !isStudentArea && !isInstructorArea;
+  // Atualiza botões ativos no Admin
+  const adminNavMapping = {
+    "screen-dashboard": "screen-dashboard",
+    "screen-students": "screen-students",
+    "screen-add-student": "screen-students",
+    "screen-plans": "screen-plans",
+    "screen-enrollments": "screen-enrollments",
+    "screen-new-enrollment": "screen-enrollments",
+    "screen-instructors": "screen-instructors",
+    "screen-admin-profile": "screen-admin-profile"
+  };
+  const activeAdminKey = adminNavMapping[screenId] || screenId;
 
-  // Alterna barras do Admin
-  document.getElementById("bottomNav").classList.toggle("hidden", !isAdminArea);
-  document.getElementById("desktopSidebar").classList.toggle("hidden", !isAdminArea);
+  document.querySelectorAll("#bottomNav .bottom-nav-item").forEach((btn) => {
+    btn.classList.toggle("active", btn.dataset.nav === activeAdminKey);
+  });
+  document.querySelectorAll("#desktopSidebar .sidebar-link").forEach((btn) => {
+    btn.classList.toggle("active", btn.dataset.nav === activeAdminKey);
+  });
 
-  // Alterna barras do Instrutor
-  document.getElementById("instructorBottomNav").classList.toggle("hidden", !isInstructorArea);
-  document.getElementById("instructorSidebar").classList.toggle("hidden", !isInstructorArea);
+  // Atualiza botões ativos no Instrutor
+  const instNavMapping = {
+    "screen-instructor-students": "screen-instructor-students",
+    "screen-instructor-workout": "screen-instructor-workout",
+    "screen-instructor-profile": "screen-instructor-profile"
+  };
+  const activeInstKey = instNavMapping[screenId] || screenId;
 
-  // Alterna barras e topbar do Aluno MaxFit
-  document.getElementById("studentBottomNav").classList.toggle("hidden", !isStudentArea);
-  document.getElementById("studentSidebar").classList.toggle("hidden", !isStudentArea);
-  document.getElementById("studentTopbar").classList.toggle("hidden", !isStudentArea);
-  document.getElementById("studentFooter").classList.toggle("hidden", !isStudentArea);
+  document.querySelectorAll("#instructorBottomNav .bottom-nav-item").forEach((btn) => {
+    btn.classList.toggle("active", btn.dataset.instNav === activeInstKey);
+  });
+  document.querySelectorAll("#instructorSidebar .sidebar-link").forEach((btn) => {
+    btn.classList.toggle("active", btn.dataset.instNav === activeInstKey);
+  });
 
-  if (isAdminArea) {
-    const adminNavMapping = {
-      "screen-dashboard": "screen-dashboard",
-      "screen-students": "screen-students",
-      "screen-add-student": "screen-students",
-      "screen-plans": "screen-plans",
-      "screen-enrollments": "screen-enrollments",
-      "screen-new-enrollment": "screen-enrollments",
-      "screen-instructors": "screen-instructors"
-    };
-    const activeAdminKey = adminNavMapping[screenId] || screenId;
+  // Atualiza botões ativos no Aluno
+  const studentNavMapping = {
+    "screen-student-home": "screen-student-home",
+    "screen-student-workouts": "screen-student-workouts",
+    "screen-workout-a": "screen-student-workouts",
+    "screen-workout-b": "screen-student-workouts",
+    "screen-workout-c": "screen-student-workouts",
+    "screen-student-plan": "screen-student-plan",
+    "screen-student-profile": "screen-student-profile",
+    "screen-student-help": "screen-student-home"
+  };
+  const activeStudentKey = studentNavMapping[screenId] || "screen-student-home";
 
-    document.querySelectorAll("#bottomNav .bottom-nav-item").forEach((btn) => {
-      btn.classList.toggle("active", btn.dataset.nav === activeAdminKey);
-    });
-    document.querySelectorAll("#desktopSidebar .sidebar-link").forEach((btn) => {
-      btn.classList.toggle("active", btn.dataset.nav === activeAdminKey);
-    });
-  }
+  document.querySelectorAll("#studentBottomNav .bottom-nav-item").forEach((btn) => {
+    btn.classList.toggle("active", btn.dataset.studentNav === activeStudentKey);
+  });
+  document.querySelectorAll("#studentSidebar .sidebar-link").forEach((btn) => {
+    btn.classList.toggle("active", btn.dataset.studentNav === activeStudentKey);
+  });
 
-  if (isInstructorArea) {
-    document.querySelectorAll("#instructorBottomNav .bottom-nav-item").forEach((btn) => {
-      btn.classList.toggle("active", btn.dataset.instNav === screenId);
-    });
-    document.querySelectorAll("#instructorSidebar .sidebar-link").forEach((btn) => {
-      btn.classList.toggle("active", btn.dataset.instNav === screenId);
-    });
-  }
-
-  if (isStudentArea) {
-    const studentNavMapping = {
-      "screen-student-home": "screen-student-home",
-      "screen-student-workouts": "screen-student-workouts",
-      "screen-workout-a": "screen-student-workouts",
-      "screen-workout-b": "screen-student-workouts",
-      "screen-workout-c": "screen-student-workouts",
-      "screen-student-plan": "screen-student-plan",
-      "screen-student-profile": "screen-student-profile",
-      "screen-student-help": "screen-student-home"
-    };
-    const activeStudentKey = studentNavMapping[screenId] || "screen-student-home";
-
-    document.querySelectorAll("#studentBottomNav .bottom-nav-item").forEach((btn) => {
-      btn.classList.toggle("active", btn.dataset.studentNav === activeStudentKey);
-    });
-    document.querySelectorAll("#studentSidebar .sidebar-link").forEach((btn) => {
-      btn.classList.toggle("active", btn.dataset.studentNav === activeStudentKey);
-    });
-  }
-
-  const appMain = document.getElementById("appMain");
+  const appMain = $("appMain");
   if (appMain) appMain.scrollTop = 0;
-  target.scrollTop = 0;
+  window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
 function goBack(fallbackScreen = "screen-dashboard") {
   if (screenHistory.length > 1) {
     screenHistory.pop();
     const prev = screenHistory[screenHistory.length - 1];
-    if (prev && prev !== "screen-login") {
+    if (prev) {
       navigateTo(prev, false);
       return;
     }
@@ -564,68 +614,74 @@ function goBack(fallbackScreen = "screen-dashboard") {
 }
 
 // ==========================================================================
-// SELETOR DE 3 PERFIS NO LOGIN (ALUNO | INSTRUTOR | ADMIN)
+// CONFIGURAÇÃO DO SELETOR DE PERFIL DE LOGIN (login.html)
 // ==========================================================================
 
-function setLoginRole(role) {
-  loginSelectedRole =
-    role === "instructor" ? "instructor" : role === "admin" ? "admin" : "student";
-
-  const tabStudent = document.getElementById("tabRoleStudent");
-  const tabInstructor = document.getElementById("tabRoleInstructor");
-  const tabAdmin = document.getElementById("tabRoleAdmin");
-  const emailInput = document.getElementById("loginEmail");
-  const submitBtn = document.getElementById("btnLoginSubmit");
-  const eyebrow = document.getElementById("loginEyebrow");
-  const heroTitle = document.getElementById("loginHeroTitle");
-  const heroSubtitle = document.getElementById("loginHeroSubtitle");
-  const demoNote = document.getElementById("loginDemoNote");
-
-  tabStudent.classList.toggle("active", loginSelectedRole === "student");
-  tabStudent.setAttribute("aria-selected", loginSelectedRole === "student" ? "true" : "false");
-
-  tabInstructor.classList.toggle("active", loginSelectedRole === "instructor");
-  tabInstructor.setAttribute("aria-selected", loginSelectedRole === "instructor" ? "true" : "false");
-
-  tabAdmin.classList.toggle("active", loginSelectedRole === "admin");
-  tabAdmin.setAttribute("aria-selected", loginSelectedRole === "admin" ? "true" : "false");
-
-  if (loginSelectedRole === "student") {
-    eyebrow.textContent = "ÁREA DO ALUNO MAXFIT";
-    heroTitle.innerHTML = `O próximo passo<br />é seu<span class="red">.</span>`;
-    heroSubtitle.textContent = "Acesse seus treinos, sua frequência e seu plano MaxFit.";
-    submitBtn.textContent = "Entrar como Aluno";
-    emailInput.value = "lucas@maxfit.com";
-    demoNote.textContent = "Acesso teste Aluno: lucas@maxfit.com";
-  } else if (loginSelectedRole === "instructor") {
-    eyebrow.textContent = "ÁREA DO INSTRUTOR MAXFIT";
-    heroTitle.innerHTML = `Acompanhe cada<br />evolução<span class="red">.</span>`;
-    heroSubtitle.textContent = "Consulte os alunos atuais na academia e veja o treino de cada um.";
-    submitBtn.textContent = "Entrar como Instrutor";
-    emailInput.value = "rafael@maxfit.com";
-    demoNote.textContent = "Acesso teste Instrutor: rafael@maxfit.com";
-  } else {
-    eyebrow.textContent = "GESTÃO DA ACADEMIA MAXFIT";
-    heroTitle.innerHTML = `Comando total<br />da academia<span class="red">.</span>`;
-    heroSubtitle.textContent = "Gerencie alunos, instrutores, planos e matrículas da MaxFit.";
-    submitBtn.textContent = "Entrar como Admin";
-    emailInput.value = "admin@maxfit.com";
-    demoNote.textContent = "Acesso teste Admin: admin@maxfit.com";
+const ROLE_CREDENTIALS = {
+  student: {
+    email: "lucas@maxfit.com",
+    heroTitle: "O próximo passo<br />é seu<span class=\"red\">.</span>",
+    heroSubtitle: "Acesse seus treinos, sua frequência e seu plano MaxFit.",
+    eyebrow: "ÁREA DO ALUNO MAXFIT",
+    btnText: "Entrar como Aluno",
+    note: "Acesso teste Aluno: lucas@maxfit.com"
+  },
+  instructor: {
+    email: "rafael@maxfit.com",
+    heroTitle: "Acompanhe seus<br />alunos na pista<span class=\"red\">.</span>",
+    heroSubtitle: "Consulte quem está na academia e inspecione as fichas A, B e C.",
+    eyebrow: "PAINEL DO INSTRUTOR MAXFIT",
+    btnText: "Entrar como Instrutor",
+    note: "Acesso teste Instrutor: rafael@maxfit.com"
+  },
+  admin: {
+    email: "admin@maxfit.com",
+    heroTitle: "Gestão completa<br />da academia<span class=\"red\">.</span>",
+    heroSubtitle: "Indicadores, matrículas, alunos, equipe e planos MaxFit.",
+    eyebrow: "PAINEL ADMINISTRATIVO MAXFIT",
+    btnText: "Entrar como Administrador",
+    note: "Acesso teste Admin: admin@maxfit.com"
   }
+};
+
+function setLoginRole(role) {
+  if (!ROLE_CREDENTIALS[role]) return;
+  loginSelectedRole = role;
+
+  document.querySelectorAll(".role-tab").forEach((tab) => {
+    const isActive = tab.dataset.loginRole === role;
+    tab.classList.toggle("active", isActive);
+    tab.setAttribute("aria-selected", isActive ? "true" : "false");
+  });
+
+  const conf = ROLE_CREDENTIALS[role];
+  safeSetHtml("loginHeroTitle", conf.heroTitle);
+  safeSetText("loginHeroSubtitle", conf.heroSubtitle);
+  safeSetText("loginEyebrow", conf.eyebrow);
+  safeSetText("btnLoginSubmit", conf.btnText);
+  safeSetText("loginDemoNote", conf.note);
+
+  const emailInput = $("loginEmail");
+  if (emailInput) emailInput.value = conf.email;
+  const pwdInput = $("loginPassword");
+  if (pwdInput) pwdInput.value = "12345678";
 }
 
 function getActiveStudent() {
   return (
+    appState.students.find((s) => s.id === appState.activeStudentId) ||
     appState.students.find((s) => s.id === "stu-lucas-martins") ||
     appState.students[0]
   );
 }
 
 // ==========================================================================
-// RENDERIZAÇÃO MÓDULO 01: ÁREA DO ALUNO (MAXFIT)
+// RENDERIZAÇÃO: ÁREA DO ALUNO (aluno.html)
 // ==========================================================================
 
 function renderStudentArea() {
+  if (!$("studentHomeTitle") && !$("studentSidebar")) return;
+
   const st = getActiveStudent();
   if (!st) return;
 
@@ -637,160 +693,117 @@ function renderStudentArea() {
 
   const planObj =
     appState.plans.find((p) => p.name === st.planName) || appState.plans[0];
-  const shortPlanTitle = (st.planName || "Plano Mensal")
-    .replace(/^Plano\s+/i, "")
-    .toUpperCase();
   const shortPlanLabel = (st.planName || "Plano Mensal").replace(/^Plano\s+/i, "");
   const priceFormatted = formatBRL(planObj ? planObj.price : 99.9);
   const memberCode = st.code || "00128";
 
-  document.getElementById("studentTopbarAvatar").textContent = studentInitials;
-  document.getElementById("studentSideCoachAvatar").textContent = coachInitials;
-  document.getElementById("studentSideCoachName").textContent = coachClean;
+  safeSetText("studentTopbarAvatar", studentInitials);
+  safeSetText("studentSideCoachAvatar", coachInitials);
+  safeSetText("studentSideCoachName", coachClean);
 
-  document.getElementById("studentHomeFirstName").textContent = firstName;
-  document.getElementById("studentQuickPlanName").textContent = shortPlanLabel;
-  document.getElementById("studentCoachCardAvatar").textContent = coachInitials;
-  document.getElementById("studentCoachCardName").textContent = coachClean;
+  safeSetText("studentHomeFirstName", firstName);
+  safeSetText("studentQuickPlanName", shortPlanLabel);
+  safeSetText("studentCoachCardAvatar", coachInitials);
+  safeSetText("studentCoachCardName", coachClean);
 
-  document.getElementById("workoutNoteCoachAvatar").textContent = coachInitials;
-  document.getElementById("workoutNoteCoachName").textContent = coachClean;
+  safeSetText("workoutNoteCoachAvatar", coachInitials);
+  safeSetText("workoutNoteCoachName", coachClean);
   document.querySelectorAll(".workout-coach-name").forEach((el) => {
     el.textContent = coachClean;
   });
 
-  const isInactive = st.status === "Inativo";
-  const cardPill = document.getElementById("studentCardStatusPill");
-  cardPill.textContent = isInactive ? "INATIVO" : "ATIVO";
-  cardPill.className = `pill ${isInactive ? "red-pill" : "green"}`;
+  safeSetText("studentCardMemberName", st.name);
+  safeSetText("studentCardMemberId", `MF / ${memberCode}`);
+  safeSetText("studentCardPlanTitle", shortPlanLabel.toUpperCase());
+  safeSetText("studentBillingPrice", priceFormatted);
+  safeSetText("studentProfileName", st.name);
+  safeSetText("studentProfileAvatar", studentInitials);
+  safeSetText("studentProfileCode", `#${memberCode}`);
 
-  document.getElementById("studentCardPlanTitle").textContent = shortPlanTitle;
-  document.getElementById("studentCardMemberName").textContent = st.name;
-  document.getElementById("studentCardMemberId").textContent = `MF / ${memberCode}`;
-  document.getElementById("studentBillingPrice").textContent = priceFormatted;
+  safeSetText("studentDataName", st.name);
+  safeSetText("studentDataEmail", st.email || "aluno@maxfit.com");
+  safeSetText("studentDataPhone", st.phone || "(11) 99999-1234");
+  safeSetText("studentDataCpf", st.cpf || "123.987.456-10");
+  safeSetText("studentDataPlan", st.planName || "Plano Mensal");
+  safeSetText("studentDataCoach", coachFull);
 
   document.querySelectorAll(".student-pay-plan-name").forEach((el) => {
-    el.textContent = st.planName === "Sem plano" ? "Plano Mensal" : st.planName;
+    el.textContent = st.planName || "Plano Mensal";
   });
   document.querySelectorAll(".student-pay-amount").forEach((el) => {
     el.textContent = priceFormatted;
   });
 
-  document.getElementById("studentProfileAvatar").textContent = studentInitials;
-  document.getElementById("studentProfileName").textContent = st.name;
-  const profileBadge = document.getElementById("studentProfileStatusBadge");
-  profileBadge.textContent = isInactive ? "Matrícula inativa" : "Matrícula ativa";
-  profileBadge.className = `pill ${isInactive ? "red-pill" : "green"}`;
-  document.getElementById("studentProfileCode").textContent = `#${memberCode}`;
-
-  document.getElementById("studentDataName").textContent = st.name;
-  document.getElementById("studentDataEmail").textContent = st.email;
-  document.getElementById("studentDataPhone").textContent = st.phone;
-  document.getElementById("studentDataCpf").textContent = st.cpf;
-  document.getElementById("studentDataPlan").textContent = st.planName;
-  document.getElementById("studentDataCoach").textContent = coachFull;
-
   syncWorkoutCheckboxes();
 }
 
 function syncWorkoutCheckboxes() {
-  document.querySelectorAll(".exercise-toggle").forEach((checkbox) => {
-    const isChecked = !!appState.workoutChecks[checkbox.id];
-    checkbox.checked = isChecked;
-    const exerciseCard = checkbox.closest(".exercise");
-    if (exerciseCard) {
-      exerciseCard.classList.toggle("completed", isChecked);
-    }
-  });
-
-  ["A", "B", "C"].forEach((letter) => {
-    const groupInputs = Array.from(
+  const letters = ["A", "B", "C"];
+  letters.forEach((letter) => {
+    const prefix = letter.toLowerCase();
+    const toggles = Array.from(
       document.querySelectorAll(`.exercise-toggle[data-workout="${letter}"]`)
     );
-    const total = groupInputs.length || 3;
-    const doneCount = groupInputs.filter((i) => i.checked).length;
+    let doneCount = 0;
+
+    toggles.forEach((chk) => {
+      const savedVal = !!appState.workoutChecks[chk.id];
+      chk.checked = savedVal;
+      if (savedVal) doneCount += 1;
+    });
+
+    const total = toggles.length || 3;
     const pct = Math.round((doneCount / total) * 100);
 
-    const countEl = document.getElementById(`progCount${letter}`);
-    const barEl = document.getElementById(`progBar${letter}`);
-    const msgEl = document.getElementById(`progMsg${letter}`);
+    safeSetText(`progCount${letter}`, String(doneCount));
+    const progBar = $(`progBar${letter}`);
+    if (progBar) progBar.style.width = `${pct}%`;
 
-    if (countEl) countEl.textContent = doneCount;
-    if (barEl) {
-      barEl.style.width = `${pct}%`;
-      barEl.classList.toggle("done", doneCount === total);
-    }
-    if (msgEl) {
-      msgEl.classList.toggle("visible", doneCount === total);
+    const progMsg = $(`progMsg${letter}`);
+    if (progMsg) {
+      progMsg.classList.toggle("visible", doneCount === total && total > 0);
     }
   });
-
-  const aDone =
-    appState.workoutChecks["a-ex-1"] &&
-    appState.workoutChecks["a-ex-2"] &&
-    appState.workoutChecks["a-ex-3"];
-  const weekCountEl = document.getElementById("studentWeekCount");
-  const weekSubEl = document.getElementById("studentWeekSubtext");
-  const weekMeterEl = document.getElementById("studentWeekMeter");
-
-  if (weekCountEl && weekSubEl && weekMeterEl) {
-    if (aDone) {
-      weekCountEl.innerHTML = `3<span>/ 3</span>`;
-      weekSubEl.textContent = "Meta da semana concluída! Excelente treino.";
-      weekMeterEl.style.setProperty("--fill", "100%");
-      weekMeterEl.style.background = "var(--active-green)";
-    } else {
-      weekCountEl.innerHTML = `2<span>/ 3</span>`;
-      weekSubEl.textContent = "Falta um para sua meta.";
-      weekMeterEl.style.setProperty("--fill", "66.67%");
-      weekMeterEl.style.background = "var(--red)";
-    }
-  }
 }
 
 // ==========================================================================
-// RENDERIZAÇÃO MÓDULO 02: ÁREA EXCLUSIVA DO INSTRUTOR
-// (Ver alunos atuais na academia e ver o treino de cada um)
+// RENDERIZAÇÃO: PAINEL DO INSTRUTOR (instrutor.html)
 // ==========================================================================
 
 function renderInstructorPanel() {
-  const query = (
-    document.getElementById("searchInstructorStudentsInput")?.value || ""
-  )
-    .trim()
-    .toLowerCase();
-
-  const totalAll = appState.students.length;
-  const totalActive = appState.students.filter((s) => s.status === "Ativo").length;
-  const totalInactive = appState.students.filter((s) => s.status === "Inativo").length;
-
-  document.getElementById("instSideCountStudents").textContent = totalAll;
-  document.getElementById("instKpiTotalStudents").textContent = totalAll;
-  document.getElementById("instKpiActiveStudents").textContent = totalActive;
-
-  document.getElementById("instCountAll").textContent = totalAll;
-  document.getElementById("instCountActive").textContent = totalActive;
-  document.getElementById("instCountInactive").textContent = totalInactive;
-
-  const filtered = appState.students.filter((st) => {
-    const matchesStatus =
-      instStudentFilter === "all" ? true : st.status === instStudentFilter;
-    const goalText = st.goal || "Hipertrofia (Ficha ABC)";
-    const matchesQuery =
-      !query ||
-      st.name.toLowerCase().includes(query) ||
-      st.planName.toLowerCase().includes(query) ||
-      goalText.toLowerCase().includes(query);
-    return matchesStatus && matchesQuery;
-  });
-
-  const container = document.getElementById("instructorStudentsListContainer");
+  const container = $("instructorStudentsListContainer");
   if (!container) return;
+
+  const searchInput = $("searchInstructorStudentsInput");
+  const query = searchInput ? searchInput.value.toLowerCase().trim() : "";
+
+  const allCount = appState.students.length;
+  const activeCount = appState.students.filter((s) => s.status === "Ativo").length;
+  const inactiveCount = allCount - activeCount;
+
+  safeSetText("instSideCountStudents", String(allCount));
+  safeSetText("instKpiTotalStudents", String(allCount));
+  safeSetText("instKpiActiveStudents", String(activeCount));
+  safeSetText("instCountAll", String(allCount));
+  safeSetText("instCountActive", String(activeCount));
+  safeSetText("instCountInactive", String(inactiveCount));
+
+  let filtered = appState.students.filter((st) => {
+    if (instStudentFilter === "Ativo" && st.status !== "Ativo") return false;
+    if (instStudentFilter === "Inativo" && st.status !== "Inativo") return false;
+    if (query) {
+      const matchName = st.name.toLowerCase().includes(query);
+      const matchGoal = (st.goal || "").toLowerCase().includes(query);
+      const matchPlan = (st.planName || "").toLowerCase().includes(query);
+      return matchName || matchGoal || matchPlan;
+    }
+    return true;
+  });
 
   if (filtered.length === 0) {
     container.innerHTML = `
-      <article class="item-card" style="text-align:center; padding: 1.75rem; cursor: default;">
-        <p class="card-sub">Nenhum aluno encontrado na academia para este filtro.</p>
+      <article class="item-card" style="text-align:center; padding: 2rem; cursor: default;">
+        <p class="card-sub">Nenhum aluno encontrado para o filtro pesquisado.</p>
       </article>
     `;
     return;
@@ -800,36 +813,25 @@ function renderInstructorPanel() {
     .map((st) => {
       const initials = getInitials(st.name);
       const isInactive = st.status === "Inativo";
-      const splitLetter = st.currentSplit || "A";
-      const splitInfo = WORKOUT_CATALOG[splitLetter] || WORKOUT_CATALOG.A;
-      const goalText = st.goal || "Hipertrofia & Evolução (Ficha ABC)";
+      const planName = st.planName || "Plano Mensal";
+      const goal = st.goal || "Hipertrofia & Evolução (Ficha ABC)";
+
       return `
-        <article class="item-card inst-student-card" data-inst-open-workout="${st.id}">
-          <section class="card-row-main">
-            <span class="avatar-circle ${isInactive ? "muted" : ""}" aria-hidden="true">${escapeHTML(initials)}</span>
-            <hgroup class="card-info">
-              <h3 class="card-title">${escapeHTML(st.name)}</h3>
-              <p class="card-sub">${escapeHTML(goalText)}</p>
-              <p class="card-meta">
-                <span>${escapeHTML(st.planName)} • ${escapeHTML(st.instructorName)}</span>
-              </p>
-            </hgroup>
-            <span class="status-badge ${isInactive ? "danger" : "emerald"}">${escapeHTML(st.status)}</span>
-          </section>
-          <footer class="inst-student-card-footer">
-            <span class="inst-workout-tag">
-              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                <path d="M7 5v14M3 8v8M17 5v14M21 8v8M3 12h18"></path>
-              </svg>
-              <span>Treino do dia: <strong>Treino ${escapeHTML(splitInfo.code)} (${escapeHTML(splitInfo.title)})</strong></span>
-            </span>
-            <button type="button" class="btn-view-workout" data-inst-open-workout="${st.id}">
-              <span>Ver Treino</span>
-              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.3" aria-hidden="true">
-                <path d="m9 5 7 7-7 7"></path>
-              </svg>
+        <article class="item-card instructor-student-card" data-inst-open-workout="${st.id}">
+          <span class="avatar-circle ${isInactive ? "muted" : ""}" aria-hidden="true">${escapeHTML(initials)}</span>
+          <hgroup class="card-info">
+            <h3 class="card-title">${escapeHTML(st.name)}</h3>
+            <p class="card-sub">${escapeHTML(planName)} • Ficha ${escapeHTML(st.currentSplit || "A")}</p>
+            <p class="card-meta">
+              <span>🎯 ${escapeHTML(goal)}</span>
+            </p>
+          </hgroup>
+          <section class="inst-card-actions">
+            <span class="status-badge ${isInactive ? "danger" : "emerald"}">${isInactive ? "Inativo" : "Presente"}</span>
+            <button type="button" class="btn-card-action view-btn" data-inst-open-workout="${st.id}" title="Ver Ficha de Treino">
+              Ver Treino →
             </button>
-          </footer>
+          </section>
         </article>
       `;
     })
@@ -837,76 +839,70 @@ function renderInstructorPanel() {
 }
 
 function openInstructorStudentWorkout(studentId, initialSplit = null) {
-  const st =
-    appState.students.find((s) => s.id === studentId) || appState.students[0];
-  if (!st) return;
-
-  appState.instructorSelectedStudentId = st.id;
-  instActiveSplit = initialSplit || st.currentSplit || "A";
+  appState.instructorSelectedStudentId = studentId;
+  if (initialSplit) instActiveSplit = initialSplit;
   saveState();
-
   renderInstructorWorkoutDetail();
   navigateTo("screen-instructor-workout");
 }
 
 function renderInstructorWorkoutDetail() {
+  const container = $("instWorkoutExercisesContainer");
+  if (!container) return;
+
   const st =
-    appState.students.find(
-      (s) => s.id === appState.instructorSelectedStudentId
-    ) || appState.students[0];
+    appState.students.find((s) => s.id === appState.instructorSelectedStudentId) ||
+    appState.students[0];
   if (!st) return;
 
-  const split = WORKOUT_CATALOG[instActiveSplit] || WORKOUT_CATALOG.A;
-  const goalText = st.goal || "Hipertrofia & Evolução";
-
-  document.getElementById("instWorkoutStudentName").textContent = st.name;
-  document.getElementById(
-    "instWorkoutStudentMeta"
-  ).textContent = `${st.planName} • ${goalText} • ${st.instructorName}`;
+  safeSetText("instWorkoutStudentName", st.name);
+  safeSetText(
+    "instWorkoutStudentMeta",
+    `${st.planName} • Objetivo: ${st.goal || "Hipertrofia & Força"}`
+  );
 
   document.querySelectorAll("#instWorkoutSplitTabs .filter-pill").forEach((btn) => {
-    const isCurrent = btn.dataset.splitTab === split.code;
+    const isCurrent = btn.dataset.splitTab === instActiveSplit;
     btn.classList.toggle("active", isCurrent);
     btn.setAttribute("aria-selected", isCurrent ? "true" : "false");
   });
 
-  document.getElementById(
-    "instSplitEyebrow"
-  ).textContent = `FICHA ${split.code} · ACOMPANHAMENTO DO INSTRUTOR`;
-  document.getElementById("instSplitTitle").textContent = split.title;
-  document.getElementById("instSplitDuration").textContent = split.duration;
-  document.getElementById("instSplitNote").textContent = split.note;
+  const workoutData = WORKOUT_CATALOG[instActiveSplit] || WORKOUT_CATALOG.A;
+  safeSetText("instSplitEyebrow", `FICHA ${workoutData.code} · FOCO DO DIA`);
+  safeSetText("instSplitTitle", workoutData.title);
+  safeSetText("instSplitDuration", workoutData.duration);
+  safeSetText("instSplitNote", workoutData.note);
 
-  const exercisesContainer = document.getElementById(
-    "instWorkoutExercisesContainer"
-  );
-  exercisesContainer.innerHTML = split.exercises
-    .map(
-      (ex) => `
-      <article class="panel exercise">
-        <header class="exercise-heading">
-          <span class="exercise-index">${escapeHTML(ex.index)}</span>
-          <hgroup>
-            <h2>${escapeHTML(ex.name)}</h2>
-            <p>${escapeHTML(ex.equipment)}</p>
-          </hgroup>
-        </header>
-        <dl class="exercise-data">
-          <section class="stat-pair"><dt>SÉRIES</dt><dd>${escapeHTML(ex.sets)}</dd></section>
-          <section class="stat-pair"><dt>REPETIÇÕES</dt><dd>${escapeHTML(ex.reps)}</dd></section>
-          <section class="stat-pair"><dt>CARGA</dt><dd>${escapeHTML(ex.load)}</dd></section>
-        </dl>
-        <p class="muted small" style="padding-top:0.65rem;">
-          Prescrito para <strong>${escapeHTML(st.name)}</strong> · Descanso: 60s
-        </p>
-      </article>
-    `
-    )
+  container.innerHTML = workoutData.exercises
+    .map((ex) => {
+      const isChecked = !!appState.workoutChecks[`${instActiveSplit.toLowerCase()}-ex-${parseInt(ex.index, 10)}`];
+      return `
+        <article class="panel exercise inst-exercise-card ${isChecked ? "completed-card" : ""}">
+          <header class="exercise-heading">
+            <span class="exercise-index">${ex.index}</span>
+            <hgroup>
+              <h2>${escapeHTML(ex.name)}</h2>
+              <p>${escapeHTML(ex.equipment)}</p>
+            </hgroup>
+            ${
+              isChecked
+                ? `<span class="pill green" style="margin-left:auto;">Concluído</span>`
+                : `<span class="pill amber" style="margin-left:auto;">Pendente</span>`
+            }
+          </header>
+          <dl class="exercise-data">
+            <section class="stat-pair"><dt>SÉRIES</dt><dd>${ex.sets}</dd></section>
+            <section class="stat-pair"><dt>REPETIÇÕES</dt><dd>${ex.reps}</dd></section>
+            <section class="stat-pair"><dt>CARGA</dt><dd>${ex.load}</dd></section>
+          </dl>
+        </article>
+      `;
+    })
     .join("");
 }
 
 // ==========================================================================
-// RENDERIZAÇÃO MÓDULO 03: PAINEL DO ADMIN (GESTÃO DA ACADEMIA)
+// RENDERIZAÇÃO: PAINEL ADMIN (admin.html)
 // ==========================================================================
 
 function renderAll() {
@@ -922,8 +918,9 @@ function renderAll() {
   renderInstructorWorkoutDetail();
 }
 
-// 1. Dashboard Admin
 function renderDashboard() {
+  if (!$("kpiActiveStudents")) return;
+
   const activeStudentsCount =
     appState.baseMetrics.activeStudentsBase +
     appState.students.filter((s) => s.status === "Ativo").length;
@@ -934,44 +931,46 @@ function renderDashboard() {
 
   const activeRevenueDelta = appState.enrollments
     .filter((e) => e.status === "Ativa")
-    .reduce((acc, cur) => acc + (Number(cur.monthlyValue) || 99.9), 0);
-  const totalRevenue = Math.round(
-    appState.baseMetrics.monthlyRevenueBase + activeRevenueDelta * 5.4
+    .reduce((acc, curr) => acc + (curr.monthlyValue || 99.9), 0);
+  const totalRevenue =
+    appState.baseMetrics.monthlyRevenueBase + activeRevenueDelta;
+
+  safeSetText("kpiActiveStudents", String(activeStudentsCount));
+  safeSetText("kpiInstructors", String(instructorsCount));
+  safeSetText("kpiMonthlyEnrollments", String(enrollmentsCount));
+  safeSetText("kpiMonthlyRevenue", formatBRL(totalRevenue));
+
+  safeSetText("sideCountStudents", String(appState.students.length));
+  safeSetText("sideCountInstructors", String(appState.instructors.length));
+  safeSetText("sideCountPlans", String(appState.plans.length));
+  safeSetText("sideCountEnrollments", String(appState.enrollments.length));
+
+  const now = new Date();
+  const options = { weekday: "long", day: "2-digit", month: "long" };
+  const dateFormatted = now.toLocaleDateString("pt-BR", options);
+  safeSetText(
+    "dashboardDateSubtitle",
+    dateFormatted.charAt(0).toUpperCase() + dateFormatted.slice(1)
   );
 
-  document.getElementById("kpiActiveStudents").textContent = activeStudentsCount;
-  document.getElementById("kpiInstructors").textContent = instructorsCount;
-  document.getElementById("kpiMonthlyEnrollments").textContent = enrollmentsCount;
-  document.getElementById("kpiMonthlyRevenue").textContent =
-    "R$ " + totalRevenue.toLocaleString("pt-BR");
+  const recentContainer = $("dashboardRecentList");
+  if (!recentContainer) return;
 
-  document.getElementById("sideCountStudents").textContent = activeStudentsCount;
-  document.getElementById("sideCountInstructors").textContent = instructorsCount;
-  document.getElementById("sideCountPlans").textContent = appState.plans.length;
-  document.getElementById("sideCountEnrollments").textContent = enrollmentsCount;
-
-  const recentContainer = document.getElementById("dashboardRecentList");
-  const recentItems = appState.enrollments
-    .filter((e) => e.showInRecent)
-    .concat(appState.enrollments.filter((e) => !e.showInRecent))
-    .slice(0, 4);
-
-  recentContainer.innerHTML = recentItems
+  const recentList = appState.enrollments.slice(0, 4);
+  recentContainer.innerHTML = recentList
     .map((enr) => {
-      const initials = getInitials(enr.studentName);
-      const badgeClass =
-        enr.status === "Ativa"
-          ? "emerald"
-          : enr.status === "Pendente"
-          ? "amber"
-          : "danger";
+      const isPend = enr.status === "Pendente";
+      const isCanc = enr.status === "Cancelada";
+      const badgeClass = isCanc ? "danger" : isPend ? "amber" : "emerald";
+
       return `
         <article class="item-card card-row-main" data-open-enrollment="${enr.id}">
-          <span class="avatar-circle" aria-hidden="true">${escapeHTML(initials)}</span>
+          <span class="avatar-circle" aria-hidden="true">${escapeHTML(getInitials(enr.studentName))}</span>
           <hgroup class="card-info">
             <h3 class="card-title">${escapeHTML(enr.studentName)}</h3>
-            <p class="card-sub">${escapeHTML(enr.planName)} • ${escapeHTML(enr.instructorName)}</p>
+            <p class="card-sub">${escapeHTML(enr.planName)} • Início: ${escapeHTML(enr.startDate)}</p>
           </hgroup>
+          <span class="card-amount">${formatBRL(enr.monthlyValue || 99.9)}/mês</span>
           <span class="status-badge ${badgeClass}">${escapeHTML(enr.status)}</span>
         </article>
       `;
@@ -979,37 +978,34 @@ function renderDashboard() {
     .join("");
 }
 
-// 2. Alunos (screen-students)
 function renderStudents() {
-  const query = (document.getElementById("searchStudentsInput")?.value || "")
-    .trim()
-    .toLowerCase();
+  const container = $("studentsListContainer");
+  const tableBody = $("studentsTableBody");
+  if (!container || !tableBody) return;
 
-  const totalAll = appState.students.length;
-  const totalActive = appState.students.filter((s) => s.status === "Ativo").length;
-  const totalInactive = appState.students.filter((s) => s.status === "Inativo").length;
+  const searchInput = $("searchStudentsInput");
+  const query = searchInput ? searchInput.value.toLowerCase().trim() : "";
 
-  const elAll = document.getElementById("countFilterAll");
-  const elAct = document.getElementById("countFilterActive");
-  const elInact = document.getElementById("countFilterInactive");
-  if (elAll) elAll.textContent = totalAll;
-  if (elAct) elAct.textContent = totalActive;
-  if (elInact) elInact.textContent = totalInactive;
+  const allCount = appState.students.length;
+  const activeCount = appState.students.filter((s) => s.status === "Ativo").length;
+  const inactiveCount = allCount - activeCount;
 
-  const filtered = appState.students.filter((st) => {
-    const matchesStatus =
-      studentFilter === "all" ? true : st.status === studentFilter;
-    const matchesQuery =
-      !query ||
-      st.name.toLowerCase().includes(query) ||
-      st.planName.toLowerCase().includes(query) ||
-      st.phone.toLowerCase().includes(query) ||
-      st.instructorName.toLowerCase().includes(query);
-    return matchesStatus && matchesQuery;
+  safeSetText("countFilterAll", String(allCount));
+  safeSetText("countFilterActive", String(activeCount));
+  safeSetText("countFilterInactive", String(inactiveCount));
+
+  let filtered = appState.students.filter((st) => {
+    if (studentFilter === "Ativo" && st.status !== "Ativo") return false;
+    if (studentFilter === "Inativo" && st.status !== "Inativo") return false;
+    if (query) {
+      const matchName = st.name.toLowerCase().includes(query);
+      const matchPhone = st.phone.toLowerCase().includes(query);
+      const matchPlan = st.planName.toLowerCase().includes(query);
+      const matchInst = st.instructorName.toLowerCase().includes(query);
+      return matchName || matchPhone || matchPlan || matchInst;
+    }
+    return true;
   });
-
-  const container = document.getElementById("studentsListContainer");
-  const tableBody = document.getElementById("studentsTableBody");
 
   if (filtered.length === 0) {
     container.innerHTML = `
@@ -1064,22 +1060,22 @@ function renderStudents() {
     .join("");
 }
 
-// 3. Instrutores (screen-instructors)
 function renderInstructors() {
-  const query = (document.getElementById("searchInstructorsInput")?.value || "")
-    .trim()
-    .toLowerCase();
+  const container = $("instructorsListContainer");
+  if (!container) return;
 
-  const filtered = appState.instructors.filter((ins) => {
+  const searchInput = $("searchInstructorsInput");
+  const query = searchInput ? searchInput.value.toLowerCase().trim() : "";
+
+  const filtered = appState.instructors.filter((inst) => {
+    if (!query) return true;
     return (
-      !query ||
-      ins.name.toLowerCase().includes(query) ||
-      ins.cref.toLowerCase().includes(query) ||
-      ins.specialty.toLowerCase().includes(query)
+      inst.name.toLowerCase().includes(query) ||
+      inst.specialty.toLowerCase().includes(query) ||
+      inst.cref.toLowerCase().includes(query)
     );
   });
 
-  const container = document.getElementById("instructorsListContainer");
   if (filtered.length === 0) {
     container.innerHTML = `
       <article class="item-card" style="text-align:center; padding: 1.75rem; cursor: default;">
@@ -1090,18 +1086,44 @@ function renderInstructors() {
   }
 
   container.innerHTML = filtered
-    .map((ins) => {
-      const initials = getInitials(ins.name);
+    .map((inst) => {
+      const initials = getInitials(inst.name);
       return `
-        <article class="item-card card-row-main" data-open-instructor="${ins.id}">
+        <article class="item-card card-row-main" data-open-instructor="${inst.id}">
           <span class="avatar-circle" aria-hidden="true">${escapeHTML(initials)}</span>
           <hgroup class="card-info">
-            <h3 class="card-title">${escapeHTML(ins.name)}</h3>
-            <p class="card-sub">${escapeHTML(ins.cref)}</p>
-            <p class="instructor-tags-row">
-              <span class="specialty-badge">${escapeHTML(ins.specialty)}</span>
-              <small class="student-count-meta">• ${ins.studentsCount} alunos</small>
-            </p>
+            <h3 class="card-title">${escapeHTML(inst.name)}</h3>
+            <p class="card-sub">${escapeHTML(inst.cref)}</p>
+            <p class="card-meta"><span>${escapeHTML(inst.specialty)}</span></p>
+          </hgroup>
+          <span class="card-amount">${inst.studentsCount || 0} alunos</span>
+        </article>
+      `;
+    })
+    .join("");
+}
+
+function renderPlans() {
+  const container = $("plansListContainer");
+  if (!container) return;
+
+  container.innerHTML = appState.plans
+    .map((plan) => {
+      const monthlyPrice = plan.price / (plan.months || 1);
+      return `
+        <article class="item-card card-row-main ${plan.featured ? "card-featured" : ""}" data-open-plan="${plan.id}">
+          <span class="plan-icon-square" aria-hidden="true">★</span>
+          <hgroup class="card-info">
+            <h3 class="card-title">
+              ${escapeHTML(plan.name)}
+              ${plan.featured ? `<span class="pill-featured">MAIS POPULAR</span>` : ""}
+            </h3>
+            <p class="card-sub">${plan.months} ${plan.months === 1 ? "mês" : "meses"} de vigência</p>
+            <p class="card-meta"><span>${plan.studentsCount || 0} alunos ativos</span></p>
+          </hgroup>
+          <hgroup class="card-price-group">
+            <strong class="card-amount">${formatBRL(plan.price)}</strong>
+            <small class="card-subprice">${formatBRL(monthlyPrice)}/mês</small>
           </hgroup>
         </article>
       `;
@@ -1109,69 +1131,29 @@ function renderInstructors() {
     .join("");
 }
 
-// 4. Planos (screen-plans)
-function renderPlans() {
-  const container = document.getElementById("plansListContainer");
-  container.innerHTML = appState.plans
-    .map((plan) => {
-      const durationText =
-        plan.months === 1 ? "Duração: 1 mês" : `Duração: ${plan.months} meses`;
-      const perks =
-        plan.perks && plan.perks.length
-          ? plan.perks
-          : ["Musculação Livre", "Treino no App MaxFit"];
-      return `
-        <article class="item-card plan-card ${plan.featured ? "featured" : ""}" data-open-plan="${plan.id}">
-          <header class="plan-card-top">
-            <hgroup class="card-info">
-              <h3 class="card-title">${escapeHTML(plan.name)}</h3>
-              <p class="card-sub">${durationText}</p>
-            </hgroup>
-            <section class="plan-price-col">
-              <strong class="plan-price-val">${formatBRL(plan.price)}</strong>
-              <small class="plan-students-count">
-                <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                  <circle cx="9" cy="7" r="4"></circle>
-                </svg>
-                ${plan.studentsCount} alunos
-              </small>
-            </section>
-          </header>
-          <footer class="plan-perks-row">
-            ${perks.map((pk) => `<span class="plan-perk-tag">✓ ${escapeHTML(pk)}</span>`).join("")}
-          </footer>
-        </article>
-      `;
-    })
-    .join("");
-}
-
-// 5. Matrículas (screen-enrollments)
 function renderEnrollments() {
-  const countAll = appState.enrollments.length;
-  const countAct = appState.enrollments.filter((e) => e.status === "Ativa").length;
-  const countPend = appState.enrollments.filter((e) => e.status === "Pendente").length;
-  const countCanc = appState.enrollments.filter((e) => e.status === "Cancelada").length;
+  const container = $("enrollmentsListContainer");
+  if (!container) return;
 
-  const elAll = document.getElementById("countEnrAll");
-  const elAct = document.getElementById("countEnrActive");
-  const elPend = document.getElementById("countEnrPending");
-  const elCanc = document.getElementById("countEnrCanceled");
-  if (elAll) elAll.textContent = countAll;
-  if (elAct) elAct.textContent = countAct;
-  if (elPend) elPend.textContent = countPend;
-  if (elCanc) elCanc.textContent = countCanc;
+  const allCount = appState.enrollments.length;
+  const activeCount = appState.enrollments.filter((e) => e.status === "Ativa").length;
+  const pendCount = appState.enrollments.filter((e) => e.status === "Pendente").length;
+  const cancCount = appState.enrollments.filter((e) => e.status === "Cancelada").length;
 
-  const filtered = appState.enrollments.filter((enr) => {
-    return enrollmentFilter === "all" ? true : enr.status === enrollmentFilter;
+  safeSetText("countEnrAll", String(allCount));
+  safeSetText("countEnrActive", String(activeCount));
+  safeSetText("countEnrPending", String(pendCount));
+  safeSetText("countEnrCanceled", String(cancCount));
+
+  const filtered = appState.enrollments.filter((e) => {
+    if (enrollmentFilter === "all") return true;
+    return e.status === enrollmentFilter;
   });
 
-  const container = document.getElementById("enrollmentsListContainer");
   if (filtered.length === 0) {
     container.innerHTML = `
       <article class="item-card" style="text-align:center; padding: 1.75rem; cursor: default;">
-        <p class="card-sub">Nenhuma matrícula encontrada neste status.</p>
+        <p class="card-sub">Nenhuma matrícula encontrada para o filtro selecionado.</p>
       </article>
     `;
     return;
@@ -1179,143 +1161,116 @@ function renderEnrollments() {
 
   container.innerHTML = filtered
     .map((enr) => {
-      const badgeClass =
-        enr.status === "Ativa"
-          ? "emerald"
-          : enr.status === "Pendente"
-          ? "amber"
-          : "danger";
-      const progressWidth =
-        enr.status === "Ativa" ? "75%" : enr.status === "Pendente" ? "40%" : "100%";
+      const initials = getInitials(enr.studentName);
+      const isPend = enr.status === "Pendente";
+      const isCanc = enr.status === "Cancelada";
+      const badgeClass = isCanc ? "danger" : isPend ? "amber" : "emerald";
+
       return `
-        <article class="item-card" data-open-enrollment="${enr.id}">
-          <header class="enrollment-card-top">
-            <hgroup class="card-info">
-              <h3 class="card-title">${escapeHTML(enr.studentName)}</h3>
-              <p class="card-sub">${escapeHTML(enr.planName)} • ${escapeHTML(enr.instructorName)}</p>
-            </hgroup>
-            <span class="status-badge ${badgeClass}">${escapeHTML(enr.status)}</span>
-          </header>
-          <footer class="enrollment-dates-row">
-            <p class="date-col">
-              <span>INÍCIO</span>
-              <strong>${escapeHTML(enr.startDate)}</strong>
+        <article class="item-card card-row-main" data-open-enrollment="${enr.id}">
+          <span class="avatar-circle" aria-hidden="true">${escapeHTML(initials)}</span>
+          <hgroup class="card-info">
+            <h3 class="card-title">${escapeHTML(enr.studentName)}</h3>
+            <p class="card-sub">${escapeHTML(enr.planName)} • ${escapeHTML(enr.instructorName)}</p>
+            <p class="card-meta">
+              <span>Vigência: ${escapeHTML(enr.startDate)} até ${escapeHTML(enr.endDate)}</span>
             </p>
-            <p class="date-col right">
-              <span>TÉRMINO</span>
-              <strong>${escapeHTML(enr.endDate)}</strong>
-            </p>
-          </footer>
-          <span class="contract-progress-track">
-            <i class="contract-progress-fill ${badgeClass}" style="width: ${progressWidth}"></i>
-          </span>
+          </hgroup>
+          <span class="card-amount">${formatBRL(enr.monthlyValue || 99.9)}/mês</span>
+          <span class="status-badge ${badgeClass}">${escapeHTML(enr.status)}</span>
         </article>
       `;
     })
     .join("");
 }
 
-// 6. Popula Selects nos Formulários
 function populateFormSelects() {
-  const studentPlanSelect = document.getElementById("studentPlan");
-  const studentInstructorSelect = document.getElementById("studentInstructor");
-  const enrollStudentSelect = document.getElementById("enrollStudentSelect");
-  const enrollPlanSelect = document.getElementById("enrollPlanSelect");
-  const enrollInstructorSelect = document.getElementById("enrollInstructorSelect");
+  const studentPlanSel = $("studentPlan");
+  const studentInstSel = $("studentInstructor");
+  const enrollStudentSel = $("enrollStudentSelect");
+  const enrollPlanSel = $("enrollPlanSelect");
+  const enrollInstSel = $("enrollInstructorSelect");
 
-  const currentStuPlan = studentPlanSelect.value || "Plano Trimestral";
-  const currentStuInst = studentInstructorSelect.value || "Prof. Rafael Martins";
-  const currentEnrStu = enrollStudentSelect.value || "Lucas Martins";
-  const currentEnrPlan = enrollPlanSelect.value || "Plano Mensal";
-  const currentEnrInst = enrollInstructorSelect.value || "Prof. Rafael Martins";
+  if (studentPlanSel) {
+    studentPlanSel.innerHTML = `
+      <option value="Sem plano">Sem plano cadastrado</option>
+      ${appState.plans
+        .map((p) => `<option value="${escapeHTML(p.name)}">${escapeHTML(p.name)} (${formatBRL(p.price)})</option>`)
+        .join("")}
+    `;
+  }
 
-  studentPlanSelect.innerHTML = appState.plans
-    .map((p) => `<option value="${escapeHTML(p.name)}">${escapeHTML(p.name)}</option>`)
-    .join("");
-  studentPlanSelect.value = appState.plans.some((p) => p.name === currentStuPlan)
-    ? currentStuPlan
-    : appState.plans[0]?.name || "";
+  if (studentInstSel) {
+    studentInstSel.innerHTML = `
+      ${appState.instructors
+        .map((i) => `<option value="${escapeHTML(i.name)}">${escapeHTML(i.fullSelectLabel || i.name)}</option>`)
+        .join("")}
+    `;
+  }
 
-  studentInstructorSelect.innerHTML = appState.instructors
-    .map(
-      (i) =>
-        `<option value="${escapeHTML(i.name)}">${escapeHTML(
-          i.fullSelectLabel || `${i.name} (${i.specialty})`
-        )}</option>`
-    )
-    .join("");
-  studentInstructorSelect.value = appState.instructors.some((i) => i.name === currentStuInst)
-    ? currentStuInst
-    : appState.instructors[0]?.name || "";
+  if (enrollStudentSel) {
+    enrollStudentSel.innerHTML = `
+      ${appState.students
+        .map((s) => `<option value="${escapeHTML(s.name)}">${escapeHTML(s.name)} (#${s.code || "MF"})</option>`)
+        .join("")}
+    `;
+  }
 
-  enrollStudentSelect.innerHTML = appState.students
-    .map((s) => `<option value="${escapeHTML(s.name)}">${escapeHTML(s.name)}</option>`)
-    .join("");
-  enrollStudentSelect.value = appState.students.some((s) => s.name === currentEnrStu)
-    ? currentEnrStu
-    : appState.students[0]?.name || "";
+  if (enrollPlanSel) {
+    enrollPlanSel.innerHTML = `
+      ${appState.plans
+        .map((p) => `<option value="${escapeHTML(p.name)}">${escapeHTML(p.name)} — ${p.months}m por ${formatBRL(p.price)}</option>`)
+        .join("")}
+    `;
+  }
 
-  enrollPlanSelect.innerHTML = appState.plans
-    .map((p) => `<option value="${escapeHTML(p.name)}">${escapeHTML(p.name)}</option>`)
-    .join("");
-  enrollPlanSelect.value = appState.plans.some((p) => p.name === currentEnrPlan)
-    ? currentEnrPlan
-    : appState.plans[0]?.name || "";
-
-  enrollInstructorSelect.innerHTML = appState.instructors
-    .map(
-      (i) =>
-        `<option value="${escapeHTML(i.name)}">${escapeHTML(
-          i.shortSelectLabel || `${cleanCoachName(i.name)} (${i.specialty})`
-        )}</option>`
-    )
-    .join("");
-  enrollInstructorSelect.value = appState.instructors.some((i) => i.name === currentEnrInst)
-    ? currentEnrInst
-    : appState.instructors[0]?.name || "";
+  if (enrollInstSel) {
+    enrollInstSel.innerHTML = `
+      ${appState.instructors
+        .map((i) => `<option value="${escapeHTML(i.name)}">${escapeHTML(i.fullSelectLabel || i.name)}</option>`)
+        .join("")}
+    `;
+  }
 }
 
 function updateEnrollmentAutomaticFields() {
-  const planName = document.getElementById("enrollPlanSelect")?.value;
-  const startDate = document.getElementById("enrollStartDate")?.value || "06/11/2026";
-  const planObj =
-    appState.plans.find((p) => p.name === planName) || appState.plans[0];
+  const planSelect = $("enrollPlanSelect");
+  const startDateInput = $("enrollStartDate");
+  const endDateInput = $("enrollEndDate");
+  const estOutput = $("enrollEstimatedPrice");
+  if (!planSelect || !startDateInput || !endDateInput || !estOutput) return;
 
-  if (!planObj) return;
+  const planObj = appState.plans.find((p) => p.name === planSelect.value) || appState.plans[0];
+  const months = planObj ? planObj.months : 1;
+  const price = planObj ? planObj.price : 99.9;
+  const monthly = price / months;
 
-  const endDate = addMonthsToDateBR(startDate, planObj.months);
-  document.getElementById("enrollEndDate").value = endDate;
-
-  const monthlyEq = planObj.price / planObj.months;
-  const priceLabel =
-    planObj.months === 1
-      ? `${formatBRL(planObj.price)} / mês`
-      : `${formatBRL(planObj.price)} (${formatBRL(monthlyEq)}/mês)`;
-
-  document.getElementById("enrollEstimatedPrice").textContent = priceLabel;
+  const currentStart = startDateInput.value.trim() || "06/11/2026";
+  endDateInput.value = addMonthsToDateBR(currentStart, months);
+  estOutput.textContent = `${formatBRL(monthly)} / mês`;
 }
 
 // ==========================================================================
-// CONTROLE DOS ELEMENTOS <dialog> NATIVOS DO HTML5
+// CONTROLE DE MODAIS (<dialog> NATIVO)
 // ==========================================================================
 
 function openModal(modalId) {
-  const dlg = document.getElementById(modalId);
-  if (dlg && typeof dlg.showModal === "function" && !dlg.open) {
-    dlg.showModal();
+  const modal = $(modalId);
+  if (modal && typeof modal.showModal === "function") {
+    modal.showModal();
   }
 }
 
 function closeModal(modalId) {
-  const dlg = document.getElementById(modalId);
-  if (dlg && dlg.open) {
-    dlg.close();
+  const modal = $(modalId);
+  if (modal && typeof modal.close === "function") {
+    modal.close();
   }
 }
 
 function confirmDelete(title, message, onConfirm) {
-  document.getElementById("confirmDeleteTitle").textContent = title;
-  document.getElementById("confirmDeleteText").textContent = message;
+  safeSetText("confirmDeleteTitle", title);
+  safeSetText("confirmDeleteText", message);
   pendingDeleteCallback = onConfirm;
   openModal("modalConfirmDelete");
 }
@@ -1324,297 +1279,405 @@ function openStudentDetails(studentId) {
   const st = appState.students.find((s) => s.id === studentId);
   if (!st) return;
 
-  document.getElementById("detailsSheetTitle").textContent = st.name;
-  document.getElementById("detailsSheetBody").innerHTML = `
+  safeSetText("detailsSheetTitle", st.name);
+  safeSetHtml(
+    "detailsSheetBody",
+    `
     <section class="detail-row"><dt>Status</dt><dd>${escapeHTML(st.status)}</dd></section>
     <section class="detail-row"><dt>CPF</dt><dd>${escapeHTML(st.cpf)}</dd></section>
     <section class="detail-row"><dt>Telefone</dt><dd>${escapeHTML(st.phone)}</dd></section>
     <section class="detail-row"><dt>E-mail</dt><dd>${escapeHTML(st.email)}</dd></section>
     <section class="detail-row"><dt>Plano Contratado</dt><dd>${escapeHTML(st.planName)}</dd></section>
     <section class="detail-row"><dt>Professor Responsável</dt><dd>${escapeHTML(st.instructorName)}</dd></section>
-  `;
+    `
+  );
 
-  document.getElementById("detailsSheetActions").innerHTML = `
+  safeSetHtml(
+    "detailsSheetActions",
+    `
+    <button type="button" class="btn-primary" id="sheetBtnViewStudent" style="grid-column: 1 / -1;">👁️ Ver Visão do Aluno</button>
     <button type="button" class="btn-secondary" id="sheetBtnEditStudent">Editar</button>
     <button type="button" class="btn-primary" id="sheetBtnEnrollStudent">Nova Matrícula</button>
     <button type="button" class="btn-danger" id="sheetBtnDeleteStudent">Excluir</button>
-  `;
+    `
+  );
 
   openModal("modalDetailsSheet");
 
-  document.getElementById("sheetBtnEditStudent").onclick = () => {
-    closeModal("modalDetailsSheet");
-    startEditStudent(st.id);
-  };
+  const viewBtn = $("sheetBtnViewStudent");
+  if (viewBtn) {
+    viewBtn.onclick = () => {
+      closeModal("modalDetailsSheet");
+      appState.activeStudentId = st.id;
+      saveState();
+      window.location.href = "aluno.html";
+    };
+  }
 
-  document.getElementById("sheetBtnEnrollStudent").onclick = () => {
-    closeModal("modalDetailsSheet");
-    resetEnrollmentFormDefaults();
-    document.getElementById("enrollStudentSelect").value = st.name;
-    if (st.planName && st.planName !== "Sem plano") {
-      document.getElementById("enrollPlanSelect").value = st.planName;
-    }
-    if (st.instructorName) {
-      document.getElementById("enrollInstructorSelect").value = st.instructorName;
-    }
-    updateEnrollmentAutomaticFields();
-    navigateTo("screen-new-enrollment");
-  };
+  const editBtn = $("sheetBtnEditStudent");
+  if (editBtn) {
+    editBtn.onclick = () => {
+      closeModal("modalDetailsSheet");
+      startEditStudent(st.id);
+    };
+  }
 
-  document.getElementById("sheetBtnDeleteStudent").onclick = () => {
-    closeModal("modalDetailsSheet");
-    confirmDelete(
-      "Excluir Aluno",
-      `Deseja realmente remover o aluno "${st.name}" do sistema MaxFit?`,
-      () => {
-        appState.students = appState.students.filter((x) => x.id !== st.id);
-        saveState();
-        renderAll();
-        showToast("Aluno excluído com sucesso.");
+  const enrBtn = $("sheetBtnEnrollStudent");
+  if (enrBtn) {
+    enrBtn.onclick = () => {
+      closeModal("modalDetailsSheet");
+      resetEnrollmentFormDefaults();
+      const selStu = $("enrollStudentSelect");
+      if (selStu) selStu.value = st.name;
+      const selPlan = $("enrollPlanSelect");
+      if (selPlan && st.planName && st.planName !== "Sem plano") {
+        selPlan.value = st.planName;
       }
-    );
-  };
+      const selInst = $("enrollInstructorSelect");
+      if (selInst && st.instructorName) {
+        selInst.value = st.instructorName;
+      }
+      updateEnrollmentAutomaticFields();
+      navigateTo("screen-new-enrollment");
+    };
+  }
+
+  const delBtn = $("sheetBtnDeleteStudent");
+  if (delBtn) {
+    delBtn.onclick = () => {
+      closeModal("modalDetailsSheet");
+      confirmDelete(
+        "Excluir Aluno",
+        `Deseja realmente remover o aluno "${st.name}" do sistema MaxFit?`,
+        () => {
+          appState.students = appState.students.filter((x) => x.id !== st.id);
+          saveState();
+          renderAll();
+          showToast("Aluno excluído com sucesso.");
+        }
+      );
+    };
+  }
 }
 
 function openInstructorDetails(instId) {
   const ins = appState.instructors.find((i) => i.id === instId);
   if (!ins) return;
 
-  document.getElementById("detailsSheetTitle").textContent = ins.name;
-  document.getElementById("detailsSheetBody").innerHTML = `
-    <section class="detail-row"><dt>Registro CREF</dt><dd>${escapeHTML(ins.cref)}</dd></section>
+  safeSetText("detailsSheetTitle", ins.name);
+  safeSetHtml(
+    "detailsSheetBody",
+    `
+    <section class="detail-row"><dt>Registro Profissional</dt><dd>${escapeHTML(ins.cref)}</dd></section>
     <section class="detail-row"><dt>Especialidade</dt><dd>${escapeHTML(ins.specialty)}</dd></section>
-    <section class="detail-row"><dt>Alunos Vinculados</dt><dd>${ins.studentsCount} alunos</dd></section>
-  `;
+    <section class="detail-row"><dt>Alunos Vinculados</dt><dd>${ins.studentsCount || 0} alunos ativos</dd></section>
+    `
+  );
 
-  document.getElementById("detailsSheetActions").innerHTML = `
+  safeSetHtml(
+    "detailsSheetActions",
+    `
     <button type="button" class="btn-secondary" id="sheetBtnEditInst">Editar</button>
     <button type="button" class="btn-danger" id="sheetBtnDeleteInst">Excluir</button>
-  `;
+    `
+  );
 
   openModal("modalDetailsSheet");
 
-  document.getElementById("sheetBtnEditInst").onclick = () => {
-    closeModal("modalDetailsSheet");
-    openInstructorModal(ins);
-  };
+  const editBtn = $("sheetBtnEditInst");
+  if (editBtn) {
+    editBtn.onclick = () => {
+      closeModal("modalDetailsSheet");
+      openInstructorModal(ins);
+    };
+  }
 
-  document.getElementById("sheetBtnDeleteInst").onclick = () => {
-    closeModal("modalDetailsSheet");
-    confirmDelete(
-      "Excluir Instrutor",
-      `Deseja remover "${ins.name}" do corpo técnico MaxFit?`,
-      () => {
-        appState.instructors = appState.instructors.filter((x) => x.id !== ins.id);
-        saveState();
-        renderAll();
-        showToast("Instrutor removido com sucesso.");
-      }
-    );
-  };
+  const delBtn = $("sheetBtnDeleteInst");
+  if (delBtn) {
+    delBtn.onclick = () => {
+      closeModal("modalDetailsSheet");
+      confirmDelete(
+        "Excluir Instrutor",
+        `Deseja remover "${ins.name}" da equipe técnica?`,
+        () => {
+          appState.instructors = appState.instructors.filter((x) => x.id !== ins.id);
+          saveState();
+          renderAll();
+          showToast("Instrutor removido com sucesso.");
+        }
+      );
+    };
+  }
 }
 
 function openPlanDetails(planId) {
   const plan = appState.plans.find((p) => p.id === planId);
   if (!plan) return;
 
-  document.getElementById("detailsSheetTitle").textContent = plan.name;
-  document.getElementById("detailsSheetBody").innerHTML = `
-    <section class="detail-row"><dt>Duração</dt><dd>${plan.months} ${plan.months === 1 ? "mês" : "meses"}</dd></section>
-    <section class="detail-row"><dt>Valor do Pacote</dt><dd>${formatBRL(plan.price)}</dd></section>
-    <section class="detail-row"><dt>Alunos Ativos no Plano</dt><dd>${plan.studentsCount} alunos</dd></section>
-  `;
+  safeSetText("detailsSheetTitle", plan.name);
+  safeSetHtml(
+    "detailsSheetBody",
+    `
+    <section class="detail-row"><dt>Duração</dt><dd>${plan.months} meses</dd></section>
+    <section class="detail-row"><dt>Valor Total</dt><dd>${formatBRL(plan.price)}</dd></section>
+    <section class="detail-row"><dt>Mensalidade Estimada</dt><dd>${formatBRL(plan.price / plan.months)}/mês</dd></section>
+    <section class="detail-row"><dt>Alunos Matriculados</dt><dd>${plan.studentsCount || 0} alunos</dd></section>
+    <section class="detail-row"><dt>Destaque no Catálogo</dt><dd>${plan.featured ? "Sim (Selo Popular)" : "Não"}</dd></section>
+    `
+  );
 
-  document.getElementById("detailsSheetActions").innerHTML = `
+  safeSetHtml(
+    "detailsSheetActions",
+    `
     <button type="button" class="btn-secondary" id="sheetBtnEditPlan">Editar</button>
-    <button type="button" class="btn-primary" id="sheetBtnUsePlan">Matricular</button>
+    <button type="button" class="btn-primary" id="sheetBtnEnrollInPlan">Matricular Aluno</button>
     <button type="button" class="btn-danger" id="sheetBtnDeletePlan">Excluir</button>
-  `;
+    `
+  );
 
   openModal("modalDetailsSheet");
 
-  document.getElementById("sheetBtnEditPlan").onclick = () => {
-    closeModal("modalDetailsSheet");
-    openPlanModal(plan);
-  };
+  const editBtn = $("sheetBtnEditPlan");
+  if (editBtn) {
+    editBtn.onclick = () => {
+      closeModal("modalDetailsSheet");
+      openPlanModal(plan);
+    };
+  }
 
-  document.getElementById("sheetBtnUsePlan").onclick = () => {
-    closeModal("modalDetailsSheet");
-    resetEnrollmentFormDefaults();
-    document.getElementById("enrollPlanSelect").value = plan.name;
-    updateEnrollmentAutomaticFields();
-    navigateTo("screen-new-enrollment");
-  };
+  const enrollBtn = $("sheetBtnEnrollInPlan");
+  if (enrollBtn) {
+    enrollBtn.onclick = () => {
+      closeModal("modalDetailsSheet");
+      resetEnrollmentFormDefaults();
+      const selPlan = $("enrollPlanSelect");
+      if (selPlan) selPlan.value = plan.name;
+      updateEnrollmentAutomaticFields();
+      navigateTo("screen-new-enrollment");
+    };
+  }
 
-  document.getElementById("sheetBtnDeletePlan").onclick = () => {
-    closeModal("modalDetailsSheet");
-    confirmDelete(
-      "Excluir Plano",
-      `Deseja excluir o "${plan.name}" da MaxFit?`,
-      () => {
-        appState.plans = appState.plans.filter((x) => x.id !== plan.id);
-        saveState();
-        renderAll();
-        showToast("Plano excluído com sucesso.");
-      }
-    );
-  };
+  const delBtn = $("sheetBtnDeletePlan");
+  if (delBtn) {
+    delBtn.onclick = () => {
+      closeModal("modalDetailsSheet");
+      confirmDelete(
+        "Excluir Plano",
+        `Deseja remover o "${plan.name}" do catálogo da academia?`,
+        () => {
+          appState.plans = appState.plans.filter((x) => x.id !== plan.id);
+          saveState();
+          renderAll();
+          showToast("Plano removido com sucesso.");
+        }
+      );
+    };
+  }
 }
 
 function openEnrollmentDetails(enrId) {
   const enr = appState.enrollments.find((e) => e.id === enrId);
   if (!enr) return;
 
-  document.getElementById("detailsSheetTitle").textContent = `Matrícula • ${enr.studentName}`;
-  document.getElementById("detailsSheetBody").innerHTML = `
-    <section class="detail-row"><dt>Aluno(a)</dt><dd>${escapeHTML(enr.studentName)}</dd></section>
+  safeSetText("detailsSheetTitle", `Matrícula: ${enr.studentName}`);
+  safeSetHtml(
+    "detailsSheetBody",
+    `
+    <section class="detail-row"><dt>Status</dt><dd>${escapeHTML(enr.status)}</dd></section>
     <section class="detail-row"><dt>Plano Contratado</dt><dd>${escapeHTML(enr.planName)}</dd></section>
     <section class="detail-row"><dt>Instrutor Responsável</dt><dd>${escapeHTML(enr.instructorName)}</dd></section>
     <section class="detail-row"><dt>Data de Início</dt><dd>${escapeHTML(enr.startDate)}</dd></section>
     <section class="detail-row"><dt>Data de Término</dt><dd>${escapeHTML(enr.endDate)}</dd></section>
-    <section class="detail-row"><dt>Status Atual</dt><dd>${escapeHTML(enr.status)}</dd></section>
-  `;
+    <section class="detail-row"><dt>Valor Mensal</dt><dd>${formatBRL(enr.monthlyValue || 99.9)}</dd></section>
+    `
+  );
 
-  const nextStatus =
-    enr.status === "Ativa"
-      ? "Pendente"
-      : enr.status === "Pendente"
-      ? "Ativa"
-      : "Ativa";
-
-  document.getElementById("detailsSheetActions").innerHTML = `
-    <button type="button" class="btn-secondary" id="sheetBtnToggleEnrStatus">Marcar ${nextStatus}</button>
-    <button type="button" class="btn-danger" id="sheetBtnCancelEnr">${enr.status === "Cancelada" ? "Excluir" : "Cancelar Matrícula"}</button>
-  `;
+  safeSetHtml(
+    "detailsSheetActions",
+    `
+    <button type="button" class="btn-secondary" id="sheetBtnToggleEnrStatus">
+      ${enr.status === "Ativa" ? "Marcar como Pendente" : "Ativar Matrícula"}
+    </button>
+    <button type="button" class="btn-danger" id="sheetBtnDeleteEnr">Cancelar / Excluir</button>
+    `
+  );
 
   openModal("modalDetailsSheet");
 
-  document.getElementById("sheetBtnToggleEnrStatus").onclick = () => {
-    enr.status = nextStatus;
-    saveState();
-    renderAll();
-    closeModal("modalDetailsSheet");
-    showToast(`Status da matrícula atualizado para ${nextStatus}!`);
-  };
-
-  document.getElementById("sheetBtnCancelEnr").onclick = () => {
-    closeModal("modalDetailsSheet");
-    if (enr.status !== "Cancelada") {
-      enr.status = "Cancelada";
+  const toggleBtn = $("sheetBtnToggleEnrStatus");
+  if (toggleBtn) {
+    toggleBtn.onclick = () => {
+      closeModal("modalDetailsSheet");
+      enr.status = enr.status === "Ativa" ? "Pendente" : "Ativa";
       saveState();
       renderAll();
-      showToast("Matrícula marcada como Cancelada.");
-    } else {
+      showToast(`Status da matrícula alterado para "${enr.status}".`);
+    };
+  }
+
+  const delBtn = $("sheetBtnDeleteEnr");
+  if (delBtn) {
+    delBtn.onclick = () => {
+      closeModal("modalDetailsSheet");
       confirmDelete(
-        "Excluir Registro de Matrícula",
-        `Deseja remover definitivamente a matrícula de "${enr.studentName}"?`,
+        "Excluir Matrícula",
+        `Deseja realmente cancelar a matrícula de "${enr.studentName}"?`,
         () => {
           appState.enrollments = appState.enrollments.filter((x) => x.id !== enr.id);
           saveState();
           renderAll();
-          showToast("Matrícula excluída.");
+          showToast("Matrícula removida com sucesso.");
         }
       );
-    }
-  };
+    };
+  }
 }
 
 // ==========================================================================
-// FORMULÁRIOS DE CADASTRO E EDIÇÃO
+// AUXILIARES DE FORMULÁRIO (RESET, EDIÇÃO E MÁSCARAS)
 // ==========================================================================
 
 function resetStudentFormDefaults() {
-  document.getElementById("studentEditId").value = "";
-  document.getElementById("studentFormTitle").textContent = "Cadastrar Aluno";
-  document.getElementById("studentFormSubtitle").textContent = "Novo registro MaxFit";
-  document.getElementById("studentName").value = "Matheus Duarte Silva";
-  document.getElementById("studentCpf").value = "123.456.789-00";
-  document.getElementById("studentPhone").value = "(11) 98765-4321";
-  document.getElementById("studentEmail").value = "matheus@maxfit.com";
-  populateFormSelects();
-  document.getElementById("studentPlan").value = "Plano Trimestral";
-  document.getElementById("studentInstructor").value = "Prof. Rafael Martins";
+  const form = $("studentForm");
+  if (!form) return;
+  form.reset();
+  safeSetText("studentFormTitle", "Cadastrar Aluno");
+  safeSetText("studentFormSubtitle", "Novo registro");
+  safeSetText("btnSaveStudent", "Salvar Aluno");
+  const editId = $("studentEditId");
+  if (editId) editId.value = "";
+
+  const nameInput = $("studentName");
+  if (nameInput) nameInput.value = "Matheus Duarte Silva";
+  const cpfInput = $("studentCpf");
+  if (cpfInput) cpfInput.value = "123.456.789-00";
+  const phoneInput = $("studentPhone");
+  if (phoneInput) phoneInput.value = "(11) 98765-4321";
+  const emailInput = $("studentEmail");
+  if (emailInput) emailInput.value = "matheus@maxfit.com";
+
+  safeSetText("studentNameError", "");
+  safeSetText("studentCpfError", "");
+  safeSetText("studentPhoneError", "");
+  safeSetText("studentEmailError", "");
 }
 
 function startEditStudent(studentId) {
   const st = appState.students.find((s) => s.id === studentId);
   if (!st) return;
 
-  populateFormSelects();
-  document.getElementById("studentEditId").value = st.id;
-  document.getElementById("studentFormTitle").textContent = "Editar Aluno";
-  document.getElementById("studentFormSubtitle").textContent = st.name;
-  document.getElementById("studentName").value = st.name;
-  document.getElementById("studentCpf").value = st.cpf;
-  document.getElementById("studentPhone").value = st.phone;
-  document.getElementById("studentEmail").value = st.email;
-  if (appState.plans.some((p) => p.name === st.planName)) {
-    document.getElementById("studentPlan").value = st.planName;
-  }
-  if (appState.instructors.some((i) => i.name === st.instructorName)) {
-    document.getElementById("studentInstructor").value = st.instructorName;
-  }
+  const editId = $("studentEditId");
+  if (editId) editId.value = st.id;
+  const nameInput = $("studentName");
+  if (nameInput) nameInput.value = st.name;
+  const cpfInput = $("studentCpf");
+  if (cpfInput) cpfInput.value = st.cpf;
+  const phoneInput = $("studentPhone");
+  if (phoneInput) phoneInput.value = st.phone;
+  const emailInput = $("studentEmail");
+  if (emailInput) emailInput.value = st.email;
+
+  const planSel = $("studentPlan");
+  if (planSel) planSel.value = st.planName;
+  const instSel = $("studentInstructor");
+  if (instSel) instSel.value = st.instructorName;
+
+  safeSetText("studentFormTitle", "Editar Aluno");
+  safeSetText("studentFormSubtitle", `Editando: ${st.name}`);
+  safeSetText("btnSaveStudent", "Atualizar Dados");
   navigateTo("screen-add-student");
 }
 
 function resetEnrollmentFormDefaults() {
-  document.getElementById("enrollmentEditId").value = "";
-  populateFormSelects();
-  document.getElementById("enrollStudentSelect").value = "Lucas Martins";
-  document.getElementById("enrollPlanSelect").value = "Plano Mensal";
-  document.getElementById("enrollInstructorSelect").value = "Prof. Rafael Martins";
-  document.getElementById("enrollStartDate").value = "06/11/2026";
+  const form = $("enrollmentForm");
+  if (!form) return;
+  form.reset();
+  const startInput = $("enrollStartDate");
+  if (startInput) startInput.value = "06/11/2026";
   setEnrollmentStatusRadio("Ativa");
   updateEnrollmentAutomaticFields();
 }
 
 function setEnrollmentStatusRadio(statusVal) {
   selectedEnrollmentStatus = statusVal;
-  document.querySelectorAll(".status-radio-pill").forEach((btn) => {
-    btn.classList.toggle("active", btn.dataset.statusVal === statusVal);
+  document.querySelectorAll(".status-radio-pill").forEach((pill) => {
+    const isCur = pill.dataset.statusVal === statusVal;
+    pill.classList.toggle("active", isCur);
   });
 }
 
 function openInstructorModal(inst = null) {
-  document.getElementById("instructorEditId").value = inst ? inst.id : "";
-  document.getElementById("modalInstructorTitle").textContent = inst
-    ? "Editar Instrutor"
-    : "Cadastrar Instrutor";
-  document.getElementById("instructorName").value = inst ? inst.name : "";
-  document.getElementById("instructorCref").value = inst ? inst.cref : "";
-  document.getElementById("instructorSpecialty").value = inst ? inst.specialty : "";
+  const modal = $("modalInstructor");
+  if (!modal) return;
+  const editId = $("instructorEditId");
+  const nameInput = $("instructorName");
+  const crefInput = $("instructorCref");
+  const specInput = $("instructorSpecialty");
+  const title = $("modalInstructorTitle");
+
+  if (inst) {
+    if (editId) editId.value = inst.id;
+    if (nameInput) nameInput.value = inst.name;
+    if (crefInput) crefInput.value = inst.cref;
+    if (specInput) specInput.value = inst.specialty;
+    if (title) title.textContent = "Editar Instrutor";
+  } else {
+    if (editId) editId.value = "";
+    if (nameInput) nameInput.value = "";
+    if (crefInput) crefInput.value = "";
+    if (specInput) specInput.value = "";
+    if (title) title.textContent = "Cadastrar Instrutor";
+  }
   openModal("modalInstructor");
 }
 
 function openPlanModal(plan = null) {
-  document.getElementById("planEditId").value = plan ? plan.id : "";
-  document.getElementById("modalPlanTitle").textContent = plan
-    ? "Editar Plano"
-    : "Cadastrar Plano";
-  document.getElementById("planName").value = plan ? plan.name : "";
-  document.getElementById("planMonths").value = plan ? plan.months : 1;
-  document.getElementById("planPrice").value = plan ? plan.price : 99.9;
-  document.getElementById("planFeatured").checked = plan ? !!plan.featured : false;
+  const modal = $("modalPlan");
+  if (!modal) return;
+  const editId = $("planEditId");
+  const nameInput = $("planName");
+  const monthsInput = $("planMonths");
+  const priceInput = $("planPrice");
+  const featInput = $("planFeatured");
+  const title = $("modalPlanTitle");
+
+  if (plan) {
+    if (editId) editId.value = plan.id;
+    if (nameInput) nameInput.value = plan.name;
+    if (monthsInput) monthsInput.value = plan.months;
+    if (priceInput) priceInput.value = plan.price;
+    if (featInput) featInput.checked = !!plan.featured;
+    if (title) title.textContent = "Editar Plano";
+  } else {
+    if (editId) editId.value = "";
+    if (nameInput) nameInput.value = "";
+    if (monthsInput) monthsInput.value = "1";
+    if (priceInput) priceInput.value = "";
+    if (featInput) featInput.checked = false;
+    if (title) title.textContent = "Cadastrar Plano";
+  }
   openModal("modalPlan");
 }
 
-function toggleTheme() {
-  const html = document.documentElement;
-  const nextTheme = html.getAttribute("data-theme") === "dark" ? "light" : "dark";
-  html.setAttribute("data-theme", nextTheme);
-  showToast(
-    nextTheme === "dark"
-      ? "Modo Escuro MaxFit ativado"
-      : "Modo Claro MaxFit ativado"
-  );
+// ==========================================================================
+// TEMA ESCURO / CLARO & TOASTS
+// ==========================================================================
+
+function initTheme() {
+  const saved = localStorage.getItem("maxfit_theme") || "dark";
+  document.documentElement.dataset.theme = saved;
 }
 
-// ==========================================================================
-// TOAST NOTIFICATION SEMÂNTICO
-// ==========================================================================
+function toggleTheme() {
+  const current = document.documentElement.dataset.theme === "light" ? "light" : "dark";
+  const next = current === "dark" ? "light" : "dark";
+  document.documentElement.dataset.theme = next;
+  localStorage.setItem("maxfit_theme", next);
+  showToast(`Tema ${next === "dark" ? "Dark Carbon" : "Claro"} ativado.`);
+}
 
 function showToast(message) {
-  const container = document.getElementById("toastContainer");
+  const container = $("toastContainer");
   if (!container) return;
 
   const toast = document.createElement("output");
@@ -1636,15 +1699,33 @@ function showToast(message) {
 }
 
 // ==========================================================================
-// EVENT LISTENERS
+// INICIALIZAÇÃO E EVENT LISTENERS
 // ==========================================================================
 
 document.addEventListener("DOMContentLoaded", () => {
+  initTheme();
   resetStudentFormDefaults();
   resetEnrollmentFormDefaults();
   renderAll();
-  setLoginRole("student");
 
+  // Verifica se há navegação via hash na URL (ex: aluno.html#screen-workout-a)
+  const initialHash = window.location.hash.replace("#", "");
+  if (initialHash && $(initialHash)) {
+    navigateTo(initialHash, false);
+  }
+
+  // Se estiver na tela de login, configura o seletor de perfil conforme URL param ou padrão
+  if ($("screen-login")) {
+    const params = new URLSearchParams(window.location.search);
+    const roleParam = params.get("role");
+    if (roleParam && ROLE_CREDENTIALS[roleParam]) {
+      setLoginRole(roleParam);
+    } else {
+      setLoginRole("student");
+    }
+  }
+
+  // Delegação de cliques no body para botões reutilizáveis
   document.body.addEventListener("click", (e) => {
     const loginRoleBtn = e.target.closest("[data-login-role]");
     if (loginRoleBtn) {
@@ -1713,6 +1794,15 @@ document.addEventListener("DOMContentLoaded", () => {
     if (editStuBtn) {
       e.stopPropagation();
       startEditStudent(editStuBtn.dataset.editStudent);
+      return;
+    }
+
+    const viewStuBtn = e.target.closest("[data-view-student]");
+    if (viewStuBtn) {
+      e.stopPropagation();
+      appState.activeStudentId = viewStuBtn.dataset.viewStudent;
+      saveState();
+      window.location.href = "aluno.html";
       return;
     }
 
@@ -1787,88 +1877,85 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Submissão do Login Unificado com 3 Opções (Aluno | Instrutor | Admin)
-  document.getElementById("loginForm").addEventListener("submit", (e) => {
+  // Submissão do Login Unificado com 3 Opções
+  on("loginForm", "submit", (e) => {
     e.preventDefault();
-    const email = document.getElementById("loginEmail").value.trim();
-    const pass = document.getElementById("loginPassword").value.trim();
-    const emailErr = document.getElementById("loginEmailError");
-    const passErr = document.getElementById("loginPasswordError");
+    const email = $("loginEmail")?.value.trim() || "";
+    const pass = $("loginPassword")?.value.trim() || "";
+    const emailErr = $("loginEmailError");
+    const passErr = $("loginPasswordError");
 
-    emailErr.textContent = "";
-    passErr.textContent = "";
+    if (emailErr) emailErr.textContent = "";
+    if (passErr) passErr.textContent = "";
 
     if (!email || !email.includes("@")) {
-      emailErr.textContent = "Informe um e-mail válido.";
+      if (emailErr) emailErr.textContent = "Informe um e-mail válido.";
       return;
     }
     if (pass.length < 4) {
-      passErr.textContent = "A senha deve conter pelo menos 4 caracteres.";
+      if (passErr) passErr.textContent = "A senha deve conter pelo menos 4 caracteres.";
       return;
     }
 
-    const submitBtn = document.getElementById("btnLoginSubmit");
-    const origText = submitBtn.textContent;
-    submitBtn.textContent = "Entrando na MaxFit...";
-    submitBtn.disabled = true;
+    const submitBtn = $("btnLoginSubmit");
+    const origText = submitBtn ? submitBtn.textContent : "Entrar";
+    if (submitBtn) {
+      submitBtn.textContent = "Entrando na MaxFit...";
+      submitBtn.disabled = true;
+    }
 
     setTimeout(() => {
-      submitBtn.textContent = origText;
-      submitBtn.disabled = false;
+      if (submitBtn) {
+        submitBtn.textContent = origText;
+        submitBtn.disabled = false;
+      }
 
       if (loginSelectedRole === "student") {
-        renderStudentArea();
-        navigateTo("screen-student-home");
-        showToast("Bem-vindo à Área do Aluno, Lucas!");
+        window.location.href = "aluno.html";
       } else if (loginSelectedRole === "instructor") {
-        renderInstructorPanel();
-        navigateTo("screen-instructor-students");
-        showToast("Bem-vindo à Área do Instrutor, Prof. Rafael!");
+        window.location.href = "instrutor.html";
       } else {
-        navigateTo("screen-dashboard");
-        showToast("Bem-vindo ao Painel Admin MaxFit!");
+        window.location.href = "admin.html";
       }
-    }, 240);
+    }, 220);
   });
 
-  document.getElementById("btnTogglePassword").addEventListener("click", () => {
-    const pwdInput = document.getElementById("loginPassword");
+  on("btnTogglePassword", "click", () => {
+    const pwdInput = $("loginPassword");
+    if (!pwdInput) return;
     const isPassword = pwdInput.type === "password";
     pwdInput.type = isPassword ? "text" : "password";
-    document.getElementById("eyeIconClosed").classList.toggle("hidden", isPassword);
-    document.getElementById("eyeIconOpen").classList.toggle("hidden", !isPassword);
+    safeToggleClass("eyeIconClosed", "hidden", isPassword);
+    safeToggleClass("eyeIconOpen", "hidden", !isPassword);
   });
 
-  document.getElementById("btnForgotPassword").addEventListener("click", () => {
-    openModal("modalForgotPass");
-  });
+  on("btnForgotPassword", "click", () => openModal("modalForgotPass"));
 
-  document.getElementById("forgotPassForm").addEventListener("submit", (e) => {
+  on("forgotPassForm", "submit", (e) => {
     e.preventDefault();
     closeModal("modalForgotPass");
     showToast("Instruções de acesso enviadas para seu e-mail!");
   });
 
-  // Botões de Logout (Aluno, Instrutor e Admin)
-  const handleLogoutToLogin = () => {
-    navigateTo("screen-login");
-    showToast("Sessão MaxFit encerrada.");
+  // Botões de Logout (redirecionam para login.html pelo Perfil do usuário)
+  const handleLogout = () => {
+    window.location.href = "login.html";
   };
 
-  document.getElementById("btnLogoutDesktop").addEventListener("click", handleLogoutToLogin);
-  document.getElementById("btnQuickLogoutMobile").addEventListener("click", handleLogoutToLogin);
-  document.getElementById("btnLogoutStudentSidebar").addEventListener("click", handleLogoutToLogin);
-  document.getElementById("btnLogoutStudentProfile").addEventListener("click", handleLogoutToLogin);
-  document.getElementById("btnLogoutInstructorSidebar").addEventListener("click", handleLogoutToLogin);
-  document.getElementById("btnLogoutInstructorMobile").addEventListener("click", handleLogoutToLogin);
-  document.getElementById("btnLogoutInstructorNav").addEventListener("click", handleLogoutToLogin);
+  on("btnLogoutStudentProfile", "click", handleLogout);
+  on("btnLogoutInstructorProfile", "click", handleLogout);
+  on("btnLogoutAdminProfile", "click", handleLogout);
+  on("btnLogoutDesktop", "click", handleLogout);
+  on("btnQuickLogoutMobile", "click", handleLogout);
+  on("btnLogoutStudentSidebar", "click", handleLogout);
+  on("btnLogoutInstructorSidebar", "click", handleLogout);
+  on("btnLogoutInstructorMobile", "click", handleLogout);
+  on("btnLogoutInstructorNav", "click", handleLogout);
 
-  // Busca e Filtros do Painel do Instrutor
-  document
-    .getElementById("searchInstructorStudentsInput")
-    .addEventListener("input", renderInstructorPanel);
+  // Busca e Filtros do Instrutor
+  on("searchInstructorStudentsInput", "input", renderInstructorPanel);
 
-  document.getElementById("instStudentFilterPills").addEventListener("click", (e) => {
+  on("instStudentFilterPills", "click", (e) => {
     const pill = e.target.closest(".filter-pill");
     if (!pill) return;
     instStudentFilter = pill.dataset.instFilter;
@@ -1880,9 +1967,9 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Busca e Filtros de Alunos (Admin)
-  document.getElementById("searchStudentsInput").addEventListener("input", renderStudents);
+  on("searchStudentsInput", "input", renderStudents);
 
-  document.getElementById("studentFilterPills").addEventListener("click", (e) => {
+  on("studentFilterPills", "click", (e) => {
     const pill = e.target.closest(".filter-pill");
     if (!pill) return;
     studentFilter = pill.dataset.filter;
@@ -1893,20 +1980,16 @@ document.addEventListener("DOMContentLoaded", () => {
     renderStudents();
   });
 
-  document.getElementById("btnToggleStudentView").addEventListener("click", (e) => {
+  on("btnToggleStudentView", "click", (e) => {
     studentViewMode = studentViewMode === "cards" ? "table" : "cards";
     e.currentTarget.classList.toggle("active", studentViewMode === "table");
-    document
-      .getElementById("studentsListContainer")
-      .classList.toggle("hidden", studentViewMode === "table");
-    document
-      .getElementById("studentsTableContainer")
-      .classList.toggle("hidden", studentViewMode !== "table");
+    safeToggleClass("studentsListContainer", "hidden", studentViewMode === "table");
+    safeToggleClass("studentsTableContainer", "hidden", studentViewMode !== "table");
   });
 
-  document.getElementById("searchInstructorsInput").addEventListener("input", renderInstructors);
+  on("searchInstructorsInput", "input", renderInstructors);
 
-  document.getElementById("enrollmentFilterPills").addEventListener("click", (e) => {
+  on("enrollmentFilterPills", "click", (e) => {
     const pill = e.target.closest(".filter-pill");
     if (!pill) return;
     enrollmentFilter = pill.dataset.filter;
@@ -1917,36 +2000,35 @@ document.addEventListener("DOMContentLoaded", () => {
     renderEnrollments();
   });
 
-  // Máscaras
-  document.getElementById("studentCpf").addEventListener("input", (e) => {
+  // Máscaras de entrada
+  on("studentCpf", "input", (e) => {
     e.target.value = maskCPF(e.target.value);
   });
-  document.getElementById("studentPhone").addEventListener("input", (e) => {
+  on("studentPhone", "input", (e) => {
     e.target.value = maskPhone(e.target.value);
   });
-  document.getElementById("enrollStartDate").addEventListener("input", (e) => {
+  on("enrollStartDate", "input", (e) => {
     e.target.value = maskDateBR(e.target.value);
     updateEnrollmentAutomaticFields();
   });
-  document.getElementById("enrollPlanSelect").addEventListener("change", () => {
-    updateEnrollmentAutomaticFields();
-  });
+  on("enrollPlanSelect", "change", updateEnrollmentAutomaticFields);
 
   // Salvar Aluno
-  document.getElementById("studentForm").addEventListener("submit", (e) => {
+  on("studentForm", "submit", (e) => {
     e.preventDefault();
-    const editId = document.getElementById("studentEditId").value;
-    const name = document.getElementById("studentName").value.trim();
-    const cpf = document.getElementById("studentCpf").value.trim();
-    const phone = document.getElementById("studentPhone").value.trim();
-    const email = document.getElementById("studentEmail").value.trim();
-    const planName = document.getElementById("studentPlan").value;
-    const instructorName = document.getElementById("studentInstructor").value;
+    const editId = $("studentEditId")?.value;
+    const name = $("studentName")?.value.trim() || "";
+    const cpf = $("studentCpf")?.value.trim() || "";
+    const phone = $("studentPhone")?.value.trim() || "";
+    const email = $("studentEmail")?.value.trim() || "";
+    const planName = $("studentPlan")?.value || "Plano Mensal";
+    const instructorName = $("studentInstructor")?.value || "Prof. Rafael Martins";
 
-    document.getElementById("studentNameError").textContent = "";
+    const nameErr = $("studentNameError");
+    if (nameErr) nameErr.textContent = "";
+
     if (name.length < 3) {
-      document.getElementById("studentNameError").textContent =
-        "Informe o nome completo do aluno.";
+      if (nameErr) nameErr.textContent = "Informe o nome completo do aluno.";
       return;
     }
 
@@ -1999,15 +2081,13 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Confirmar Nova Matrícula
-  document.getElementById("enrollmentForm").addEventListener("submit", (e) => {
+  on("enrollmentForm", "submit", (e) => {
     e.preventDefault();
-    const studentName = document.getElementById("enrollStudentSelect").value;
-    const planName = document.getElementById("enrollPlanSelect").value;
-    const instructorName = document.getElementById("enrollInstructorSelect").value;
-    const startDate =
-      document.getElementById("enrollStartDate").value.trim() || "06/11/2026";
-    const endDate =
-      document.getElementById("enrollEndDate").value.trim() || "06/12/2026";
+    const studentName = $("enrollStudentSelect")?.value;
+    const planName = $("enrollPlanSelect")?.value;
+    const instructorName = $("enrollInstructorSelect")?.value;
+    const startDate = $("enrollStartDate")?.value.trim() || "06/11/2026";
+    const endDate = $("enrollEndDate")?.value.trim() || "06/12/2026";
 
     const planObj = appState.plans.find((p) => p.name === planName);
     const monthlyVal = planObj ? planObj.price / planObj.months : 99.9;
@@ -2040,19 +2120,15 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Modal Instrutor
-  document
-    .getElementById("btnFabAddInstructor")
-    .addEventListener("click", () => openInstructorModal());
-  document
-    .getElementById("btnOpenAddInstructorDesktop")
-    .addEventListener("click", () => openInstructorModal());
+  on("btnFabAddInstructor", "click", () => openInstructorModal());
+  on("btnOpenAddInstructorDesktop", "click", () => openInstructorModal());
 
-  document.getElementById("instructorForm").addEventListener("submit", (e) => {
+  on("instructorForm", "submit", (e) => {
     e.preventDefault();
-    const editId = document.getElementById("instructorEditId").value;
-    const name = document.getElementById("instructorName").value.trim();
-    const cref = document.getElementById("instructorCref").value.trim();
-    const specialty = document.getElementById("instructorSpecialty").value.trim();
+    const editId = $("instructorEditId")?.value;
+    const name = $("instructorName")?.value.trim();
+    const cref = $("instructorCref")?.value.trim();
+    const specialty = $("instructorSpecialty")?.value.trim();
 
     if (!name || !specialty) return;
 
@@ -2088,18 +2164,16 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Modal Plano
-  document.getElementById("btnFabAddPlan").addEventListener("click", () => openPlanModal());
-  document
-    .getElementById("btnOpenAddPlanDesktop")
-    .addEventListener("click", () => openPlanModal());
+  on("btnFabAddPlan", "click", () => openPlanModal());
+  on("btnOpenAddPlanDesktop", "click", () => openPlanModal());
 
-  document.getElementById("planForm").addEventListener("submit", (e) => {
+  on("planForm", "submit", (e) => {
     e.preventDefault();
-    const editId = document.getElementById("planEditId").value;
-    const name = document.getElementById("planName").value.trim();
-    const months = parseInt(document.getElementById("planMonths").value, 10) || 1;
-    const price = parseFloat(document.getElementById("planPrice").value) || 99.9;
-    const featured = document.getElementById("planFeatured").checked;
+    const editId = $("planEditId")?.value;
+    const name = $("planName")?.value.trim();
+    const months = parseInt($("planMonths")?.value, 10) || 1;
+    const price = parseFloat($("planPrice")?.value) || 99.9;
+    const featured = $("planFeatured")?.checked || false;
 
     if (!name) return;
 
@@ -2130,7 +2204,7 @@ document.addEventListener("DOMContentLoaded", () => {
     closeModal("modalPlan");
   });
 
-  document.getElementById("btnConfirmDeleteAction").addEventListener("click", () => {
+  on("btnConfirmDeleteAction", "click", () => {
     if (typeof pendingDeleteCallback === "function") {
       pendingDeleteCallback();
       pendingDeleteCallback = null;
@@ -2138,11 +2212,15 @@ document.addEventListener("DOMContentLoaded", () => {
     closeModal("modalConfirmDelete");
   });
 
-  // Tema Escuro / Claro e Restauração de Dados
-  document.getElementById("btnToggleThemeDesktop").addEventListener("click", toggleTheme);
-  document.getElementById("btnToggleThemeMobile").addEventListener("click", toggleTheme);
-  document.getElementById("btnToggleThemeStudent").addEventListener("click", toggleTheme);
-  document.getElementById("btnToggleThemeInstructor").addEventListener("click", toggleTheme);
-  document.getElementById("btnToggleThemeInstMobile").addEventListener("click", toggleTheme);
-  document.getElementById("btnResetData").addEventListener("click", resetToMaxFitState);
+  // Alternância de Tema em todas as páginas
+  on("btnToggleThemeDesktop", "click", toggleTheme);
+  on("btnToggleThemeMobile", "click", toggleTheme);
+  on("btnToggleThemeStudent", "click", toggleTheme);
+  on("btnToggleThemeInstructor", "click", toggleTheme);
+  on("btnToggleThemeInstMobile", "click", toggleTheme);
+  on("btnToggleThemeLogin", "click", toggleTheme);
+  on("btnToggleThemeLanding", "click", toggleTheme);
+
+  // Restaurar dados originais
+  on("btnResetData", "click", resetToMaxFitState);
 });

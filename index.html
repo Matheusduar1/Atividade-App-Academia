@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#101112" />
-  <title>MaxFit — Área do Aluno, Instrutor &amp; Admin | Matheus Duarte &amp; Miguel</title>
-  <meta name="description" content="Plataforma integrada MaxFit: Área do Aluno para treinos, Área do Instrutor para acompanhamento de alunos e treinos, e Painel Admin para gestão da academia." />
+  <title>MaxFit Club — Academia de Alta Performance &amp; Ecossistema Integrado</title>
+  <meta name="description" content="MaxFit Club: Academia completa com treinos interativos A/B/C, acompanhamento técnico de instrutores e gestão integrada. Conheça nossos planos e acesse a plataforma." />
   <meta name="author" content="Matheus Duarte e Miguel" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23101112'/%3E%3Ctext x='4' y='23' font-family='Arial,sans-serif' font-weight='900' font-style='italic' font-size='18' fill='%23ff5145'%3E//M%3C/text%3E%3C/svg%3E" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -13,1838 +13,501 @@
   <link href="https://fonts.googleapis.com/css2?family=Outfit:ital,wght@0,600;0,700;0,800;0,900;1,800;1,900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
-<body data-role="guest">
-  <a href="#appMain" class="skip-link">Pular para o conteúdo</a>
+<body data-role="portal" class="landing-body" id="top">
+  <a href="#mainContent" class="skip-link">Pular para o conteúdo principal</a>
 
   <!-- =========================================================
-       SIDEBAR DESKTOP 01: PAINEL DO ADMIN (GESTÃO COMPLETA)
+       CABEÇALHO PRINCIPAL DO PORTAL MAXFIT (ZERO DIVS)
        ========================================================= -->
-  <aside class="desktop-sidebar hidden" id="desktopSidebar" aria-label="Menu Lateral Admin MaxFit">
-    <header class="sidebar-header">
-      <button type="button" class="logo" data-nav="screen-dashboard" aria-label="MaxFit Painel Admin">
-        <span class="brand-mark" aria-hidden="true">//</span>MAX<span class="red">FIT</span>
-      </button>
-      <p class="workspace-label">PAINEL DO ADMINISTRADOR</p>
-    </header>
+  <header class="landing-header" aria-label="Cabeçalho Principal do Portal">
+    <a href="#top" class="logo landing-logo" aria-label="MaxFit Club Página Inicial">
+      <span class="brand-mark" aria-hidden="true">//</span>MAX<span class="red">FIT</span>
+    </a>
 
-    <nav class="sidebar-nav" aria-label="Navegação Administrativa">
-      <button type="button" class="sidebar-link active" data-nav="screen-dashboard">
-        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-          <path d="m3 10 9-7 9 7v10h-6v-7H9v7H3z"></path>
-        </svg>
-        <span>Dashboard</span>
-      </button>
-      <button type="button" class="sidebar-link" data-nav="screen-students">
-        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-          <circle cx="9" cy="7" r="4"></circle>
-          <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-          <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-        </svg>
-        <span>Alunos</span>
-        <output class="sidebar-counter" id="sideCountStudents">247</output>
-      </button>
-      <button type="button" class="sidebar-link" data-nav="screen-instructors">
-        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-          <path d="M7 5v14M3 8v8M17 5v14M21 8v8M3 12h18"></path>
-        </svg>
-        <span>Instrutores</span>
-        <output class="sidebar-counter" id="sideCountInstructors">12</output>
-      </button>
-      <button type="button" class="sidebar-link" data-nav="screen-plans">
-        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-          <rect x="2" y="5" width="20" height="14" rx="3"></rect>
-          <path d="M2 10h20M6 15h4"></path>
-        </svg>
-        <span>Planos</span>
-        <output class="sidebar-counter" id="sideCountPlans">4</output>
-      </button>
-      <button type="button" class="sidebar-link" data-nav="screen-enrollments">
-        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-          <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
-          <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
-          <path d="M9 14l2 2 4-4"></path>
-        </svg>
-        <span>Matrículas</span>
-        <output class="sidebar-counter" id="sideCountEnrollments">38</output>
-      </button>
+    <nav class="landing-nav" aria-label="Navegação Institucional">
+      <a href="#sobre" class="landing-nav-link">Sobre</a>
+      <a href="#ecossistema" class="landing-nav-link">Ecossistema</a>
+      <a href="#modalidades" class="landing-nav-link">Modalidades</a>
+      <a href="#planos" class="landing-nav-link">Planos</a>
+      <a href="#instrutores" class="landing-nav-link">Instrutores</a>
+      <a href="#faq" class="landing-nav-link">FAQ</a>
     </nav>
 
-    <section class="sidebar-quick-actions" aria-label="Ações Rápidas">
-      <p class="sidebar-section-label">Acesso Rápido</p>
-      <button type="button" class="btn-sidebar-action" data-goto="screen-add-student">+ Cadastrar Aluno</button>
-      <button type="button" class="btn-sidebar-action outline" data-goto="screen-new-enrollment">+ Nova Matrícula</button>
+    <section class="landing-header-actions" aria-label="Ações de Acesso">
+      <button type="button" class="btn-icon" id="btnToggleThemeLanding" title="Alternar tema Escuro / Claro" aria-label="Alternar tema">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </button>
+      <a href="login.html" class="btn-primary btn-landing-cta" title="Acessar o Sistema MaxFit">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
+          <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M15 12H3"></path>
+        </svg>
+        <span>Área de Membros</span>
+      </a>
     </section>
-
-    <footer class="sidebar-footer">
-      <section class="sidebar-user-row" aria-label="Administrador Conectado">
-        <span class="avatar-circle" aria-hidden="true">AD</span>
-        <hgroup class="admin-info-mini">
-          <strong>Admin MaxFit</strong>
-          <p>Matheus Duarte &amp; Miguel</p>
-        </hgroup>
-        <button type="button" class="btn-icon" id="btnToggleThemeDesktop" title="Alternar tema Escuro / Claro" aria-label="Alternar tema">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-          </svg>
-        </button>
-        <button type="button" class="btn-icon danger-hover" id="btnLogoutDesktop" title="Sair para Tela de Login" aria-label="Sair">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M9 3H3v18h6m6-14 5 5-5 5m-6-5h11"></path>
-          </svg>
-        </button>
-      </section>
-      <p class="sidebar-edition">MAXFIT CLUB <span>2026</span></p>
-    </footer>
-  </aside>
+  </header>
 
   <!-- =========================================================
-       SIDEBAR DESKTOP 02: ÁREA DO INSTRUTOR (ALUNOS & TREINOS)
+       CONTEÚDO PRINCIPAL (LANDING PAGE MULTI-SEÇÃO)
        ========================================================= -->
-  <aside class="desktop-sidebar hidden" id="instructorSidebar" aria-label="Menu Lateral do Instrutor">
-    <header class="sidebar-header">
-      <button type="button" class="logo" data-inst-nav="screen-instructor-students" aria-label="MaxFit Área do Instrutor">
-        <span class="brand-mark" aria-hidden="true">//</span>MAX<span class="red">FIT</span>
-      </button>
-      <p class="workspace-label">ÁREA DO INSTRUTOR</p>
-    </header>
-
-    <nav class="sidebar-nav" aria-label="Navegação do Instrutor">
-      <button type="button" class="sidebar-link active" data-inst-nav="screen-instructor-students">
-        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-          <circle cx="9" cy="7" r="4"></circle>
-          <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-          <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-        </svg>
-        <span>Alunos Atuais</span>
-        <output class="sidebar-counter" id="instSideCountStudents">8</output>
-      </button>
-      <button type="button" class="sidebar-link" data-inst-nav="screen-instructor-workout">
-        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-          <path d="M7 5v14M3 8v8M17 5v14M21 8v8M3 12h18"></path>
-        </svg>
-        <span>Treino do Aluno</span>
-      </button>
-    </nav>
-
-    <footer class="sidebar-footer">
-      <section class="sidebar-user-row" aria-label="Instrutor Conectado">
-        <span class="avatar-circle" aria-hidden="true">RM</span>
-        <hgroup class="admin-info-mini">
-          <strong>Prof. Rafael Martins</strong>
-          <p>CREF 045890-G/SP</p>
-        </hgroup>
-        <button type="button" class="btn-icon" id="btnToggleThemeInstructor" title="Alternar tema Escuro / Claro" aria-label="Alternar tema">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-          </svg>
-        </button>
-        <button type="button" class="btn-icon danger-hover" id="btnLogoutInstructorSidebar" title="Sair para Tela de Login" aria-label="Sair">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M9 3H3v18h6m6-14 5 5-5 5m-6-5h11"></path>
-          </svg>
-        </button>
-      </section>
-      <p class="sidebar-edition">MAXFIT CLUB <span>2026</span></p>
-    </footer>
-  </aside>
-
-  <!-- =========================================================
-       SIDEBAR DESKTOP 03: ÁREA DO ALUNO (MAXFIT TREINOS)
-       ========================================================= -->
-  <aside class="desktop-sidebar student-sidebar hidden" id="studentSidebar" aria-label="Menu Lateral Área do Aluno">
-    <header class="sidebar-header">
-      <button type="button" class="logo" data-student-nav="screen-student-home" aria-label="MaxFit início">
-        <span class="brand-mark" aria-hidden="true">//</span>MAX<span class="red">FIT</span>
-      </button>
-      <p class="workspace-label">ÁREA DO ALUNO</p>
-    </header>
-
-    <nav class="sidebar-nav" aria-label="Navegação do Aluno">
-      <button type="button" class="sidebar-link active" data-student-nav="screen-student-home">
-        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-          <path d="m3 10 9-7 9 7v10h-6v-7H9v7H3z"></path>
-        </svg>
-        <span>Início</span>
-      </button>
-      <button type="button" class="sidebar-link" data-student-nav="screen-student-workouts">
-        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-          <path d="M7 5v14M3 8v8M17 5v14M21 8v8M3 12h18"></path>
-        </svg>
-        <span>Treinos</span>
-      </button>
-      <button type="button" class="sidebar-link" data-student-nav="screen-student-plan">
-        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-          <rect x="2" y="5" width="20" height="14" rx="3"></rect>
-          <path d="M2 10h20M6 15h4"></path>
-        </svg>
-        <span>Meu plano</span>
-      </button>
-      <button type="button" class="sidebar-link" data-student-nav="screen-student-profile">
-        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-          <circle cx="12" cy="8" r="4"></circle>
-          <path d="M4 21v-2a8 8 0 0 1 16 0v2"></path>
-        </svg>
-        <span>Perfil</span>
-      </button>
-    </nav>
-
-    <footer class="sidebar-bottom-student">
-      <section class="coach-mini" aria-label="Instrutor Responsável">
-        <span class="avatar-circle" id="studentSideCoachAvatar">RM</span>
-        <hgroup>
-          <strong id="studentSideCoachName">Rafael Martins</strong>
-          <small>Seu instrutor</small>
-        </hgroup>
-      </section>
-      <button type="button" class="help-link" data-student-nav="screen-student-help">
-        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-          <circle cx="12" cy="12" r="9"></circle>
-          <path d="M9 9a3 3 0 0 1 6 0c0 2-3 2-3 4m0 3h.01"></path>
-        </svg>
-        <span>Precisa de ajuda?</span>
-      </button>
-      <button type="button" class="help-link" id="btnLogoutStudentSidebar">
-        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-          <path d="M9 3H3v18h6m6-14 5 5-5 5m-6-5h11"></path>
-        </svg>
-        <span>Sair</span>
-      </button>
-      <p class="sidebar-edition">MAXFIT CLUB <span>2026</span></p>
-    </footer>
-  </aside>
-
-  <!-- =========================================================
-       ÁREA PRINCIPAL DA APLICAÇÃO (<main>)
-       ========================================================= -->
-  <main class="app-main" id="appMain" tabindex="-1">
-    <!-- Topbar exclusiva da Área do Aluno (Fiel ao MaxFit) -->
-    <header class="student-topbar hidden" id="studentTopbar">
-      <button type="button" class="logo mobile-logo" data-student-nav="screen-student-home" aria-label="MaxFit início">
-        <span class="brand-mark" aria-hidden="true">//</span>MAX<span class="red">FIT</span>
-      </button>
-      <p class="desktop-caption">
-        <span class="tiny-red-line" aria-hidden="true"></span> SEU ESPAÇO. SEU RITMO.
-      </p>
-      <nav class="topbar-end" aria-label="Ações do Aluno">
-        <span class="demo-label" id="studentTopbarBadge">ÁREA DO ALUNO</span>
-        <button type="button" class="btn-icon" id="btnToggleThemeStudent" title="Alternar tema Escuro / Claro" aria-label="Alternar tema">
-          <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-          </svg>
-        </button>
-        <button type="button" class="avatar-circle account-avatar" id="studentTopbarAvatar" data-student-nav="screen-student-profile" aria-label="Perfil de Lucas Martins">LM</button>
-      </nav>
-    </header>
-
-    <!-- =========================================================
-         TELA 01: LOGIN UNIFICADO MAXFIT COM 3 PERFIS (screen-login)
-         Opções: 1. Aluno | 2. Instrutor | 3. Admin
-         ========================================================= -->
-    <section class="app-screen active" id="screen-login" aria-label="Tela de Acesso MaxFit">
-      <article class="login-card panel">
-        <header class="login-brand">
-          <section class="login-brand-top" aria-label="Marca MaxFit">
-            <span class="logo login-logo">
-              <span class="brand-mark" aria-hidden="true">//</span>MAX<span class="red">FIT</span>
-            </span>
-            <span class="pill red-pill">CLUB 2026</span>
-          </section>
-          <p class="eyebrow" id="loginEyebrow">ÁREA DO ALUNO MAXFIT</p>
-          <h1 class="login-title" id="loginHeroTitle">O próximo passo<br />é seu<span class="red">.</span></h1>
-          <p class="login-subtitle" id="loginHeroSubtitle">Acesse seus treinos, sua frequência e seu plano MaxFit.</p>
-        </header>
-
-        <!-- Seletor de 3 Perfis: Aluno, Instrutor e Admin -->
-        <fieldset class="role-selector-fieldset" aria-label="Selecionar perfil de acesso">
-          <legend class="sr-only">Selecione seu perfil de acesso</legend>
-          <nav class="role-selector-grid" role="tablist" aria-label="Perfis de acesso">
-            <button
-              type="button"
-              class="role-tab active"
-              data-login-role="student"
-              id="tabRoleStudent"
-              role="tab"
-              aria-selected="true"
-            >
-              <span class="role-tab-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M7 5v14M3 8v8M17 5v14M21 8v8M3 12h18"></path>
-                </svg>
-              </span>
-              <strong class="role-tab-title">Aluno</strong>
-              <small class="role-tab-sub">Meus treinos</small>
-            </button>
-
-            <button
-              type="button"
-              class="role-tab"
-              data-login-role="instructor"
-              id="tabRoleInstructor"
-              role="tab"
-              aria-selected="false"
-            >
-              <span class="role-tab-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
-                  <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
-                  <path d="M9 14l2 2 4-4"></path>
-                </svg>
-              </span>
-              <strong class="role-tab-title">Instrutor</strong>
-              <small class="role-tab-sub">Ver alunos</small>
-            </button>
-
-            <button
-              type="button"
-              class="role-tab"
-              data-login-role="admin"
-              id="tabRoleAdmin"
-              role="tab"
-              aria-selected="false"
-            >
-              <span class="role-tab-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
-                  <rect x="3" y="3" width="7" height="7" rx="1"></rect>
-                  <rect x="14" y="3" width="7" height="7" rx="1"></rect>
-                  <rect x="14" y="14" width="7" height="7" rx="1"></rect>
-                  <rect x="3" y="14" width="7" height="7" rx="1"></rect>
-                </svg>
-              </span>
-              <strong class="role-tab-title">Admin</strong>
-              <small class="role-tab-sub">Gestão total</small>
-            </button>
-          </nav>
-        </fieldset>
-
-        <form class="login-form" id="loginForm" novalidate>
-          <label class="field-label" for="loginEmail">
-            <span>E-mail de acesso</span>
-            <span class="input-affix">
-              <svg class="affix-left" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-                <rect x="2" y="4" width="20" height="16" rx="2"></rect>
-                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
-              </svg>
-              <input
-                type="email"
-                id="loginEmail"
-                name="email"
-                value="lucas@maxfit.com"
-                placeholder="lucas@maxfit.com"
-                required
-                autocomplete="email"
-              />
-            </span>
-            <small class="field-error" id="loginEmailError"></small>
-          </label>
-
-          <label class="field-label" for="loginPassword">
-            <span>Senha</span>
-            <span class="input-affix">
-              <svg class="affix-left" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-                <rect x="5" y="10" width="14" height="11" rx="2"></rect>
-                <path d="M8 10V6a4 4 0 0 1 8 0v4"></path>
-              </svg>
-              <input
-                type="password"
-                id="loginPassword"
-                name="password"
-                value="12345678"
-                placeholder="••••••••"
-                required
-                autocomplete="current-password"
-              />
-              <button type="button" class="affix-right" id="btnTogglePassword" aria-label="Mostrar ou ocultar senha">
-                <svg id="eyeIconClosed" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8">
-                  <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
-                  <line x1="1" y1="1" x2="23" y2="23"></line>
-                </svg>
-                <svg id="eyeIconOpen" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" class="hidden">
-                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                  <circle cx="12" cy="12" r="3"></circle>
-                </svg>
-              </button>
-            </span>
-            <small class="field-error" id="loginPasswordError"></small>
-          </label>
-
-          <button type="submit" class="btn-primary btn-block" id="btnLoginSubmit">
-            Entrar como Aluno
-          </button>
-        </form>
-
-        <footer class="login-footer">
-          <button type="button" class="link-forgot" id="btnForgotPassword">Esqueci minha senha</button>
-          <p class="demo-note" id="loginDemoNote">Acesso teste Aluno: lucas@maxfit.com</p>
-        </footer>
-      </article>
-    </section>
-
-    <!-- =========================================================
-         MÓDULO 01: TELAS DA ÁREA DO ALUNO (MAXFIT TREINOS)
-         ========================================================= -->
-
-    <!-- ALUNO 01: INÍCIO (screen-student-home) -->
-    <section class="app-screen student-screen" id="screen-student-home" aria-labelledby="studentHomeTitle">
-      <header class="page-heading greeting">
-        <hgroup>
-          <p class="eyebrow">SEXTA-FEIRA, 06 DE NOVEMBRO</p>
-          <h1 id="studentHomeTitle">Vamos nessa, <span id="studentHomeFirstName">Lucas</span><span class="red">.</span></h1>
-          <p class="muted">Seu próximo passo começa aqui.</p>
-        </hgroup>
-        <span class="member-label">
-          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m13 2-9 12h7l-1 8 10-13h-7z"></path></svg>
-          ALUNO MAXFIT
-        </span>
-      </header>
-
-      <section class="dashboard-grid" aria-label="Painel Principal do Aluno">
-        <article class="workout-feature animate-in">
-          <img src="assets/treino.jpg" alt="Aluno treinando com halteres na academia MaxFit" width="1800" height="1200" fetchpriority="high" />
-          <span class="hero-overlay" aria-hidden="true"></span>
-          <header class="hero-top">
-            <span class="hero-tag">TREINO DO DIA</span>
-            <span class="workout-letter">A</span>
-          </header>
-          <section class="hero-content" aria-label="Resumo do Treino A">
-            <p class="eyebrow">FOCO NA EVOLUÇÃO</p>
-            <h2>PEITO +<br />TRÍCEPS<span>.</span></h2>
-            <p class="hero-metadata">
-              <span>
-                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5v14M3 8v8M17 5v14M21 8v8M3 12h18"></path></svg>
-                3 exercícios
-              </span>
-              <span>
-                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>
-                45–60 min
-              </span>
-            </p>
-            <button type="button" class="button" data-student-nav="screen-workout-a">Ver meu treino</button>
-          </section>
-          <span class="hero-vertical" aria-hidden="true">MAXFIT TRAINING / 01</span>
-        </article>
-
-        <article class="panel week-panel animate-in delay-1">
-          <header class="section-top">
-            <h2>Seu ritmo</h2>
-            <span class="subtle-label">ESTA SEMANA</span>
-          </header>
-          <section class="week-days" aria-label="Frequência nos dias da semana">
-            <span class="day done"><span>S</span><b><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"></path></svg></b></span>
-            <span class="day"><span>T</span><b>03</b></span>
-            <span class="day done"><span>Q</span><b><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"></path></svg></b></span>
-            <span class="day"><span>Q</span><b>05</b></span>
-            <span class="day today"><span>S</span><b>06</b></span>
-            <span class="day"><span>S</span><b>07</b></span>
-            <span class="day"><span>D</span><b>08</b></span>
-          </section>
-          <section class="week-summary" aria-label="Meta de treinos">
-            <output class="large-number" id="studentWeekCount">2<span>/ 3</span></output>
-            <hgroup>
-              <strong>treinos na semana</strong>
-              <p id="studentWeekSubtext">Falta um para sua meta.</p>
-            </hgroup>
-          </section>
-          <span class="meter" role="progressbar" aria-label="Meta semanal: 2 de 3 treinos" aria-valuenow="2" aria-valuemin="0" aria-valuemax="3">
-            <span id="studentWeekMeter" style="--fill:66.67%"></span>
-          </span>
-          <p class="panel-footnote">Uma semana de cada vez. Continue no seu ritmo.</p>
-        </article>
-
-        <section class="quick-stats animate-in delay-2" aria-label="Estatísticas Rápidas">
-          <article class="panel small-stat">
-            <span class="icon-box" aria-hidden="true">
-              <svg class="icon" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3"></rect><path d="M7 3v4m10-4v4M3 11h18"></path></svg>
-            </span>
-            <hgroup>
-              <strong>12<span>visitas</span></strong>
-              <p>em outubro</p>
-            </hgroup>
-          </article>
-
-          <article class="panel small-stat" data-student-nav="screen-student-plan" role="button" tabindex="0" style="cursor:pointer;">
-            <span class="icon-box" aria-hidden="true">
-              <svg class="icon" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="3"></rect><path d="M2 10h20M6 15h4"></path></svg>
-            </span>
-            <hgroup>
-              <strong id="studentQuickPlanName">Mensal</strong>
-              <p id="studentQuickPlanStatus">
-                Plano ativo
-                <svg class="icon check-small" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"></path></svg>
-              </p>
-            </hgroup>
-          </article>
-        </section>
-
-        <article class="panel coach-card animate-in delay-2">
-          <header class="section-top">
-            <p class="eyebrow">SEU ACOMPANHAMENTO</p>
-            <span class="avatar-circle" id="studentCoachCardAvatar">RM</span>
-          </header>
-          <h2 id="studentCoachCardName">Rafael Martins</h2>
-          <p class="muted">Professor responsável</p>
-          <blockquote class="coach-tip">
-            <span class="red" aria-hidden="true">/</span>
-            <p>“A qualidade do movimento vem antes da carga. Capriche na execução.”</p>
-          </blockquote>
-        </article>
-      </section>
-
-      <header class="section-top section-spacing">
-        <h2>Seu treino, organizado</h2>
-        <button type="button" class="text-link" data-student-nav="screen-student-workouts">Ver todos</button>
-      </header>
-
-      <section class="workout-list home-workouts" aria-label="Próximos Treinos">
-        <button type="button" class="workout-row" data-student-nav="screen-workout-a">
-          <span class="letter-box red-box">A</span>
-          <hgroup class="workout-row-info">
-            <span class="subtle-label red">HOJE</span>
-            <h3>Peito + Tríceps</h3>
-            <p>3 exercícios · 45–60 min</p>
-          </hgroup>
-          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"></path></svg>
-        </button>
-
-        <button type="button" class="workout-row" data-student-nav="screen-workout-b">
-          <span class="letter-box">B</span>
-          <hgroup class="workout-row-info">
-            <span class="subtle-label">PRÓXIMO</span>
-            <h3>Costas + Bíceps</h3>
-            <p>3 exercícios · 45–60 min</p>
-          </hgroup>
-          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"></path></svg>
-        </button>
-      </section>
-    </section>
-
-    <!-- ALUNO 02: LISTA DE TREINOS (screen-student-workouts) -->
-    <section class="app-screen student-screen" id="screen-student-workouts" aria-label="Meus treinos">
-      <header class="page-heading">
-        <p class="eyebrow">MOVIMENTE-SE</p>
-        <h1>Seu treino.<br />Seu próximo nível<span class="red">.</span></h1>
-        <p class="muted">Um plano para cada dia. Escolha seu treino.</p>
-      </header>
-
-      <section class="training-layout" aria-label="Fichas de Treino">
-        <section class="workout-list" aria-label="Opções de fichas">
-          <button type="button" class="workout-row big-workout" data-student-nav="screen-workout-a">
-            <span class="letter-box red-box">A</span>
-            <hgroup class="workout-row-info">
-              <span class="subtle-label red">TREINO DO DIA</span>
-              <h2>Peito + Tríceps</h2>
-              <p>Supino reto, crucifixo e tríceps pulley</p>
-              <small>3 exercícios · 45–60 min</small>
-            </hgroup>
-            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"></path></svg>
-          </button>
-
-          <button type="button" class="workout-row big-workout" data-student-nav="screen-workout-b">
-            <span class="letter-box">B</span>
-            <hgroup class="workout-row-info">
-              <span class="subtle-label">TREINO B</span>
-              <h2>Costas + Bíceps</h2>
-              <p>Puxada frontal, remada baixa e rosca direta</p>
-              <small>3 exercícios · 45–60 min</small>
-            </hgroup>
-            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"></path></svg>
-          </button>
-
-          <button type="button" class="workout-row big-workout" data-student-nav="screen-workout-c">
-            <span class="letter-box">C</span>
-            <hgroup class="workout-row-info">
-              <span class="subtle-label">TREINO C</span>
-              <h2>Pernas + Ombros</h2>
-              <p>Agachamento, leg press e desenvolvimento</p>
-              <small>3 exercícios · 45–60 min</small>
-            </hgroup>
-            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"></path></svg>
-          </button>
-        </section>
-
-        <aside class="panel training-note" aria-label="Orientação do Instrutor">
-          <span class="icon-box" aria-hidden="true">
-            <svg class="icon" viewBox="0 0 24 24"><path d="M7 5v14M3 8v8M17 5v14M21 8v8M3 12h18"></path></svg>
-          </span>
-          <p class="eyebrow">BEM ORIENTADO, SEMPRE</p>
-          <h2>Treine com atenção<br />aos detalhes.</h2>
-          <p class="muted">Respeite os intervalos e siga as orientações do seu instrutor.</p>
-          <footer class="coach-mini">
-            <span class="avatar-circle" id="workoutNoteCoachAvatar">RM</span>
-            <hgroup>
-              <strong id="workoutNoteCoachName">Rafael Martins</strong>
-              <small>Seu instrutor</small>
-            </hgroup>
-          </footer>
-        </aside>
-      </section>
-    </section>
-
-    <!-- ALUNO 03A: DETALHE TREINO A (screen-workout-a) -->
-    <section class="app-screen student-screen workout-detail" id="screen-workout-a" aria-label="Treino A">
-      <button type="button" class="back-link" data-student-nav="screen-student-workouts">← Voltar aos treinos</button>
-      <header class="page-heading">
-        <p class="eyebrow">TREINO A</p>
-        <h1>Peito + Tríceps</h1>
-        <p class="muted">3 exercícios · 45–60 min · <span class="workout-coach-name">Rafael Martins</span></p>
-      </header>
-
-      <article class="workout-progress panel" aria-label="Progresso do Treino A">
-        <header class="section-top">
-          <hgroup>
-            <h2>Seu progresso</h2>
-            <p class="muted small">Marque os exercícios que concluir.</p>
-          </hgroup>
-          <output class="completion"><span id="progCountA">0</span><span class="muted"> / 3</span></output>
-        </header>
-        <span class="exercise-progress-track"><span id="progBarA"></span></span>
-        <p class="finished-message" id="progMsgA">
-          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"></path></svg>
-          Treino marcado como concluído. Bom trabalho!
+  <main id="mainContent" class="landing-main">
+    <!-- HERO SECTION -->
+    <section id="sobre" class="landing-hero" aria-labelledby="heroTitle">
+      <section class="landing-hero-content">
+        <p class="landing-eyebrow">
+          <span class="brand-mark" aria-hidden="true">//</span> TREINO DE ALTA PERFORMANCE &amp; GESTÃO INTELIGENTE
         </p>
-      </article>
-
-      <section class="exercise-list" data-workout-group="A" aria-label="Exercícios do Treino A">
-        <article class="panel exercise">
-          <header class="exercise-heading">
-            <span class="exercise-index">01</span>
-            <hgroup>
-              <h2>Supino reto</h2>
-              <p>Barra · Peitoral</p>
-            </hgroup>
-          </header>
-          <dl class="exercise-data">
-            <section class="stat-pair"><dt>SÉRIES</dt><dd>4</dd></section>
-            <section class="stat-pair"><dt>REPETIÇÕES</dt><dd>12</dd></section>
-            <section class="stat-pair"><dt>CARGA</dt><dd>20 kg</dd></section>
-          </dl>
-          <label class="exercise-check">
-            <input type="checkbox" id="a-ex-1" class="exercise-toggle" data-workout="A" />
-            <span class="check-box"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"></path></svg></span>
-            <span class="check-label">Marcar como concluído</span>
-            <span class="checked-label">Exercício concluído</span>
-          </label>
-        </article>
-
-        <article class="panel exercise">
-          <header class="exercise-heading">
-            <span class="exercise-index">02</span>
-            <hgroup>
-              <h2>Crucifixo</h2>
-              <p>Halteres · Peitoral</p>
-            </hgroup>
-          </header>
-          <dl class="exercise-data">
-            <section class="stat-pair"><dt>SÉRIES</dt><dd>3</dd></section>
-            <section class="stat-pair"><dt>REPETIÇÕES</dt><dd>12</dd></section>
-            <section class="stat-pair"><dt>CARGA</dt><dd>10 kg</dd></section>
-          </dl>
-          <label class="exercise-check">
-            <input type="checkbox" id="a-ex-2" class="exercise-toggle" data-workout="A" />
-            <span class="check-box"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"></path></svg></span>
-            <span class="check-label">Marcar como concluído</span>
-            <span class="checked-label">Exercício concluído</span>
-          </label>
-        </article>
-
-        <article class="panel exercise">
-          <header class="exercise-heading">
-            <span class="exercise-index">03</span>
-            <hgroup>
-              <h2>Tríceps pulley</h2>
-              <p>Polia · Tríceps</p>
-            </hgroup>
-          </header>
-          <dl class="exercise-data">
-            <section class="stat-pair"><dt>SÉRIES</dt><dd>3</dd></section>
-            <section class="stat-pair"><dt>REPETIÇÕES</dt><dd>15</dd></section>
-            <section class="stat-pair"><dt>CARGA</dt><dd>15 kg</dd></section>
-          </dl>
-          <label class="exercise-check">
-            <input type="checkbox" id="a-ex-3" class="exercise-toggle" data-workout="A" />
-            <span class="check-box"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"></path></svg></span>
-            <span class="check-label">Marcar como concluído</span>
-            <span class="checked-label">Exercício concluído</span>
-          </label>
-        </article>
-      </section>
-
-      <aside class="rest-note" aria-label="Intervalo recomendado">
-        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>
-        <hgroup>
-          <strong>60 segundos de intervalo</strong>
-          <p>Entre as séries. Ajuste com seu instrutor quando necessário.</p>
-        </hgroup>
-      </aside>
-    </section>
-
-    <!-- ALUNO 03B: DETALHE TREINO B (screen-workout-b) -->
-    <section class="app-screen student-screen workout-detail" id="screen-workout-b" aria-label="Treino B">
-      <button type="button" class="back-link" data-student-nav="screen-student-workouts">← Voltar aos treinos</button>
-      <header class="page-heading">
-        <p class="eyebrow">TREINO B</p>
-        <h1>Costas + Bíceps</h1>
-        <p class="muted">3 exercícios · 45–60 min · <span class="workout-coach-name">Rafael Martins</span></p>
-      </header>
-
-      <article class="workout-progress panel" aria-label="Progresso do Treino B">
-        <header class="section-top">
-          <hgroup>
-            <h2>Seu progresso</h2>
-            <p class="muted small">Marque os exercícios que concluir.</p>
-          </hgroup>
-          <output class="completion"><span id="progCountB">0</span><span class="muted"> / 3</span></output>
-        </header>
-        <span class="exercise-progress-track"><span id="progBarB"></span></span>
-        <p class="finished-message" id="progMsgB">
-          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"></path></svg>
-          Treino marcado como concluído. Bom trabalho!
+        <h1 id="heroTitle" class="landing-hero-title">
+          O SEU PRÓXIMO NÍVEL COMEÇA AQUI<span class="red">.</span>
+        </h1>
+        <p class="landing-hero-description">
+          A infraestrutura definitiva para quem busca evolução física real e acompanhamento qualificado. Unimos biomecânica aplicada, professores certificados com CREF e uma plataforma web completa para treinar onde você estiver.
         </p>
-      </article>
 
-      <section class="exercise-list" data-workout-group="B" aria-label="Exercícios do Treino B">
-        <article class="panel exercise">
-          <header class="exercise-heading">
-            <span class="exercise-index">01</span>
-            <hgroup>
-              <h2>Puxada frontal</h2>
-              <p>Polia · Costas</p>
-            </hgroup>
-          </header>
-          <dl class="exercise-data">
-            <section class="stat-pair"><dt>SÉRIES</dt><dd>4</dd></section>
-            <section class="stat-pair"><dt>REPETIÇÕES</dt><dd>12</dd></section>
-            <section class="stat-pair"><dt>CARGA</dt><dd>25 kg</dd></section>
-          </dl>
-          <label class="exercise-check">
-            <input type="checkbox" id="b-ex-1" class="exercise-toggle" data-workout="B" />
-            <span class="check-box"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"></path></svg></span>
-            <span class="check-label">Marcar como concluído</span>
-            <span class="checked-label">Exercício concluído</span>
-          </label>
-        </article>
-
-        <article class="panel exercise">
-          <header class="exercise-heading">
-            <span class="exercise-index">02</span>
-            <hgroup>
-              <h2>Remada baixa</h2>
-              <p>Polia · Costas</p>
-            </hgroup>
-          </header>
-          <dl class="exercise-data">
-            <section class="stat-pair"><dt>SÉRIES</dt><dd>3</dd></section>
-            <section class="stat-pair"><dt>REPETIÇÕES</dt><dd>12</dd></section>
-            <section class="stat-pair"><dt>CARGA</dt><dd>20 kg</dd></section>
-          </dl>
-          <label class="exercise-check">
-            <input type="checkbox" id="b-ex-2" class="exercise-toggle" data-workout="B" />
-            <span class="check-box"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"></path></svg></span>
-            <span class="check-label">Marcar como concluído</span>
-            <span class="checked-label">Exercício concluído</span>
-          </label>
-        </article>
-
-        <article class="panel exercise">
-          <header class="exercise-heading">
-            <span class="exercise-index">03</span>
-            <hgroup>
-              <h2>Rosca direta</h2>
-              <p>Barra · Bíceps</p>
-            </hgroup>
-          </header>
-          <dl class="exercise-data">
-            <section class="stat-pair"><dt>SÉRIES</dt><dd>3</dd></section>
-            <section class="stat-pair"><dt>REPETIÇÕES</dt><dd>12</dd></section>
-            <section class="stat-pair"><dt>CARGA</dt><dd>10 kg</dd></section>
-          </dl>
-          <label class="exercise-check">
-            <input type="checkbox" id="b-ex-3" class="exercise-toggle" data-workout="B" />
-            <span class="check-box"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"></path></svg></span>
-            <span class="check-label">Marcar como concluído</span>
-            <span class="checked-label">Exercício concluído</span>
-          </label>
-        </article>
-      </section>
-
-      <aside class="rest-note" aria-label="Intervalo recomendado">
-        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>
-        <hgroup>
-          <strong>60 segundos de intervalo</strong>
-          <p>Entre as séries. Ajuste com seu instrutor quando necessário.</p>
-        </hgroup>
-      </aside>
-    </section>
-
-    <!-- ALUNO 03C: DETALHE TREINO C (screen-workout-c) -->
-    <section class="app-screen student-screen workout-detail" id="screen-workout-c" aria-label="Treino C">
-      <button type="button" class="back-link" data-student-nav="screen-student-workouts">← Voltar aos treinos</button>
-      <header class="page-heading">
-        <p class="eyebrow">TREINO C</p>
-        <h1>Pernas + Ombros</h1>
-        <p class="muted">3 exercícios · 45–60 min · <span class="workout-coach-name">Rafael Martins</span></p>
-      </header>
-
-      <article class="workout-progress panel" aria-label="Progresso do Treino C">
-        <header class="section-top">
-          <hgroup>
-            <h2>Seu progresso</h2>
-            <p class="muted small">Marque os exercícios que concluir.</p>
-          </hgroup>
-          <output class="completion"><span id="progCountC">0</span><span class="muted"> / 3</span></output>
-        </header>
-        <span class="exercise-progress-track"><span id="progBarC"></span></span>
-        <p class="finished-message" id="progMsgC">
-          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"></path></svg>
-          Treino marcado como concluído. Bom trabalho!
-        </p>
-      </article>
-
-      <section class="exercise-list" data-workout-group="C" aria-label="Exercícios do Treino C">
-        <article class="panel exercise">
-          <header class="exercise-heading">
-            <span class="exercise-index">01</span>
-            <hgroup>
-              <h2>Agachamento</h2>
-              <p>Barra · Pernas</p>
-            </hgroup>
-          </header>
-          <dl class="exercise-data">
-            <section class="stat-pair"><dt>SÉRIES</dt><dd>4</dd></section>
-            <section class="stat-pair"><dt>REPETIÇÕES</dt><dd>12</dd></section>
-            <section class="stat-pair"><dt>CARGA</dt><dd>20 kg</dd></section>
-          </dl>
-          <label class="exercise-check">
-            <input type="checkbox" id="c-ex-1" class="exercise-toggle" data-workout="C" />
-            <span class="check-box"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"></path></svg></span>
-            <span class="check-label">Marcar como concluído</span>
-            <span class="checked-label">Exercício concluído</span>
-          </label>
-        </article>
-
-        <article class="panel exercise">
-          <header class="exercise-heading">
-            <span class="exercise-index">02</span>
-            <hgroup>
-              <h2>Leg press</h2>
-              <p>Máquina · Pernas</p>
-            </hgroup>
-          </header>
-          <dl class="exercise-data">
-            <section class="stat-pair"><dt>SÉRIES</dt><dd>3</dd></section>
-            <section class="stat-pair"><dt>REPETIÇÕES</dt><dd>12</dd></section>
-            <section class="stat-pair"><dt>CARGA</dt><dd>60 kg</dd></section>
-          </dl>
-          <label class="exercise-check">
-            <input type="checkbox" id="c-ex-2" class="exercise-toggle" data-workout="C" />
-            <span class="check-box"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"></path></svg></span>
-            <span class="check-label">Marcar como concluído</span>
-            <span class="checked-label">Exercício concluído</span>
-          </label>
-        </article>
-
-        <article class="panel exercise">
-          <header class="exercise-heading">
-            <span class="exercise-index">03</span>
-            <hgroup>
-              <h2>Desenvolvimento</h2>
-              <p>Halteres · Ombros</p>
-            </hgroup>
-          </header>
-          <dl class="exercise-data">
-            <section class="stat-pair"><dt>SÉRIES</dt><dd>3</dd></section>
-            <section class="stat-pair"><dt>REPETIÇÕES</dt><dd>12</dd></section>
-            <section class="stat-pair"><dt>CARGA</dt><dd>8 kg</dd></section>
-          </dl>
-          <label class="exercise-check">
-            <input type="checkbox" id="c-ex-3" class="exercise-toggle" data-workout="C" />
-            <span class="check-box"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"></path></svg></span>
-            <span class="check-label">Marcar como concluído</span>
-            <span class="checked-label">Exercício concluído</span>
-          </label>
-        </article>
-      </section>
-
-      <aside class="rest-note" aria-label="Intervalo recomendado">
-        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>
-        <hgroup>
-          <strong>60 segundos de intervalo</strong>
-          <p>Entre as séries. Ajuste com seu instrutor quando necessário.</p>
-        </hgroup>
-      </aside>
-    </section>
-
-    <!-- ALUNO 04: MEU PLANO (screen-student-plan) -->
-    <section class="app-screen student-screen" id="screen-student-plan" aria-label="Meu plano">
-      <header class="page-heading">
-        <p class="eyebrow">TUDO EM DIA</p>
-        <h1>Meu plano<span class="red">.</span></h1>
-        <p class="muted">Suas informações, sem complicação.</p>
-      </header>
-
-      <section class="plan-layout" aria-label="Cartão e Vencimento do Plano">
-        <article class="membership-card">
-          <header class="section-top">
-            <span class="logo"><span class="brand-mark" aria-hidden="true">//</span>MAX<span class="red">FIT</span></span>
-            <span class="pill green" id="studentCardStatusPill">ATIVO</span>
-          </header>
-          <hgroup class="membership-title">
-            <p class="eyebrow">SEU PLANO</p>
-            <h2 id="studentCardPlanTitle">MENSAL</h2>
-          </hgroup>
-          <footer class="membership-bottom">
-            <hgroup>
-              <small>ALUNO</small>
-              <strong id="studentCardMemberName">Lucas Martins</strong>
-            </hgroup>
-            <span class="member-number" id="studentCardMemberId">MF / 00128</span>
-          </footer>
-        </article>
-
-        <article class="panel billing">
-          <p class="eyebrow">PRÓXIMO VENCIMENTO</p>
-          <h2 id="studentBillingDueDate">10 nov<span>2026</span></h2>
-          <section class="section-top" aria-label="Valor mensal">
-            <hgroup>
-              <p class="muted small">Valor do pacote</p>
-              <strong class="bill-price" id="studentBillingPrice">R$ 99,90</strong>
-            </hgroup>
-            <span class="pill green">Plano regular</span>
-          </section>
-          <p class="panel-footnote">Seu último pagamento foi registrado em 10/10/2026.</p>
-        </article>
-      </section>
-
-      <header class="section-top section-spacing">
-        <h2>Histórico de pagamentos</h2>
-        <span class="subtle-label">ÚLTIMOS 3 MESES</span>
-      </header>
-
-      <section class="panel payments" aria-label="Lista de pagamentos">
-        <article class="payment-row">
-          <span class="payment-icon" aria-hidden="true">
-            <svg class="icon" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="3"></rect><path d="M2 10h20M6 15h4"></path></svg>
-          </span>
-          <hgroup>
-            <strong>Outubro 2026</strong>
-            <p class="student-pay-plan-name">Plano Mensal</p>
-          </hgroup>
-          <footer class="payment-value">
-            <strong class="student-pay-amount">R$ 99,90</strong>
-            <span class="pill green">Pago</span>
-          </footer>
-        </article>
-
-        <article class="payment-row">
-          <span class="payment-icon" aria-hidden="true">
-            <svg class="icon" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="3"></rect><path d="M2 10h20M6 15h4"></path></svg>
-          </span>
-          <hgroup>
-            <strong>Setembro 2026</strong>
-            <p class="student-pay-plan-name">Plano Mensal</p>
-          </hgroup>
-          <footer class="payment-value">
-            <strong class="student-pay-amount">R$ 99,90</strong>
-            <span class="pill green">Pago</span>
-          </footer>
-        </article>
-
-        <article class="payment-row">
-          <span class="payment-icon" aria-hidden="true">
-            <svg class="icon" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="3"></rect><path d="M2 10h20M6 15h4"></path></svg>
-          </span>
-          <hgroup>
-            <strong>Agosto 2026</strong>
-            <p class="student-pay-plan-name">Plano Mensal</p>
-          </hgroup>
-          <footer class="payment-value">
-            <strong class="student-pay-amount">R$ 99,90</strong>
-            <span class="pill green">Pago</span>
-          </footer>
-        </article>
-      </section>
-
-      <details class="panel faq">
-        <summary>O que meu plano inclui?<span>+</span></summary>
-        <p>Acesso à musculação, treino personalizado no app MaxFit e acompanhamento do instrutor responsável.</p>
-      </details>
-      <details class="panel faq">
-        <summary>Como renovar ou trocar de plano?<span>+</span></summary>
-        <p>Procure a recepção da MaxFit para conhecer as opções e atualizar seu plano.</p>
-      </details>
-    </section>
-
-    <!-- ALUNO 05: MEU PERFIL (screen-student-profile) -->
-    <section class="app-screen student-screen" id="screen-student-profile" aria-label="Meu perfil">
-      <header class="page-heading">
-        <p class="eyebrow">SEU ESPAÇO</p>
-        <h1>Meu perfil<span class="red">.</span></h1>
-        <p class="muted">Bom ter você no time MaxFit.</p>
-      </header>
-
-      <section class="profile-layout" aria-label="Informações do Perfil">
-        <article class="panel profile-card">
-          <span class="profile-cover" aria-hidden="true"></span>
-          <span class="avatar-circle profile-avatar" id="studentProfileAvatar">LM</span>
-          <h2 id="studentProfileName">Lucas Martins</h2>
-          <p class="muted">Aluno desde setembro de 2026</p>
-          <span class="pill green" id="studentProfileStatusBadge">Matrícula ativa</span>
-          <footer class="profile-id">
-            <span>MATRÍCULA</span>
-            <strong id="studentProfileCode">#00128</strong>
-          </footer>
-        </article>
-
-        <article class="panel profile-info">
-          <header class="section-top">
-            <h2>Seus dados</h2>
-            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21v-2a8 8 0 0 1 16 0v2"></path></svg>
-          </header>
-          <dl class="personal-data">
-            <section class="data-pair"><dt>Nome completo</dt><dd id="studentDataName">Lucas Martins</dd></section>
-            <section class="data-pair"><dt>E-mail</dt><dd id="studentDataEmail">lucas@maxfit.com</dd></section>
-            <section class="data-pair"><dt>Telefone</dt><dd id="studentDataPhone">(11) 99999-1234</dd></section>
-            <section class="data-pair"><dt>CPF</dt><dd id="studentDataCpf">123.987.456-10</dd></section>
-            <section class="data-pair"><dt>Plano contratado</dt><dd id="studentDataPlan">Plano Mensal</dd></section>
-            <section class="data-pair"><dt>Instrutor responsável</dt><dd id="studentDataCoach">Prof. Rafael Martins</dd></section>
-          </dl>
-          <p class="panel-footnote">Para atualizar seus dados cadastrais, procure a recepção.</p>
-        </article>
-      </section>
-
-      <button type="button" class="logout-link" id="btnLogoutStudentProfile">
-        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3H3v18h6m6-14 5 5-5 5m-6-5h11"></path></svg>
-        <span>Sair da área do aluno</span>
-      </button>
-    </section>
-
-    <!-- ALUNO 06: AJUDA (screen-student-help) -->
-    <section class="app-screen student-screen" id="screen-student-help" aria-label="Ajuda MaxFit">
-      <header class="page-heading">
-        <p class="eyebrow">CONTE COM A MAXFIT</p>
-        <h1>Como podemos ajudar<span class="red">?</span></h1>
-      </header>
-      <article class="panel help-panel">
-        <h2>Na academia, estamos por perto.</h2>
-        <p class="muted">
-          Para dúvidas sobre treinos, procure Rafael Martins. Para atualizar sua matrícula, pagamentos ou dados pessoais, fale com a recepção.
-        </p>
-        <button type="button" class="button" data-student-nav="screen-student-home">Voltar ao início</button>
-      </article>
-    </section>
-
-    <!-- =========================================================
-         MÓDULO 02: ÁREA EXCLUSIVA DO INSTRUTOR
-         Foco: Ver os alunos atuais na academia e ver o treino de cada um
-         ========================================================= -->
-
-    <!-- INSTRUTOR 01: ALUNOS ATUAIS NA ACADEMIA (screen-instructor-students) -->
-    <section class="app-screen" id="screen-instructor-students" aria-label="Painel do Instrutor - Alunos Atuais">
-      <header class="screen-header">
-        <hgroup>
-          <p class="eyebrow">ACOMPANHAMENTO TÉCNICO MAXFIT</p>
-          <h1 class="screen-title">Olá, Prof. Rafael<span class="red">.</span></h1>
-          <p class="screen-subtitle">Consulte os alunos atuais na academia e a ficha de treino de cada um</p>
-        </hgroup>
-        <nav class="header-actions" aria-label="Ações do Instrutor">
-          <button type="button" class="btn-icon" id="btnToggleThemeInstMobile" title="Alternar tema Escuro / Claro" aria-label="Alternar tema">
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        <section class="landing-hero-cta-group" aria-label="Chamadas de Ação">
+          <a href="#planos" class="btn-primary btn-large">
+            <span>Conhecer Nossos Planos</span>
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
             </svg>
-          </button>
-          <button type="button" class="header-avatar-btn" id="btnLogoutInstructorMobile" title="Encerrar sessão do Instrutor">RM</button>
-        </nav>
+          </a>
+          <a href="login.html" class="btn-secondary btn-large">
+            <span>Acessar Plataforma Web</span>
+          </a>
+        </section>
+
+        <!-- Métricas de Destaque -->
+        <section class="landing-hero-stats" aria-label="Estatísticas da MaxFit">
+          <article class="hero-stat-card">
+            <strong>+240</strong>
+            <span>Alunos Ativos</span>
+          </article>
+          <article class="hero-stat-card">
+            <strong>8</strong>
+            <span>Instrutores CREF</span>
+          </article>
+          <article class="hero-stat-card">
+            <strong>3 Fichas</strong>
+            <span>Treinos A, B e C</span>
+          </article>
+          <article class="hero-stat-card">
+            <strong>100%</strong>
+            <span>Foco em Resultados</span>
+          </article>
+        </section>
+      </section>
+
+      <!-- Imagem Hero em Destaque -->
+      <figure class="landing-hero-figure">
+        <img
+          src="assets/treino.jpg"
+          alt="Aluno treinando musculação de alta intensidade com halteres no MaxFit Club"
+          width="1800"
+          height="1200"
+          fetchpriority="high"
+          class="landing-hero-image"
+        />
+        <figcaption class="hero-image-caption">
+          <span class="caption-tag">MAXFIT PERFORMANCE</span>
+          <strong>Ambiente moderno e equipamentos biomecânicos</strong>
+        </figcaption>
+      </figure>
+    </section>
+
+    <!-- SEÇÃO: O ECOSSISTEMA DIGITAL MAXFIT (3 AMBIENTES) -->
+    <section id="ecossistema" class="landing-section" aria-labelledby="ecosystemTitle">
+      <header class="section-title-wrap">
+        <p class="landing-eyebrow">TECNOLOGIA INTEGRADA</p>
+        <h2 id="ecosystemTitle" class="section-main-title">
+          O Ecossistema Digital //MAXFIT<span class="red">.</span>
+        </h2>
+        <p class="section-subtitle-text">
+          Uma plataforma web inovadora desenvolvida sob medida para conectar alunos, instrutores de pista e a gestão da academia em 3 ambientes especializados:
+        </p>
       </header>
 
-      <section class="kpi-grid inst-kpi-grid" aria-label="Resumo de Alunos do Instrutor">
-        <article class="kpi-card">
-          <header class="kpi-top">
-            <span class="kpi-label">Alunos Cadastrados</span>
-            <span class="kpi-icon-badge" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2">
-                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                <circle cx="9" cy="7" r="4"></circle>
-              </svg>
-            </span>
-          </header>
-          <output class="kpi-value" id="instKpiTotalStudents">8</output>
-          <footer class="kpi-foot">
-            <span class="kpi-trend">Na base da academia</span>
-          </footer>
-        </article>
-
-        <article class="kpi-card">
-          <header class="kpi-top">
-            <span class="kpi-label">Alunos Ativos</span>
-            <span class="kpi-icon-badge" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2">
+      <section class="portal-cards-grid" aria-label="As 3 Áreas do Sistema MaxFit">
+        <!-- Card 01: Área do Aluno -->
+        <article class="portal-card">
+          <header class="portal-card-header">
+            <span class="portal-icon-badge" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M7 5v14M3 8v8M17 5v14M21 8v8M3 12h18"></path>
               </svg>
             </span>
+            <span class="pill red-pill">PERFIL ALUNO</span>
           </header>
-          <output class="kpi-value" id="instKpiActiveStudents">6</output>
-          <footer class="kpi-foot">
-            <span class="kpi-trend">Aptos para treino hoje</span>
-          </footer>
-        </article>
-      </section>
-
-      <label class="search-box" for="searchInstructorStudentsInput">
-        <svg class="search-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-          <circle cx="11" cy="11" r="8"></circle>
-          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-        </svg>
-        <input type="search" id="searchInstructorStudentsInput" placeholder="Buscar aluno na academia por nome ou objetivo..." aria-label="Buscar aluno na academia" />
-      </label>
-
-      <nav class="filter-pills" id="instStudentFilterPills" role="tablist" aria-label="Filtrar alunos da academia">
-        <button type="button" class="filter-pill active" data-inst-filter="all" role="tab" aria-selected="true">
-          <span>Todos na Academia</span>
-          <b class="pill-count" id="instCountAll">8</b>
-        </button>
-        <button type="button" class="filter-pill" data-inst-filter="Ativo" role="tab" aria-selected="false">
-          <span>Ativos em Treino</span>
-          <b class="pill-count" id="instCountActive">6</b>
-        </button>
-        <button type="button" class="filter-pill" data-inst-filter="Inativo" role="tab" aria-selected="false">
-          <span>Inativos</span>
-          <b class="pill-count" id="instCountInactive">2</b>
-        </button>
-      </nav>
-
-      <section class="cards-stack" id="instructorStudentsListContainer" aria-label="Alunos Atuais na Academia"></section>
-    </section>
-
-    <!-- INSTRUTOR 02: VER TREINO INDIVIDUAL DE CADA ALUNO (screen-instructor-workout) -->
-    <section class="app-screen" id="screen-instructor-workout" aria-label="Ficha de Treino do Aluno">
-      <header class="screen-header with-back">
-        <button type="button" class="btn-back" data-inst-nav="screen-instructor-students" aria-label="Voltar para lista de alunos">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2">
-            <line x1="19" y1="12" x2="5" y2="12"></line>
-            <polyline points="12 19 5 12 12 5"></polyline>
-          </svg>
-        </button>
-        <hgroup>
-          <p class="eyebrow">FICHA DE TREINO INDIVIDUAL</p>
-          <h1 class="screen-title" id="instWorkoutStudentName">Lucas Martins</h1>
-          <p class="screen-subtitle" id="instWorkoutStudentMeta">Plano Mensal • Objetivo: Hipertrofia &amp; Força</p>
-        </hgroup>
-      </header>
-
-      <!-- Seletor de Ficha A, B ou C do Aluno Selecionado -->
-      <nav class="filter-pills" id="instWorkoutSplitTabs" role="tablist" aria-label="Selecionar Ficha de Treino A, B ou C">
-        <button type="button" class="filter-pill active" data-split-tab="A" role="tab" aria-selected="true">
-          <span>Treino A — Peito + Tríceps</span>
-        </button>
-        <button type="button" class="filter-pill" data-split-tab="B" role="tab" aria-selected="false">
-          <span>Treino B — Costas + Bíceps</span>
-        </button>
-        <button type="button" class="filter-pill" data-split-tab="C" role="tab" aria-selected="false">
-          <span>Treino C — Pernas + Ombros</span>
-        </button>
-      </nav>
-
-      <article class="panel inst-workout-summary-box" aria-label="Resumo da Ficha Selecionada">
-        <header class="section-top">
-          <hgroup>
-            <p class="eyebrow" id="instSplitEyebrow">FICHA A · FOCO DO DIA</p>
-            <h2 id="instSplitTitle">Peito + Tríceps</h2>
-          </hgroup>
-          <span class="pill green" id="instSplitDuration">45–60 min</span>
-        </header>
-        <p class="muted small" id="instSplitNote" style="margin-top:0.4rem;">
-          Intervalo padrão de 60 segundos entre as séries. Acompanhe a execução do aluno.
-        </p>
-      </article>
-
-      <section class="exercise-list" id="instWorkoutExercisesContainer" aria-label="Exercícios da Ficha do Aluno"></section>
-    </section>
-
-    <!-- =========================================================
-         MÓDULO 03: PAINEL DO ADMIN (GESTÃO COMPLETA DA ACADEMIA)
-         ========================================================= -->
-
-    <!-- ADMIN 01: DASHBOARD (screen-dashboard) -->
-    <section class="app-screen" id="screen-dashboard" aria-label="Dashboard Administrativo MaxFit">
-      <header class="screen-header">
-        <hgroup>
-          <p class="eyebrow">GESTÃO DA ACADEMIA MAXFIT</p>
-          <h1 class="screen-title">Olá, Admin<span class="red">.</span></h1>
-          <p class="screen-subtitle" id="dashboardDateSubtitle">Sexta-feira, 06 de Novembro</p>
-        </hgroup>
-        <nav class="header-actions" aria-label="Ações da conta">
-          <button type="button" class="btn-icon" id="btnToggleThemeMobile" title="Alternar tema Escuro / Claro" aria-label="Alternar tema">
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-            </svg>
-          </button>
-          <button type="button" class="btn-icon" id="btnResetData" title="Restaurar dados originais MaxFit" aria-label="Restaurar dados originais">
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
-              <polyline points="1 4 1 10 7 10"></polyline>
-              <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
-            </svg>
-          </button>
-          <button type="button" class="header-avatar-btn" id="btnQuickLogoutMobile" title="Encerrar sessão">AD</button>
-        </nav>
-      </header>
-
-      <!-- Grid 2x2 Mobile / 4 Colunas Desktop de Indicadores -->
-      <section class="kpi-grid" aria-label="Indicadores de Desempenho MaxFit">
-        <article class="kpi-card" data-goto="screen-students" role="button" tabindex="0" aria-label="Ver Alunos Ativos">
-          <header class="kpi-top">
-            <span class="kpi-label">Alunos Ativos</span>
-            <span class="kpi-icon-badge" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2">
-                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                <circle cx="9" cy="7" r="4"></circle>
+          <h3 class="portal-card-title">Área do Aluno MaxFit</h3>
+          <p class="portal-card-desc">
+            Acompanhe o Treino do Dia, acesse as fichas detalhadas <strong>Treino A, B e C</strong> com checklist interativo em tempo real, veja seu histórico de faturas e acompanhe métricas corporais (IMC).
+          </p>
+          <ul class="portal-feature-list">
+            <li>Checklist interativo com barra de progresso</li>
+            <li>Orientação de cargas, séries e descansos</li>
+            <li>Consulta de biometria e instrutor responsável</li>
+          </ul>
+          <footer class="portal-card-footer">
+            <a href="login.html?role=student" class="btn-primary btn-block">
+              <span>Entrar como Aluno</span>
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <polyline points="9 18 15 12 9 6"></polyline>
               </svg>
-            </span>
-          </header>
-          <output class="kpi-value" id="kpiActiveStudents">247</output>
-          <footer class="kpi-foot">
-            <span class="kpi-trend">+12% este mês</span>
-            <span class="kpi-bar"><i style="width: 82%"></i></span>
+            </a>
           </footer>
         </article>
 
-        <article class="kpi-card" data-goto="screen-instructors" role="button" tabindex="0" aria-label="Ver Instrutores">
-          <header class="kpi-top">
-            <span class="kpi-label">Instrutores</span>
-            <span class="kpi-icon-badge" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2">
-                <path d="M7 5v14M3 8v8M17 5v14M21 8v8M3 12h18"></path>
-              </svg>
-            </span>
-          </header>
-          <output class="kpi-value" id="kpiInstructors">12</output>
-          <footer class="kpi-foot">
-            <span class="kpi-trend">3 turnos ativos</span>
-            <span class="kpi-bar"><i style="width: 90%"></i></span>
-          </footer>
-        </article>
-
-        <article class="kpi-card" data-goto="screen-enrollments" role="button" tabindex="0" aria-label="Ver Matrículas no Mês">
-          <header class="kpi-top">
-            <span class="kpi-label">Matrículas / Mês</span>
-            <span class="kpi-icon-badge" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2">
+        <!-- Card 02: Painel do Instrutor -->
+        <article class="portal-card">
+          <header class="portal-card-header">
+            <span class="portal-icon-badge" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
                 <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+                <path d="M9 14l2 2 4-4"></path>
               </svg>
             </span>
+            <span class="pill green">PERFIL INSTRUTOR</span>
           </header>
-          <output class="kpi-value" id="kpiMonthlyEnrollments">38</output>
-          <footer class="kpi-foot">
-            <span class="kpi-trend">+8 na semana</span>
-            <span class="kpi-bar"><i style="width: 74%"></i></span>
+          <h3 class="portal-card-title">Painel de Pista do Instrutor</h3>
+          <p class="portal-card-desc">
+            Acesso dedicado ao professor para acompanhar em tempo real os <strong>alunos presentes na academia</strong>, buscar por objetivo e inspecionar a execução das fichas técnicas de cada aluno.
+          </p>
+          <ul class="portal-feature-list">
+            <li>Lista de alunos com busca e status de presença</li>
+            <li>Inspeção imediata das fichas de treino A/B/C</li>
+            <li>Orientações técnicas e acompanhamento de cargas</li>
+          </ul>
+          <footer class="portal-card-footer">
+            <a href="login.html?role=instructor" class="btn-secondary btn-block">
+              <span>Acessar Painel Instrutor</span>
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </a>
           </footer>
         </article>
 
-        <article class="kpi-card" data-goto="screen-plans" role="button" tabindex="0" aria-label="Ver Receita Mensal e Planos">
-          <header class="kpi-top">
-            <span class="kpi-label">Receita Mensal</span>
-            <span class="kpi-icon-badge" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2">
-                <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
-                <polyline points="17 6 23 6 23 12"></polyline>
+        <!-- Card 03: Gestão Admin -->
+        <article class="portal-card">
+          <header class="portal-card-header">
+            <span class="portal-icon-badge" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="7" height="7" rx="1"></rect>
+                <rect x="14" y="3" width="7" height="7" rx="1"></rect>
+                <rect x="14" y="14" width="7" height="7" rx="1"></rect>
+                <rect x="3" y="14" width="7" height="7" rx="1"></rect>
               </svg>
             </span>
+            <span class="pill amber">PERFIL ADMIN</span>
           </header>
-          <output class="kpi-value kpi-currency" id="kpiMonthlyRevenue">R$ 42.890</output>
-          <footer class="kpi-foot">
-            <span class="kpi-trend">95% da meta</span>
-            <span class="kpi-bar"><i style="width: 95%"></i></span>
+          <h3 class="portal-card-title">Gestão da Academia (Admin)</h3>
+          <p class="portal-card-desc">
+            Dashboard executivo com indicadores em tempo real (Alunos Ativos, Instrutores, Matrículas e Receita Estimada), controle de contratos, cadastro de planos e CRUD completo.
+          </p>
+          <ul class="portal-feature-list">
+            <li>Dashboard com métricas e gráficos de meta</li>
+            <li>Gestão completa de Alunos, Instrutores e Planos</li>
+            <li>Cálculo automático de vigência de matrículas</li>
+          </ul>
+          <footer class="portal-card-footer">
+            <a href="login.html?role=admin" class="btn-secondary btn-block">
+              <span>Acesso Administrativo</span>
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </a>
           </footer>
         </article>
       </section>
-
-      <!-- Atalhos de Acesso Rápido -->
-      <nav class="quick-shortcuts-row" aria-label="Atalhos Rápidos">
-        <button type="button" class="shortcut-pill" data-goto="screen-add-student">
-          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.3" aria-hidden="true">
-            <line x1="12" y1="5" x2="12" y2="19"></line>
-            <line x1="5" y1="12" x2="19" y2="12"></line>
-          </svg>
-          <span>Novo Aluno</span>
-        </button>
-        <button type="button" class="shortcut-pill" data-goto="screen-new-enrollment">
-          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.3" aria-hidden="true">
-            <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
-            <path d="M9 14l2 2 4-4"></path>
-          </svg>
-          <span>Nova Matrícula</span>
-        </button>
-        <button type="button" class="shortcut-pill" data-goto="screen-instructors">
-          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.3" aria-hidden="true">
-            <path d="M7 5v14M3 8v8M17 5v14M21 8v8M3 12h18"></path>
-          </svg>
-          <span>Instrutores</span>
-        </button>
-      </nav>
-
-      <!-- Matrículas Recentes -->
-      <header class="section-header-row">
-        <h2 class="section-heading">Matrículas Recentes</h2>
-        <button type="button" class="link-action" data-goto="screen-enrollments">Ver todas</button>
-      </header>
-
-      <section class="cards-stack" id="dashboardRecentList" aria-label="Lista de Matrículas Recentes"></section>
     </section>
 
-    <!-- ADMIN 02: ALUNOS (screen-students) -->
-    <section class="app-screen" id="screen-students" aria-label="Gerenciamento de Alunos">
-      <header class="screen-header">
-        <hgroup>
-          <p class="eyebrow">MEMBROS MAXFIT</p>
-          <h1 class="screen-title">Alunos<span class="red">.</span></h1>
-          <p class="screen-subtitle">Gerenciamento de matrículas e cadastros</p>
-        </hgroup>
-        <nav class="header-actions" aria-label="Ações de visualização">
-          <button type="button" class="btn-icon" id="btnToggleStudentView" title="Alternar Cards / Tabela" aria-label="Alternar Cards ou Tabela">
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
-              <line x1="8" y1="6" x2="21" y2="6"></line>
-              <line x1="8" y1="12" x2="21" y2="12"></line>
-              <line x1="8" y1="18" x2="21" y2="18"></line>
-              <line x1="3" y1="6" x2="3.01" y2="6"></line>
-              <line x1="3" y1="12" x2="3.01" y2="12"></line>
-              <line x1="3" y1="18" x2="3.01" y2="18"></line>
-            </svg>
-          </button>
-          <button type="button" class="btn-primary btn-sm desktop-only-btn" data-goto="screen-add-student">+ Cadastrar Aluno</button>
-        </nav>
+    <!-- SEÇÃO: MODALIDADES -->
+    <section id="modalidades" class="landing-section" aria-labelledby="modalitiesTitle">
+      <header class="section-title-wrap">
+        <p class="landing-eyebrow">METODOLOGIA COMPLETA</p>
+        <h2 id="modalitiesTitle" class="section-main-title">
+          Modalidades para Todos os Objetivos<span class="red">.</span>
+        </h2>
+        <p class="section-subtitle-text">
+          Treinos desenhados por profissionais de educação física para potencializar ganho de força, hipertrofia, queima calórica e mobilidade.
+        </p>
       </header>
 
-      <label class="search-box" for="searchStudentsInput">
-        <svg class="search-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-          <circle cx="11" cy="11" r="8"></circle>
-          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-        </svg>
-        <input type="search" id="searchStudentsInput" placeholder="Buscar aluno por nome, plano ou instrutor..." aria-label="Buscar aluno por nome, plano ou telefone" />
-      </label>
+      <section class="modalities-grid" aria-label="Lista de Modalidades">
+        <article class="modality-card">
+          <span class="modality-badge">01</span>
+          <h3 class="modality-title">Musculação de Alta Performance</h3>
+          <p class="modality-desc">
+            Aparelhos com biomecânica avançada, pesos livres e divisão em Fichas A, B e C para estímulo muscular contínuo com segurança articular.
+          </p>
+        </article>
 
-      <nav class="filter-pills" id="studentFilterPills" role="tablist" aria-label="Filtrar alunos por status">
-        <button type="button" class="filter-pill active" data-filter="all" role="tab" aria-selected="true">
-          <span>Todos</span>
-          <b class="pill-count" id="countFilterAll">8</b>
-        </button>
-        <button type="button" class="filter-pill" data-filter="Ativo" role="tab" aria-selected="false">
-          <span>Ativos</span>
-          <b class="pill-count" id="countFilterActive">6</b>
-        </button>
-        <button type="button" class="filter-pill" data-filter="Inativo" role="tab" aria-selected="false">
-          <span>Inativos</span>
-          <b class="pill-count" id="countFilterInactive">2</b>
-        </button>
-      </nav>
+        <article class="modality-card">
+          <span class="modality-badge">02</span>
+          <h3 class="modality-title">Treino Funcional &amp; Cardio</h3>
+          <p class="modality-desc">
+            Circuitos de agilidade, esteiras e remos ergométricos para acelerar o metabolismo, resistência aeróbica e condicionamento cardiopulmonar.
+          </p>
+        </article>
 
-      <section class="cards-stack" id="studentsListContainer" aria-label="Cards de Alunos"></section>
+        <article class="modality-card">
+          <span class="modality-badge">03</span>
+          <h3 class="modality-title">Pilates &amp; Postura</h3>
+          <p class="modality-desc">
+            Fortalecimento profundo do core, melhora da flexibilidade e correção postural guiada por instrutores especializados.
+          </p>
+        </article>
 
-      <section class="table-responsive hidden" id="studentsTableContainer" aria-label="Tabela de Consulta de Alunos">
-        <table class="data-table">
-          <thead>
-            <tr>
-              <th scope="col">Aluno</th>
-              <th scope="col">CPF / Telefone</th>
-              <th scope="col">Plano Contratado</th>
-              <th scope="col">Professor Responsável</th>
-              <th scope="col">Status</th>
-              <th scope="col" class="text-right">Ações</th>
-            </tr>
-          </thead>
-          <tbody id="studentsTableBody"></tbody>
-        </table>
+        <article class="modality-card">
+          <span class="modality-badge">04</span>
+          <h3 class="modality-title">Cross Training &amp; Força</h3>
+          <p class="modality-desc">
+            Treinos em alta intensidade combinando levantamento de peso, movimentos ginásticos e superação constante de limites.
+          </p>
+        </article>
       </section>
-
-      <button type="button" class="fab-btn" data-goto="screen-add-student" aria-label="Cadastrar Novo Aluno" title="Cadastrar Aluno">
-        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5">
-          <line x1="12" y1="5" x2="12" y2="19"></line>
-          <line x1="5" y1="12" x2="19" y2="12"></line>
-        </svg>
-      </button>
     </section>
 
-    <!-- ADMIN 03: CADASTRAR / EDITAR ALUNO (screen-add-student) -->
-    <section class="app-screen" id="screen-add-student" aria-label="Formulário de Aluno">
-      <header class="screen-header with-back">
-        <button type="button" class="btn-back" data-back="screen-students" aria-label="Voltar">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2">
-            <line x1="19" y1="12" x2="5" y2="12"></line>
-            <polyline points="12 19 5 12 12 5"></polyline>
-          </svg>
-        </button>
-        <hgroup>
-          <p class="eyebrow">CADASTRO MAXFIT</p>
-          <h1 class="screen-title" id="studentFormTitle">Cadastrar Aluno</h1>
-          <p class="screen-subtitle" id="studentFormSubtitle">Novo registro</p>
-        </hgroup>
+    <!-- SEÇÃO: PLANOS & VALORES -->
+    <section id="planos" class="landing-section" aria-labelledby="plansTitle">
+      <header class="section-title-wrap">
+        <p class="landing-eyebrow">SEM COMPLICAÇÃO</p>
+        <h2 id="plansTitle" class="section-main-title">
+          Planos Transparentes e Acessíveis<span class="red">.</span>
+        </h2>
+        <p class="section-subtitle-text">
+          Escolha o plano que melhor se adapta à sua rotina e tenha acesso livre a todas as unidades e ao aplicativo web exclusivo.
+        </p>
       </header>
 
-      <form class="app-form" id="studentForm" novalidate>
-        <input type="hidden" id="studentEditId" value="" />
+      <section class="landing-plans-grid" aria-label="Planos Disponíveis">
+        <!-- Plano Mensal -->
+        <article class="landing-plan-card">
+          <header class="plan-header-area">
+            <h3 class="plan-name">Plano Mensal</h3>
+            <p class="plan-period">Flexibilidade total, sem taxa de cancelamento</p>
+            <strong class="plan-price-display">R$ 99,90<span>/mês</span></strong>
+          </header>
+          <ul class="plan-perks-list">
+            <li>Acesso livre à musculação</li>
+            <li>Treino interativo no App MaxFit</li>
+            <li>Acompanhamento de instrutores na pista</li>
+            <li>Sem fidelidade</li>
+          </ul>
+          <footer class="plan-card-cta">
+            <a href="login.html?role=student" class="btn-secondary btn-block">Começar Agora</a>
+          </footer>
+        </article>
 
-        <label class="field-label" for="studentName">
-          <span>Nome Completo</span>
-          <input type="text" id="studentName" placeholder="Matheus Duarte Silva" value="Matheus Duarte Silva" required />
-          <small class="field-error" id="studentNameError"></small>
-        </label>
+        <!-- Plano Trimestral VIP (Mais Popular) -->
+        <article class="landing-plan-card featured-plan">
+          <span class="featured-ribbon">MAIS POPULAR</span>
+          <header class="plan-header-area">
+            <h3 class="plan-name">Plano Trimestral VIP</h3>
+            <p class="plan-period">O pacote preferido dos nossos alunos</p>
+            <strong class="plan-price-display">R$ 79,96<span>/mês</span></strong>
+            <small class="plan-total-note">Total de R$ 239,90 por 3 meses</small>
+          </header>
+          <ul class="plan-perks-list">
+            <li>Musculação + Área de Cardio completa</li>
+            <li>Avaliação física biométrica inclusa</li>
+            <li>Acesso 7 dias por semana</li>
+            <li>Fichas A, B e C personalizadas</li>
+            <li>Armário rotativo gratuito</li>
+          </ul>
+          <footer class="plan-card-cta">
+            <a href="login.html?role=student" class="btn-primary btn-block">Assinar Plano VIP</a>
+          </footer>
+        </article>
 
-        <fieldset class="form-row-responsive">
-          <label class="field-label" for="studentCpf">
-            <span>CPF</span>
-            <input type="text" id="studentCpf" placeholder="123.456.789-00" value="123.456.789-00" maxlength="14" required />
-            <small class="field-error" id="studentCpfError"></small>
-          </label>
+        <!-- Plano Semestral -->
+        <article class="landing-plan-card">
+          <header class="plan-header-area">
+            <h3 class="plan-name">Plano Semestral</h3>
+            <p class="plan-period">Compromisso com sua evolução constante</p>
+            <strong class="plan-price-display">R$ 71,65<span>/mês</span></strong>
+            <small class="plan-total-note">Total de R$ 429,90 por 6 meses</small>
+          </header>
+          <ul class="plan-perks-list">
+            <li>Todas as modalidades inclusas</li>
+            <li>Aulas coletivas e funcionais</li>
+            <li>Acompanhamento individualizado</li>
+            <li>2 reavaliações físicas completas</li>
+          </ul>
+          <footer class="plan-card-cta">
+            <a href="login.html?role=student" class="btn-secondary btn-block">Escolher Semestral</a>
+          </footer>
+        </article>
 
-          <label class="field-label" for="studentPhone">
-            <span>Telefone</span>
-            <input type="tel" id="studentPhone" placeholder="(11) 98765-4321" value="(11) 98765-4321" maxlength="15" required />
-            <small class="field-error" id="studentPhoneError"></small>
-          </label>
-        </fieldset>
-
-        <label class="field-label" for="studentEmail">
-          <span>E-mail</span>
-          <input type="email" id="studentEmail" placeholder="matheus@maxfit.com" value="matheus@maxfit.com" required />
-          <small class="field-error" id="studentEmailError"></small>
-        </label>
-
-        <fieldset class="form-row-responsive">
-          <label class="field-label" for="studentPlan">
-            <span>Plano</span>
-            <span class="select-affix">
-              <select id="studentPlan" required></select>
-              <svg class="select-chevron" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                <polyline points="6 9 12 15 18 9"></polyline>
-              </svg>
-            </span>
-          </label>
-
-          <label class="field-label" for="studentInstructor">
-            <span>Instrutor Responsável</span>
-            <span class="select-affix">
-              <select id="studentInstructor" required></select>
-              <svg class="select-chevron" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                <polyline points="6 9 12 15 18 9"></polyline>
-              </svg>
-            </span>
-          </label>
-        </fieldset>
-
-        <footer class="form-actions-stack">
-          <button type="submit" class="btn-primary btn-block" id="btnSaveStudent">Salvar Aluno</button>
-          <button type="button" class="btn-secondary btn-block" id="btnCancelStudent" data-back="screen-students">Cancelar</button>
-        </footer>
-      </form>
+        <!-- Plano Anual Black -->
+        <article class="landing-plan-card">
+          <header class="plan-header-area">
+            <h3 class="plan-name">Plano Anual Black</h3>
+            <p class="plan-period">O melhor custo-benefício por mês</p>
+            <strong class="plan-price-display">R$ 62,49<span>/mês</span></strong>
+            <small class="plan-total-note">Total de R$ 749,90 por 12 meses</small>
+          </header>
+          <ul class="plan-perks-list">
+            <li>Acesso total VIP a todas as áreas</li>
+            <li>Convide 1 amigo por mês gratuitamente</li>
+            <li>Camiseta oficial //MAXFIT Club</li>
+            <li>Avaliação trimestral com bioimpedância</li>
+          </ul>
+          <footer class="plan-card-cta">
+            <a href="login.html?role=student" class="btn-secondary btn-block">Escolher Anual</a>
+          </footer>
+        </article>
+      </section>
     </section>
 
-    <!-- ADMIN 04: INSTRUTORES (screen-instructors) -->
-    <section class="app-screen" id="screen-instructors" aria-label="Instrutores da Academia">
-      <header class="screen-header">
-        <hgroup>
-          <p class="eyebrow">EQUIPE TÉCNICA</p>
-          <h1 class="screen-title">Instrutores<span class="red">.</span></h1>
-          <p class="screen-subtitle">Corpo técnico e professores MaxFit</p>
-        </hgroup>
-        <button type="button" class="btn-primary btn-sm desktop-only-btn" id="btnOpenAddInstructorDesktop">+ Novo Instrutor</button>
+    <!-- SEÇÃO: CORPO TÉCNICO -->
+    <section id="instrutores" class="landing-section" aria-labelledby="coachesTitle">
+      <header class="section-title-wrap">
+        <p class="landing-eyebrow">EQUIPE QUALIFICADA</p>
+        <h2 id="coachesTitle" class="section-main-title">
+          Professores Registrados no CREF<span class="red">.</span>
+        </h2>
+        <p class="section-subtitle-text">
+          Profissionais dedicados a corrigir sua execução, motivar sua evolução e prescrever treinos alinhados à sua individualidade biológica.
+        </p>
       </header>
 
-      <label class="search-box" for="searchInstructorsInput">
-        <svg class="search-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-          <circle cx="11" cy="11" r="8"></circle>
-          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-        </svg>
-        <input type="search" id="searchInstructorsInput" placeholder="Buscar instrutor por nome, CREF ou modalidade..." aria-label="Buscar instrutor por nome, CREF ou modalidade" />
-      </label>
+      <section class="coaches-grid" aria-label="Instrutores MaxFit">
+        <article class="coach-landing-card">
+          <span class="avatar-circle coach-large-avatar">RM</span>
+          <h3 class="coach-name">Prof. Rafael Martins</h3>
+          <p class="coach-cref">CREF 045890-G/SP</p>
+          <span class="pill red-pill">Musculação &amp; Hipertrofia</span>
+          <p class="coach-bio">
+            Especialista em biomecânica aplicada e montagem de treinos com foco em ganhos progressivos de força e massa muscular.
+          </p>
+        </article>
 
-      <section class="cards-stack" id="instructorsListContainer" aria-label="Lista de Instrutores"></section>
+        <article class="coach-landing-card">
+          <span class="avatar-circle coach-large-avatar">MC</span>
+          <h3 class="coach-name">Profa. Mariana Costa</h3>
+          <p class="coach-cref">CREF 051230-G/SP</p>
+          <span class="pill green">Funcional &amp; Pilates</span>
+          <p class="coach-bio">
+            Fisiologista do exercício com foco em mobilidade, fortalecimento do core e prevenção ativa de sobrecargas articulares.
+          </p>
+        </article>
 
-      <button type="button" class="fab-btn" id="btnFabAddInstructor" aria-label="Cadastrar Novo Instrutor" title="Novo Instrutor">
-        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5">
-          <line x1="12" y1="5" x2="12" y2="19"></line>
-          <line x1="5" y1="12" x2="19" y2="12"></line>
-        </svg>
-      </button>
+        <article class="coach-landing-card">
+          <span class="avatar-circle coach-large-avatar">CE</span>
+          <h3 class="coach-name">Prof. Carlos Eduardo</h3>
+          <p class="coach-cref">CREF 038920-G/SP</p>
+          <span class="pill amber">Cross Training &amp; Força</span>
+          <p class="coach-bio">
+            Treinador de atletas de alta intensidade, com foco em desenvolvimento cardiorrespiratório e potência muscular.
+          </p>
+        </article>
+
+        <article class="coach-landing-card">
+          <span class="avatar-circle coach-large-avatar">BL</span>
+          <h3 class="coach-name">Profa. Beatriz Lima</h3>
+          <p class="coach-cref">CREF 062140-G/SP</p>
+          <span class="pill red-pill">Avaliação &amp; Biometria</span>
+          <p class="coach-bio">
+            Responsável pelo diagnóstico físico dos alunos, análise de composição corporal e cálculo de índices de saúde.
+          </p>
+        </article>
+      </section>
     </section>
 
-    <!-- ADMIN 05: PLANOS (screen-plans) -->
-    <section class="app-screen" id="screen-plans" aria-label="Planos da Academia">
-      <header class="screen-header">
-        <hgroup>
-          <p class="eyebrow">ASSINATURAS MAXFIT</p>
-          <h1 class="screen-title">Planos da Academia<span class="red">.</span></h1>
-          <p class="screen-subtitle">Modalidades e pacotes ativos</p>
-        </hgroup>
-        <button type="button" class="btn-primary btn-sm desktop-only-btn" id="btnOpenAddPlanDesktop">+ Novo Plano</button>
+    <!-- SEÇÃO: PERGUNTAS FREQUENTES (FAQ) COM <details> NATIVO -->
+    <section id="faq" class="landing-section" aria-labelledby="faqTitle">
+      <header class="section-title-wrap">
+        <p class="landing-eyebrow">TIRA-DÚVIDAS</p>
+        <h2 id="faqTitle" class="section-main-title">
+          Perguntas Frequentes<span class="red">?</span>
+        </h2>
       </header>
 
-      <section class="cards-stack" id="plansListContainer" aria-label="Lista de Planos"></section>
+      <section class="landing-faq-stack" aria-label="Acordeão de Dúvidas">
+        <details class="panel faq">
+          <summary>Como funciona o acesso à Área do Aluno?<span>+</span></summary>
+          <p>
+            Assim que você se matricula na recepção ou confirma seu plano, você recebe seu e-mail e senha de acesso. Pelo celular ou computador, basta acessar a tela de login para visualizar sua ficha de treino interativa em qualquer lugar.
+          </p>
+        </details>
 
-      <button type="button" class="fab-btn" id="btnFabAddPlan" aria-label="Cadastrar Novo Plano" title="Novo Plano">
-        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5">
-          <line x1="12" y1="5" x2="12" y2="19"></line>
-          <line x1="5" y1="12" x2="19" y2="12"></line>
-        </svg>
-      </button>
+        <details class="panel faq">
+          <summary>Preciso baixar algum aplicativo na App Store ou Play Store?<span>+</span></summary>
+          <p>
+            Não! A plataforma MaxFit foi desenvolvida com tecnologia web responsiva e semântica. Você pode adicionar à tela inicial do seu celular e usá-la como um aplicativo nativo, leve e sem consumir a memória do seu aparelho.
+          </p>
+        </details>
+
+        <details class="panel faq">
+          <summary>Como funcionam as fichas de Treino A, B e C?<span>+</span></summary>
+          <p>
+            Seu professor responsável monta a periodização ideal para o seu objetivo. Pelo app, você marca cada exercício concluído, acompanha séries, repetições, carga e lê as notas técnicas do instrutor.
+          </p>
+        </details>
+
+        <details class="panel faq">
+          <summary>Quais são os horários de funcionamento da MaxFit?<span>+</span></summary>
+          <p>
+            Funcionamos de Segunda a Sexta-feira das 05h às 23h. Aos Sábados e Domingos das 08h às 18h.
+          </p>
+        </details>
+      </section>
     </section>
-
-    <!-- ADMIN 06: CONTROLE DE MATRÍCULAS (screen-enrollments) -->
-    <section class="app-screen" id="screen-enrollments" aria-label="Controle de Matrículas">
-      <header class="screen-header">
-        <hgroup>
-          <p class="eyebrow">CONTRATOS E VIGÊNCIA</p>
-          <h1 class="screen-title">Controle de Matrículas<span class="red">.</span></h1>
-          <p class="screen-subtitle">Gestão de assinaturas MaxFit</p>
-        </hgroup>
-        <button type="button" class="btn-primary btn-sm desktop-only-btn" data-goto="screen-new-enrollment">+ Nova Matrícula</button>
-      </header>
-
-      <nav class="filter-pills" id="enrollmentFilterPills" role="tablist" aria-label="Filtrar matrículas por status">
-        <button type="button" class="filter-pill active" data-filter="all" role="tab" aria-selected="true">
-          <span>Todas</span>
-          <b class="pill-count" id="countEnrAll">6</b>
-        </button>
-        <button type="button" class="filter-pill" data-filter="Ativa" role="tab" aria-selected="false">
-          <span>Ativas</span>
-          <b class="pill-count" id="countEnrActive">3</b>
-        </button>
-        <button type="button" class="filter-pill" data-filter="Pendente" role="tab" aria-selected="false">
-          <span>Pendentes</span>
-          <b class="pill-count" id="countEnrPending">2</b>
-        </button>
-        <button type="button" class="filter-pill" data-filter="Cancelada" role="tab" aria-selected="false">
-          <span>Canceladas</span>
-          <b class="pill-count" id="countEnrCanceled">1</b>
-        </button>
-      </nav>
-
-      <section class="cards-stack" id="enrollmentsListContainer" aria-label="Lista de Matrículas"></section>
-
-      <button type="button" class="fab-btn" data-goto="screen-new-enrollment" aria-label="Criar Nova Matrícula" title="Nova Matrícula">
-        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5">
-          <line x1="12" y1="5" x2="12" y2="19"></line>
-          <line x1="5" y1="12" x2="19" y2="12"></line>
-        </svg>
-      </button>
-    </section>
-
-    <!-- ADMIN 07: NOVA MATRÍCULA (screen-new-enrollment) -->
-    <section class="app-screen" id="screen-new-enrollment" aria-label="Nova Matrícula">
-      <header class="screen-header with-back">
-        <button type="button" class="btn-back" data-back="screen-enrollments" aria-label="Voltar">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2">
-            <line x1="19" y1="12" x2="5" y2="12"></line>
-            <polyline points="12 19 5 12 12 5"></polyline>
-          </svg>
-        </button>
-        <hgroup>
-          <p class="eyebrow">NOVA ASSINATURA</p>
-          <h1 class="screen-title" id="enrollmentFormTitle">Nova Matrícula</h1>
-          <p class="screen-subtitle">Vincular aluno, plano e instrutor</p>
-        </hgroup>
-      </header>
-
-      <form class="app-form" id="enrollmentForm" novalidate>
-        <input type="hidden" id="enrollmentEditId" value="" />
-
-        <label class="field-label" for="enrollStudentSelect">
-          <span>Selecionar Aluno</span>
-          <span class="select-affix">
-            <select id="enrollStudentSelect" required></select>
-            <svg class="select-chevron" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-              <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
-          </span>
-        </label>
-
-        <fieldset class="form-row-responsive">
-          <label class="field-label" for="enrollPlanSelect">
-            <span>Selecionar Plano</span>
-            <span class="select-affix">
-              <select id="enrollPlanSelect" required></select>
-              <svg class="select-chevron" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                <polyline points="6 9 12 15 18 9"></polyline>
-              </svg>
-            </span>
-          </label>
-
-          <label class="field-label" for="enrollInstructorSelect">
-            <span>Selecionar Instrutor</span>
-            <span class="select-affix">
-              <select id="enrollInstructorSelect" required></select>
-              <svg class="select-chevron" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                <polyline points="6 9 12 15 18 9"></polyline>
-              </svg>
-            </span>
-          </label>
-        </fieldset>
-
-        <fieldset class="form-row-responsive">
-          <label class="field-label" for="enrollStartDate">
-            <span>Data de Início</span>
-            <span class="input-affix right-only">
-              <input type="text" id="enrollStartDate" value="06/11/2026" placeholder="DD/MM/AAAA" maxlength="10" required />
-              <svg class="affix-static-right" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                <line x1="16" y1="2" x2="16" y2="6"></line>
-                <line x1="8" y1="2" x2="8" y2="6"></line>
-                <line x1="3" y1="10" x2="21" y2="10"></line>
-              </svg>
-            </span>
-            <small class="field-error" id="enrollStartDateError"></small>
-          </label>
-
-          <label class="field-label" for="enrollEndDate">
-            <span>Data de Término (Automático)</span>
-            <input type="text" id="enrollEndDate" value="06/12/2026" readonly class="input-readonly" />
-          </label>
-        </fieldset>
-
-        <fieldset class="field-label status-fieldset">
-          <legend>Status Inicial</legend>
-          <nav class="status-radio-group" role="radiogroup" aria-label="Status Inicial da Matrícula">
-            <button type="button" class="status-radio-pill active" data-status-val="Ativa" id="radioStatusAtiva">
-              <span class="radio-dot"></span>
-              <span>Ativa</span>
-            </button>
-            <button type="button" class="status-radio-pill" data-status-val="Pendente" id="radioStatusPendente">
-              <span class="radio-dot"></span>
-              <span>Pendente</span>
-            </button>
-          </nav>
-        </fieldset>
-
-        <output class="estimated-value-box" for="enrollPlanSelect">
-          <span class="estimated-label">VALOR ESTIMADO MAXFIT</span>
-          <strong class="estimated-price" id="enrollEstimatedPrice">R$ 99,90 / mês</strong>
-        </output>
-
-        <footer class="form-actions-stack">
-          <button type="submit" class="btn-primary btn-block" id="btnConfirmEnrollment">Confirmar Matrícula</button>
-        </footer>
-      </form>
-    </section>
-
-    <!-- Rodapé institucional MaxFit visível na Área do Aluno -->
-    <footer class="app-footer hidden" id="studentFooter">
-      <button type="button" class="logo" data-student-nav="screen-student-home" aria-label="MaxFit início">
-        <span class="brand-mark" aria-hidden="true">//</span>MAX<span class="red">FIT</span>
-      </button>
-      <span>MAXFIT CLUB 2026 · TREINOS &amp; GESTÃO</span>
-      <a href="https://unsplash.com/photos/man-works-out-with-dumbbells-in-the-gym-S1WD5KDRjGo" target="_blank" rel="noopener" class="photo-credit">Foto: Kobe Kian Clata / Unsplash</a>
-    </footer>
   </main>
 
   <!-- =========================================================
-       BARRA INFERIOR MOBILE 01: ADMIN (GESTÃO COMPLETA)
+       RODAPÉ INSTITUCIONAL (PORTAL MAXFIT)
        ========================================================= -->
-  <nav class="bottom-nav hidden" id="bottomNav" aria-label="Navegação Inferior Admin">
-    <button type="button" class="bottom-nav-item active" data-nav="screen-dashboard">
-      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8">
-        <path d="m3 10 9-7 9 7v10h-6v-7H9v7H3z"></path>
-      </svg>
-      <span>Dashboard</span>
-    </button>
+  <footer class="landing-footer" aria-label="Rodapé Institucional MaxFit">
+    <section class="landing-footer-grid">
+      <section class="footer-brand-col">
+        <a href="#top" class="logo" aria-label="Voltar ao início">
+          <span class="brand-mark" aria-hidden="true">//</span>MAX<span class="red">FIT</span>
+        </a>
+        <p class="footer-tagline">
+          Treinos inteligentes, instrutores certificados e infraestrutura de alta performance.
+        </p>
+        <p class="footer-copy">
+          &copy; 2026 MaxFit Club. Todos os direitos reservados.
+        </p>
+      </section>
 
-    <button type="button" class="bottom-nav-item" data-nav="screen-students">
-      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8">
-        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-        <circle cx="12" cy="7" r="4"></circle>
-      </svg>
-      <span>Alunos</span>
-    </button>
+      <section class="footer-links-col">
+        <h4>Ambientes</h4>
+        <nav class="footer-nav" aria-label="Links para os Ambientes">
+          <a href="login.html?role=student">Área do Aluno</a>
+          <a href="login.html?role=instructor">Painel do Instrutor</a>
+          <a href="login.html?role=admin">Gestão Admin</a>
+          <a href="login.html">Tela de Login</a>
+        </nav>
+      </section>
 
-    <button type="button" class="bottom-nav-item" data-nav="screen-plans">
-      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8">
-        <rect x="2" y="5" width="20" height="14" rx="3"></rect>
-        <path d="M2 10h20M6 15h4"></path>
-      </svg>
-      <span>Planos</span>
-    </button>
+      <section class="footer-links-col">
+        <h4>Atendimento</h4>
+        <address class="footer-address">
+          Av. Paulista, 1500 — São Paulo/SP<br />
+          Telefone: (11) 3456-7890<br />
+          E-mail: contato@maxfit.com
+        </address>
+        <p class="footer-hours">
+          Seg a Sex: 05h às 23h<br />
+          Sáb e Dom: 08h às 18h
+        </p>
+      </section>
 
-    <button type="button" class="bottom-nav-item" data-nav="screen-enrollments">
-      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8">
-        <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
-        <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
-        <path d="M9 14l2 2 4-4"></path>
-      </svg>
-      <span>Matrículas</span>
-    </button>
-
-    <button type="button" class="bottom-nav-item" data-nav="screen-instructors">
-      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8">
-        <path d="M7 5v14M3 8v8M17 5v14M21 8v8M3 12h18"></path>
-      </svg>
-      <span>Instrutores</span>
-    </button>
-  </nav>
-
-  <!-- =========================================================
-       BARRA INFERIOR MOBILE 02: INSTRUTOR (ALUNOS & TREINOS)
-       ========================================================= -->
-  <nav class="bottom-nav instructor-bottom-nav hidden" id="instructorBottomNav" aria-label="Menu do Instrutor">
-    <button type="button" class="bottom-nav-item active" data-inst-nav="screen-instructor-students">
-      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-        <circle cx="9" cy="7" r="4"></circle>
-      </svg>
-      <span>Alunos Atuais</span>
-    </button>
-
-    <button type="button" class="bottom-nav-item" data-inst-nav="screen-instructor-workout">
-      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-        <path d="M7 5v14M3 8v8M17 5v14M21 8v8M3 12h18"></path>
-      </svg>
-      <span>Treino do Aluno</span>
-    </button>
-
-    <button type="button" class="bottom-nav-item" id="btnLogoutInstructorNav">
-      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-        <path d="M9 3H3v18h6m6-14 5 5-5 5m-6-5h11"></path>
-      </svg>
-      <span>Sair</span>
-    </button>
-  </nav>
-
-  <!-- =========================================================
-       BARRA INFERIOR MOBILE 03: ÁREA DO ALUNO (MAXFIT)
-       ========================================================= -->
-  <nav class="bottom-nav student-bottom-nav hidden" id="studentBottomNav" aria-label="Menu do Aluno">
-    <button type="button" class="bottom-nav-item active" data-student-nav="screen-student-home">
-      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-        <path d="m3 10 9-7 9 7v10h-6v-7H9v7H3z"></path>
-      </svg>
-      <span>Início</span>
-    </button>
-
-    <button type="button" class="bottom-nav-item" data-student-nav="screen-student-workouts">
-      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-        <path d="M7 5v14M3 8v8M17 5v14M21 8v8M3 12h18"></path>
-      </svg>
-      <span>Treinos</span>
-    </button>
-
-    <button type="button" class="bottom-nav-item" data-student-nav="screen-student-plan">
-      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-        <rect x="2" y="5" width="20" height="14" rx="3"></rect>
-        <path d="M2 10h20M6 15h4"></path>
-      </svg>
-      <span>Plano</span>
-    </button>
-
-    <button type="button" class="bottom-nav-item" data-student-nav="screen-student-profile">
-      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-        <circle cx="12" cy="8" r="4"></circle>
-        <path d="M4 21v-2a8 8 0 0 1 16 0v2"></path>
-      </svg>
-      <span>Perfil</span>
-    </button>
-  </nav>
-
-  <!-- =========================================================
-       MODAIS E BOTTOM SHEETS SEMÂNTICOS COM <dialog> NATIVO DO HTML5
-       ========================================================= -->
-
-  <!-- Dialog: Cadastrar / Editar Instrutor -->
-  <dialog class="modal-sheet" id="modalInstructor" aria-labelledby="modalInstructorTitle">
-    <header class="modal-header">
-      <h3 id="modalInstructorTitle">Cadastrar Instrutor</h3>
-      <button type="button" class="btn-close-modal" data-close-modal="modalInstructor" aria-label="Fechar">&times;</button>
-    </header>
-    <form id="instructorForm" class="app-form" novalidate>
-      <input type="hidden" id="instructorEditId" value="" />
-      <label class="field-label" for="instructorName">
-        <span>Nome do Professor(a)</span>
-        <input type="text" id="instructorName" placeholder="Ex: Prof. Rafael Martins" required />
-      </label>
-      <label class="field-label" for="instructorCref">
-        <span>Registro CREF</span>
-        <input type="text" id="instructorCref" placeholder="Ex: CREF 067890-G/SP" required />
-      </label>
-      <label class="field-label" for="instructorSpecialty">
-        <span>Especialidade / Modalidade</span>
-        <input type="text" id="instructorSpecialty" placeholder="Ex: Musculação, Pilates, Crossfit..." required />
-      </label>
-      <footer class="modal-actions">
-        <button type="button" class="btn-secondary" data-close-modal="modalInstructor">Cancelar</button>
-        <button type="submit" class="btn-primary">Salvar Instrutor</button>
-      </footer>
-    </form>
-  </dialog>
-
-  <!-- Dialog: Cadastrar / Editar Plano -->
-  <dialog class="modal-sheet" id="modalPlan" aria-labelledby="modalPlanTitle">
-    <header class="modal-header">
-      <h3 id="modalPlanTitle">Cadastrar Plano</h3>
-      <button type="button" class="btn-close-modal" data-close-modal="modalPlan" aria-label="Fechar">&times;</button>
-    </header>
-    <form id="planForm" class="app-form" novalidate>
-      <input type="hidden" id="planEditId" value="" />
-      <label class="field-label" for="planName">
-        <span>Nome do Plano</span>
-        <input type="text" id="planName" placeholder="Ex: Plano Semestral VIP" required />
-      </label>
-      <fieldset class="form-row-responsive">
-        <label class="field-label" for="planMonths">
-          <span>Duração (Meses)</span>
-          <input type="number" id="planMonths" min="1" max="36" value="1" required />
-        </label>
-        <label class="field-label" for="planPrice">
-          <span>Valor Total (R$)</span>
-          <input type="number" id="planPrice" step="0.10" min="1" placeholder="99.90" required />
-        </label>
-      </fieldset>
-      <label class="checkbox-label" for="planFeatured">
-        <input type="checkbox" id="planFeatured" />
-        <span>Destacar plano (Selo MaxFit Destaque)</span>
-      </label>
-      <footer class="modal-actions">
-        <button type="button" class="btn-secondary" data-close-modal="modalPlan">Cancelar</button>
-        <button type="submit" class="btn-primary">Salvar Plano</button>
-      </footer>
-    </form>
-  </dialog>
-
-  <!-- Dialog Bottom Sheet: Detalhes do Registro -->
-  <dialog class="bottom-sheet" id="modalDetailsSheet" aria-labelledby="detailsSheetTitle">
-    <header class="modal-header">
-      <h3 id="detailsSheetTitle">Detalhes do Registro</h3>
-      <button type="button" class="btn-close-modal" data-close-modal="modalDetailsSheet" aria-label="Fechar">&times;</button>
-    </header>
-    <dl id="detailsSheetBody" class="sheet-body"></dl>
-    <footer id="detailsSheetActions" class="modal-actions"></footer>
-  </dialog>
-
-  <!-- Dialog: Confirmação de Exclusão -->
-  <dialog class="modal-dialog-centered" id="modalConfirmDelete" aria-labelledby="confirmDeleteTitle">
-    <span class="delete-icon-circle" aria-hidden="true">
-      <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.2">
-        <polyline points="3 6 5 6 21 6"></polyline>
-        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-      </svg>
-    </span>
-    <h3 id="confirmDeleteTitle">Confirmar Exclusão</h3>
-    <p id="confirmDeleteText">Tem certeza que deseja excluir este registro?</p>
-    <footer class="modal-actions">
-      <button type="button" class="btn-secondary" data-close-modal="modalConfirmDelete">Cancelar</button>
-      <button type="button" class="btn-danger" id="btnConfirmDeleteAction">Excluir</button>
-    </footer>
-  </dialog>
-
-  <!-- Dialog: Recuperar Senha -->
-  <dialog class="modal-dialog-centered" id="modalForgotPass" aria-labelledby="forgotPassTitle">
-    <h3 id="forgotPassTitle">Recuperar Acesso MaxFit</h3>
-    <p>Informe seu e-mail cadastrado para receber as instruções ou procure a recepção da MaxFit.</p>
-    <form id="forgotPassForm" class="app-form" novalidate>
-      <label class="field-label" for="forgotPassEmail">
-        <input type="email" id="forgotPassEmail" value="contato@maxfit.com" required />
-      </label>
-      <footer class="modal-actions">
-        <button type="button" class="btn-secondary" data-close-modal="modalForgotPass">Cancelar</button>
-        <button type="submit" class="btn-primary">Enviar Link</button>
-      </footer>
-    </form>
-  </dialog>
+      <section class="footer-links-col">
+        <h4>Contexto Acadêmico</h4>
+        <p class="footer-academic">
+          Desenvolvido para a <strong>UC14 (Senac)</strong> — "Da Ideia ao Protótipo".<br />
+          Autores: <strong>Matheus Duarte &amp; Miguel</strong><br />
+          Tema: <strong>Academia (Tema 04)</strong>
+        </p>
+      </section>
+    </section>
+  </footer>
 
   <!-- Notificações Toast -->
   <aside class="toast-container" id="toastContainer" aria-live="polite"></aside>

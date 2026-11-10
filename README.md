@@ -1,6 +1,6 @@
 # 🏋️‍♂️ // MAXFIT — Sistema Integrado de Treinos e Gestão de Academias (`Atividade-App-Academia`)
 
-Aplicação web **Mobile-First e Responsiva** desenvolvida para a atividade prática da **UC14 (Senac) — "Da Ideia ao Protótipo"**. O projeto parte da concepção em Wireframe, Mockup e Protótipo Interativo no Figma e evolui para um ecossistema completo sob a identidade visual **MaxFit Club (`//MAXFIT`)**, unificando **Área do Aluno**, **Painel do Instrutor** e **Gestão Administrativa (Admin)** com **HTML5 Estritamente Semântico (Zero `<div>`)**, **CSS3 Mobile-First (`rem` / `em`)** e **JavaScript (ES6+)**.
+Aplicação web **Mobile-First e Responsiva** desenvolvida para a atividade prática da **UC14 (Senac) — "Da Ideia ao Protótipo"**. O projeto parte da concepção em Wireframe, Mockup e Protótipo Interativo no Figma e evolui para um ecossistema completo sob a identidade visual **MaxFit Club (`//MAXFIT`)**, estruturado em **5 páginas HTML independentes**, com **HTML5 Estritamente Semântico (Zero `<div>`)**, **CSS3 Mobile-First (`rem` / `em`)** e **JavaScript Vanilla (ES6+)**.
 
 ---
 
@@ -16,85 +16,44 @@ Aplicação web **Mobile-First e Responsiva** desenvolvida para a atividade prá
 
 ## 🎯 Sobre o Projeto
 
-O **MaxFit Club (`//MAXFIT`)** simula um sistema real e integrado para academias de ginástica, dividido em **3 perfis de acesso** a partir de uma única tela de login:
+O **MaxFit Club (`//MAXFIT`)** é uma solução completa para academias de ginástica, dividida em **5 páginas HTML dedicadas**:
 
-1. **Perfil Aluno (`Área do Aluno MaxFit`):**
-   - Acesso direto de teste para consulta do **Treino do Dia**, fichas **Treino A, B e C** com checklist interativo e barra de progresso em tempo real;
-   - Visualização do **Plano Contratado**, benefícios inclusos e histórico de faturas;
-   - Consulta de **Perfil Biométrico** (peso, altura, IMC calculado, objetivo e instrutor responsável) e central de **Ajuda / FAQ**.
-2. **Perfil Instrutor (`Painel de Pista do Instrutor`):**
-   - Acesso dedicado exclusivamente ao acompanhamento técnico: visualização dos **Alunos Atuais na Academia** (com busca e filtro de ativos/todos) e inspeção detalhada da **Ficha de Treino (Treinos A, B e C)** de cada aluno com séries, repetições, descanso, dicas de execução e progresso.
-3. **Perfil Admin (`Gestão da Academia`):**
-   - **Dashboard Executivo** com indicadores em tempo real (Alunos Ativos, Instrutores, Matrículas/Mês e Receita Mensal Estimada);
-   - **Cadastro e consulta de Alunos** (com vínculo ao plano e ao instrutor responsável);
-   - **Cadastro e consulta de Instrutores** (com registro CREF, especialidade e contagem de alunos);
-   - **Cadastro e consulta de Planos** (Mensal, Trimestral, Semestral, Anual e novos pacotes);
-   - **Controle de Matrículas** (com cálculo automático da data de término e valor mensal estimado conforme o plano contratado).
+1. **`index.html` (Portal Principal / Landing Page):**
+   - Apresentação visual da academia, infraestrutura e metodologia de treino;
+   - Apresentação do **Ecossistema Digital** (Área do Aluno, Painel do Instrutor e Gestão Admin);
+   - Catálogo de **Modalidades** (Musculação, Funcional, Pilates e Cross Training);
+   - Vitrine de **Planos** com valores, benefícios e chamada para assinatura;
+   - Corpo técnico de **Instrutores com CREF** e especialidades;
+   - FAQ semântico com `<details>` e `<summary>` e rodapé institucional.
 
----
+2. **`login.html` (Tela de Login Unificada com 3 Perfis):**
+   - Seletor rápido de perfil: **Aluno**, **Instrutor** e **Admin**;
+   - Preenchimento automático de credenciais de teste ao alternar entre os perfis;
+   - Alternância de exibição de senha (mostrar/ocultar senha);
+   - Modal nativo `<dialog>` de recuperação de senha;
+   - Redirecionamento automático pós-login para a página correspondente (`aluno.html`, `instrutor.html` ou `admin.html`).
 
-## 📱 Telas e Fluxo de Navegação
+3. **`aluno.html` (Área do Aluno MaxFit):**
+   - **Início:** Saudação personalizada, resumo de treinos semanais, card em destaque do **Treino do Dia** com capa oficial;
+   - **Fichas de Treino (Treino A, B e C):** Checklist interativo em tempo real, barra de progresso, séries, repetições, carga, tempo de descanso e dicas do instrutor;
+   - **Meu Plano:** Status da assinatura, vigência, valor do plano e histórico de faturas;
+   - **Meu Perfil & Biometria:** Dados cadastrais, métricas corporais, objetivo e instrutor responsável;
+   - **Ajuda & FAQ:** Central de suporte com orientações da academia;
+   - Sidebar desktop, Topbar com avatar e Bottom Nav mobile.
 
-O sistema contempla **15 telas integradas**, conectadas por navegação fluida com histórico de retorno e barras de navegação adaptativas por perfil:
+4. **`instrutor.html` (Painel de Pista do Instrutor):**
+   - **Alunos Atuais na Academia:** Lista em tempo real com busca por nome ou objetivo, filtros de presença ("Todos" e "Ativos/Presentes") e resumo estatístico;
+   - **Treino do Aluno:** Inspeção detalhada da ficha individual de treino do aluno selecionado, com alternância entre **Treino A**, **Treino B** e **Treino C**, séries, repetições, carga recomendada e orientações de execução;
+   - Sidebar desktop e Bottom Nav mobile dedicados.
 
-### 🔐 Autenticação
-| # | Tela | ID no Código | Principais Funcionalidades |
-| :-: | :--- | :--- | :--- |
-| **01** | **Login Unificado (3 Perfis)** | `#screen-login` | Seletor de perfil (**Aluno**, **Instrutor** e **Admin**), preenchimento automático de credenciais de teste, botão exibir/ocultar senha e modal "Esqueceu a senha?". |
-
-### 🛡️ Visão 01: Gestão da Academia (Perfil Admin)
-| # | Tela | ID no Código | Principais Funcionalidades |
-| :-: | :--- | :--- | :--- |
-| **02** | **Dashboard** | `#screen-dashboard` | Saudação ao gestor, grid de indicadores (Alunos Ativos, Instrutores, Matrículas/Mês, Receita Mensal), atalhos rápidos e lista de Matrículas Recentes. |
-| **03** | **Alunos** | `#screen-students` | Busca em tempo real por nome, telefone, plano ou instrutor; abas de filtro (Todos, Ativos, Inativos); alternância Cards/Tabela; detalhes em Bottom Sheet e atalho direto para a visão do aluno. |
-| **04** | **Cadastrar / Editar Aluno** | `#screen-add-student` | Formulário com máscaras automáticas de CPF e Telefone, seleção dinâmica de Plano e Instrutor Responsável, botões Salvar, Cancelar e Voltar. |
-| **05** | **Instrutores** | `#screen-instructors` | Busca de professores, cards com inicial, CREF, modalidade (Musculação, Pilates, Treino Funcional, Cross Training) e total de alunos vinculados, além de modal de cadastro/edição. |
-| **06** | **Planos da Academia** | `#screen-plans` | Listagem de pacotes com destaque visual (`MAIS POPULAR`), duração em meses, valor em reais (`R$`), total de alunos ativos e atalho para matricular diretamente no plano. |
-| **07** | **Controle de Matrículas** | `#screen-enrollments` | Gestão de contratos com filtros por status (Todas, Ativas, Pendentes, Canceladas) e visualização das datas de Início e Término. |
-| **08** | **Nova Matrícula** | `#screen-new-enrollment` | Seleção integrada de Aluno, Plano e Instrutor, cálculo automático da Data de Término e do card `VALOR ESTIMADO`, definição de status inicial e confirmação. |
-
-### 📋 Visão 02: Painel do Instrutor (Perfil Instrutor)
-| # | Tela | ID no Código | Principais Funcionalidades |
-| :-: | :--- | :--- | :--- |
-| **09** | **Alunos na Academia** | `#screen-instructor-students` | Listagem dos alunos presentes/ativos na academia com busca por nome ou objetivo, resumo de alunos ativos vs. total e acesso rápido ao treino de cada aluno. |
-| **10** | **Treino do Aluno (Instrutor)** | `#screen-instructor-workout` | Consulta completa da ficha individual do aluno selecionado, alternância entre **Treino A**, **Treino B** e **Treino C**, progresso atual e detalhamento técnico de cada exercício. |
-
-### 🔥 Visão 03: Área do Aluno MaxFit (Perfil Aluno)
-| # | Tela | ID no Código | Principais Funcionalidades |
-| :-: | :--- | :--- | :--- |
-| **11** | **Início (Área do Aluno)** | `#screen-student-home` | Saudação personalizada, resumo da sequência de treinos, card em destaque do **Treino de Hoje** e lista completa das fichas **Treino A, B e C**. |
-| **12** | **Ficha de Treino Interativa** | `#screen-student-workout` | Checklist interativo de exercícios com barra de progresso em tempo real, séries, repetições, tempo de descanso, dica técnica e botão de conclusão do treino. |
-| **13** | **Meu Plano** | `#screen-student-plan` | Status da assinatura do aluno, vigência, valor mensal, lista de benefícios inclusos na MaxFit e histórico de faturas pagas. |
-| **14** | **Meu Perfil** | `#screen-student-profile` | Avatar, dados cadastrais, métricas corporais (Peso, Altura e IMC calculado automaticamente), objetivo, instrutor responsável e botão de encerramento de sessão. |
-| **15** | **Central de Ajuda & Suporte** | `#screen-student-help` | Perguntas frequentes em acordeão nativo (`<details>` / `<summary>`) e canais de contato da recepção MaxFit. |
-
----
-
-## 🛠️ Arquitetura Técnica e Boas Práticas
-
-### 1. HTML5 Estritamente Semântico (Zero `<div>`)
-A marcação em [`index.html`](index.html) e os templates dinâmicos em [`script.js`](script.js) foram construídos **sem nenhuma tag `<div>`**, priorizando acessibilidade e significado estrutural:
-- `<aside>`, `<header>`, `<hgroup>`, `<nav>` e `<footer>` para a estrutura das sidebars desktop e barras inferiores mobile de cada perfil;
-- `<main>` e `<section>` para delimitar o container principal e cada uma das 15 telas da aplicação;
-- `<article>` para cada card de indicador, aluno, instrutor, plano, matrícula e exercício de treino;
-- `<form>`, `<fieldset>`, `<legend>`, `<label>` e `<output>` para agrupamento lógico de campos, seletores de perfil e resultados calculados;
-- `<details>` e `<summary>` para o acordeão nativo de dúvidas frequentes (FAQ);
-- `<dialog>` nativo do HTML5 (`.showModal()` e `.close()`) combinado com listas de definição (`<dl>`, `<dt>`, `<dd>`) para os modais de cadastro, exclusão, recuperação de senha e bottom sheets de detalhes.
-
-### 2. Identidade Visual MaxFit Club & CSS3 Mobile-First (`rem` e `em`)
-A estilização em [`style.css`](style.css) adota o Design System **MaxFit (`//MAXFIT`)** com abordagem Mobile-First:
-- **Tipografia Esportiva:** Fonte display condensada `Barlow Condensed` (para títulos, métricas e logotipo `//MAXFIT`) combinada com `Plus Jakarta Sans` / `Inter` para leitura de interface;
-- **Modo App Mobile (`< 48rem / 768px`):** Ao abrir no smartphone ou redimensionar pelo DevTools (`F12`), a interface opera como aplicativo nativo com barra de navegação inferior fixa (`nav.bottom-nav`), botões de ação flutuantes (`+ FAB`) e seletor de perfil em 3 colunas livre de overflow;
-- **Modo Desktop (`>= 48rem / 768px`):** Em monitores maiores, a barra inferior oculta-se automaticamente e dá lugar à Sidebar Lateral específica do perfil logado (`#desktopSidebar`, `#instructorSidebar` ou `#studentSidebar`), expandindo indicadores e cards em grids responsivos;
-- **Temas Escuro e Claro:** Paleta oficial **MaxFit Dark Carbon** (`#0f0f10`, `#18181a`, vermelho energia `#ff5145`) com suporte à alternância instantânea para o modo claro via variáveis CSS (`--bg-screen`, `--bg-surface`, `--accent-primary`, etc.).
-
-### 3. JavaScript Vanilla (ES6+) e Persistência
-O arquivo [`script.js`](script.js) gerencia toda a interatividade do protótipo sem dependências externas:
-- **Autenticação Multi-Perfil:** Controle de sessão e roteamento específico para **Aluno**, **Instrutor** e **Admin**;
-- **CRUD Completo (Admin) + Checklist de Treinos (Aluno):** Criação, leitura, edição, alteração de status e exclusão para Alunos, Instrutores, Planos e Matrículas, além de marcação em tempo real dos exercícios concluídos nas fichas A, B e C;
-- **Persistência em `localStorage`:** Todas as alterações feitas no sistema e o progresso dos treinos permanecem salvos no navegador, contando também com botão para **Restaurar os Dados Originais** a qualquer momento;
-- **Máscaras e Cálculos Automáticos:** Formatação em tempo real para CPF (`000.000.000-00`), Telefone (`(00) 00000-0000`) e Data (`DD/MM/AAAA`), além de cálculo automático de IMC e soma de meses na vigência da matrícula;
-- **Feedback Visual (Toast Notifications):** Avisos dinâmicos em `<output role="status">` a cada ação realizada no sistema.
+5. **`admin.html` (Gestão da Academia / Painel Admin):**
+   - **Dashboard Executivo:** Indicadores em tempo real (Alunos Ativos, Instrutores, Matrículas no Mês e Receita Mensal Estimada), atalhos rápidos e lista de Matrículas Recentes;
+   - **Gestão de Alunos:** Busca instantânea, filtros por status (Todos, Ativos, Inativos), alternância de visualização entre Cards e Tabela, edição, exclusão e atalho "Ver Visão do Aluno" (que abre a visão real do aluno em `aluno.html`);
+   - **Cadastro / Edição de Alunos:** Formulário com máscaras de CPF e Telefone, vínculo com plano e professor responsável;
+   - **Gestão de Instrutores:** Cadastro e edição via modal com registro CREF, especialidade e contagem de alunos;
+   - **Planos da Academia:** Catálogo de pacotes com duração, preço e selo "Mais Popular";
+   - **Controle de Matrículas:** Gestão de contratos ativos/pendentes/cancelados;
+   - **Nova Matrícula:** Seleção dinâmica com cálculo automático de data de término e valor mensal estimado.
 
 ---
 
@@ -105,12 +64,41 @@ Atividade-App-Academia/
 ├── assets/
 │   ├── barlow-condensed.ttf   # Fonte display oficial da identidade visual //MAXFIT
 │   ├── OFL-Barlow.txt         # Licença da tipografia Barlow Condensed
-│   └── treino.jpg             # Imagem de capa do card de treino da Área do Aluno
-├── index.html                 # Estrutura 100% HTML5 Semântico (Zero <div>) com 15 telas e modais <dialog>
-├── style.css                  # Design System MaxFit Mobile-First em rem/em, temas Dark/Light e Media Queries
-├── script.js                  # Controle dos 3 perfis (Aluno, Instrutor, Admin), treinos A/B/C, CRUD e localStorage
+│   └── treino.jpg             # Imagem oficial de treinos e hero banner
+├── index.html                 # 1. Portal Principal / Landing Page institucional MaxFit
+├── login.html                 # 2. Tela de Login unificada com seletor de 3 perfis
+├── aluno.html                 # 3. Área do Aluno (Início, Fichas A/B/C, Plano, Perfil)
+├── instrutor.html             # 4. Painel do Instrutor (Alunos na Academia e Fichas)
+├── admin.html                 # 5. Gestão Administrativa (Dashboard, Alunos, Planos, Matrículas)
+├── style.css                  # Design System MaxFit Mobile-First em rem/em, temas Dark/Light
+├── script.js                  # Lógica compartilhada, persistência LocalStorage, rotas e CRUD
 └── README.md                  # Documentação acadêmica e técnica do projeto
 ```
+
+---
+
+## 🛠️ Arquitetura Técnica e Boas Práticas
+
+### 1. HTML5 Estritamente Semântico (Zero `<div>`)
+Todas as páginas HTML (`index.html`, `login.html`, `aluno.html`, `instrutor.html`, `admin.html`) e os templates gerados via JavaScript foram construídos **sem nenhuma tag `<div>`**, priorizando a acessibilidade e a semântica exigidas na UC14:
+- `<aside>`, `<header>`, `<hgroup>`, `<nav>` e `<footer>` para cabeçalhos, sidebars e navegação;
+- `<main>` e `<section>` para o delimitador principal e as seções de cada página;
+- `<article>` para cada card de plano, indicador, aluno, instrutor e exercício;
+- `<form>`, `<fieldset>`, `<legend>`, `<label>` e `<output>` para agrupamento lógico de campos e valores calculados;
+- `<figure>` e `<figcaption>` para imagens e fotografias institucionais;
+- `<details>` e `<summary>` para o acordeão nativo de dúvidas frequentes (FAQ);
+- `<dialog>` nativo do HTML5 (`.showModal()` e `.close()`) combinado com `<dl>`, `<dt>` e `<dd>` para os modais de cadastro e bottom sheets.
+
+### 2. Design System MaxFit Club & CSS3 Mobile-First
+- **Abordagem Mobile-First:** O layout padrão foi desenvolvido para dispositivos móveis (`< 48rem / 768px`) com barras inferiores fixas (`nav.bottom-nav`), botões flutuantes (`+ FAB`) e grids adaptativos. Em telas maiores (`>= 48rem`), a interface se transforma automaticamente para layout de desktop com sidebars laterais fixas.
+- **Tipografia Esportiva:** A fonte display condensada `Barlow Condensed` é utilizada nos títulos, métricas e logotipo, combinada com `Plus Jakarta Sans` para o corpo de texto.
+- **Temas Escuro e Claro:** Paleta oficial **MaxFit Dark Carbon** (`#101112`, `#1b1d1f`, vermelho energia `#ff5145`) com suporte instantâneo à alternância para o modo claro via variáveis CSS.
+
+### 3. JavaScript Vanilla (ES6+) e Roteamento Híbrido
+- **Navegação Entre Páginas e Telas:** O sistema suporta navegação direta entre as 5 páginas HTML e também navegação interna entre abas/telas via IDs (`navigateTo`), com histórico e suporte a âncoras na URL (`#screen-...`).
+- **Persistência em `localStorage`:** Alunos cadastrados, novos planos, matrículas confirmadas e marcações de exercícios concluídos permanecem salvos entre sessões e entre páginas.
+- **Botão de Reset:** No painel do Admin, é possível restaurar o estado padrão da academia MaxFit a qualquer momento.
+- **Feedback Visual (Toast Notifications):** Alertas dinâmicos via `<output role="status">` para confirmação de ações em todas as telas.
 
 ---
 
@@ -121,10 +109,11 @@ Atividade-App-Academia/
    git clone <url-do-repositorio>
    cd Atividade-App-Academia
    ```
-2. Abra o arquivo [`index.html`](index.html) diretamente em qualquer navegador moderno (Chrome, Edge, Firefox, Safari) ou utilize a extensão **Live Server** no VS Code.
-3. Na tela de **Login**, escolha um dos **3 perfis de acesso** (as credenciais de teste já são preenchidas automaticamente ao clicar em cada opção):
-   - **Perfil Aluno:** `lucas@maxfit.com` | Senha: `12345678`
-   - **Perfil Instrutor:** `rafael@maxfit.com` | Senha: `12345678`
-   - **Perfil Admin:** `admin@maxfit.com` | Senha: `12345678`
-4. **Testando a Responsividade (Mobile ↔ Desktop):**
-   Pressione `F12` no navegador (ou `Ctrl + Shift + M` para ativar a barra de dispositivos móveis) e redimensione a largura da tela abaixo e acima de `768px` para observar a adaptação automática entre **App Mobile** e **Sistema Desktop** nos 3 perfis.
+2. Abra o arquivo [`index.html`](index.html) diretamente no seu navegador de preferência ou utilize a extensão **Live Server** no VS Code.
+3. Para acessar os ambientes fechados, clique em **"Área de Membros / Login"** ou abra diretamente [`login.html`](login.html).
+4. **Credenciais de Teste Rápidas (pré-preenchidas na tela de login):**
+   - **Aluno:** `lucas@maxfit.com` | Senha: `12345678` ➔ Redireciona para [`aluno.html`](aluno.html)
+   - **Instrutor:** `rafael@maxfit.com` | Senha: `12345678` ➔ Redireciona para [`instrutor.html`](instrutor.html)
+   - **Admin:** `admin@maxfit.com` | Senha: `12345678` ➔ Redireciona para [`admin.html`](admin.html)
+5. **Testando a Responsividade:**
+   Pressione `F12` (ou `Ctrl + Shift + M`) no navegador e redimensione a largura da tela abaixo e acima de `768px` para observar a transição entre a versão mobile e desktop em qualquer uma das 5 páginas.
