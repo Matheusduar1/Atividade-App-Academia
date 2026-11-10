@@ -18,13 +18,10 @@ Aplicação web **Mobile-First e Responsiva** desenvolvida para a atividade prá
 
 O **MaxFit Club (`//MAXFIT`)** é uma solução completa para academias de ginástica, dividida em **5 páginas HTML dedicadas**:
 
-1. **`index.html` (Portal Principal / Landing Page):**
-   - Apresentação visual da academia, infraestrutura e metodologia de treino;
-   - Apresentação do **Ecossistema Digital** (Área do Aluno, Painel do Instrutor e Gestão Admin);
-   - Catálogo de **Modalidades** (Musculação, Funcional, Pilates e Cross Training);
-   - Vitrine de **Planos** com valores, benefícios e chamada para assinatura;
-   - Corpo técnico de **Instrutores com CREF** e especialidades;
-   - FAQ semântico com `<details>` e `<summary>` e rodapé institucional.
+1. **`index.html` (Início da Aplicação / Tela de Login Unificada):**
+   - Ponto de entrada padrão ao executar o projeto (`http://localhost:5500/` ou `index.html`);
+   - Carrega diretamente a tela de login unificada da MaxFit com seleção entre os 3 perfis;
+   - Possui atalho para o portal institucional (`portal.html`).
 
 2. **`login.html` (Tela de Login Unificada com 3 Perfis):**
    - Seletor rápido de perfil: **Aluno**, **Instrutor** e **Admin**;
@@ -44,6 +41,7 @@ O **MaxFit Club (`//MAXFIT`)** é uma solução completa para academias de giná
 4. **`instrutor.html` (Painel de Pista do Instrutor):**
    - **Alunos Atuais na Academia:** Lista em tempo real com busca por nome ou objetivo, filtros de presença ("Todos" e "Ativos/Presentes") e resumo estatístico;
    - **Treino do Aluno:** Inspeção detalhada da ficha individual de treino do aluno selecionado, com alternância entre **Treino A**, **Treino B** e **Treino C**, séries, repetições, carga recomendada e orientações de execução;
+   - **Meu Perfil do Instrutor:** Dados profissionais, CREF e botão inferior para deslogar;
    - Sidebar desktop e Bottom Nav mobile dedicados.
 
 5. **`admin.html` (Gestão da Academia / Painel Admin):**
@@ -53,7 +51,13 @@ O **MaxFit Club (`//MAXFIT`)** é uma solução completa para academias de giná
    - **Gestão de Instrutores:** Cadastro e edição via modal com registro CREF, especialidade e contagem de alunos;
    - **Planos da Academia:** Catálogo de pacotes com duração, preço e selo "Mais Popular";
    - **Controle de Matrículas:** Gestão de contratos ativos/pendentes/cancelados;
-   - **Nova Matrícula:** Seleção dinâmica com cálculo automático de data de término e valor mensal estimado.
+   - **Nova Matrícula:** Seleção dinâmica com cálculo automático de data de término e valor mensal estimado;
+   - **Perfil do Administrador:** Dados executivos de gestão e botão inferior para deslogar.
+
+6. **`portal.html` (Portal Institucional / Landing Page):**
+   - Apresentação visual da academia, infraestrutura e metodologia de treino;
+   - Apresentação do ecossistema digital e dos 3 ambientes;
+   - Vitrine de modalidades, planos, corpo docente e FAQ semântico com `<details>` e `<summary>`.
 
 ---
 
@@ -65,11 +69,12 @@ Atividade-App-Academia/
 │   ├── barlow-condensed.ttf   # Fonte display oficial da identidade visual //MAXFIT
 │   ├── OFL-Barlow.txt         # Licença da tipografia Barlow Condensed
 │   └── treino.jpg             # Imagem oficial de treinos e hero banner
-├── index.html                 # 1. Portal Principal / Landing Page institucional MaxFit
+├── index.html                 # 1. Ponto de entrada (inicia direto na Tela de Login)
 ├── login.html                 # 2. Tela de Login unificada com seletor de 3 perfis
 ├── aluno.html                 # 3. Área do Aluno (Início, Fichas A/B/C, Plano, Perfil)
-├── instrutor.html             # 4. Painel do Instrutor (Alunos na Academia e Fichas)
-├── admin.html                 # 5. Gestão Administrativa (Dashboard, Alunos, Planos, Matrículas)
+├── instrutor.html             # 4. Painel do Instrutor (Alunos na Academia, Fichas e Perfil)
+├── admin.html                 # 5. Gestão Administrativa (Dashboard, Alunos, Planos, Matrículas e Perfil)
+├── portal.html                # 6. Portal Institucional / Landing Page com planos e modalidades
 ├── style.css                  # Design System MaxFit Mobile-First em rem/em, temas Dark/Light
 ├── script.js                  # Lógica compartilhada, persistência LocalStorage, rotas e CRUD
 └── README.md                  # Documentação acadêmica e técnica do projeto
@@ -80,7 +85,7 @@ Atividade-App-Academia/
 ## 🛠️ Arquitetura Técnica e Boas Práticas
 
 ### 1. HTML5 Estritamente Semântico (Zero `<div>`)
-Todas as páginas HTML (`index.html`, `login.html`, `aluno.html`, `instrutor.html`, `admin.html`) e os templates gerados via JavaScript foram construídos **sem nenhuma tag `<div>`**, priorizando a acessibilidade e a semântica exigidas na UC14:
+Todas as páginas HTML (`index.html`, `login.html`, `aluno.html`, `instrutor.html`, `admin.html`, `portal.html`) e os templates gerados via JavaScript foram construídos **sem nenhuma tag `<div>`**, priorizando a acessibilidade e a semântica exigidas na UC14:
 - `<aside>`, `<header>`, `<hgroup>`, `<nav>` e `<footer>` para cabeçalhos, sidebars e navegação;
 - `<main>` e `<section>` para o delimitador principal e as seções de cada página;
 - `<article>` para cada card de plano, indicador, aluno, instrutor e exercício;

@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#101112" />
-  <title>MaxFit Club — Academia de Alta Performance &amp; Ecossistema Integrado</title>
-  <meta name="description" content="MaxFit Club: Academia completa com treinos interativos A/B/C, acompanhamento técnico de instrutores e gestão integrada. Conheça nossos planos e acesse a plataforma." />
+  <title>MaxFit — Acesso ao Sistema | Login Unificado</title>
+  <meta name="description" content="Acesse a Área do Aluno, Painel do Instrutor ou Gestão Administrativa da Academia MaxFit." />
   <meta name="author" content="Matheus Duarte e Miguel" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23101112'/%3E%3Ctext x='4' y='23' font-family='Arial,sans-serif' font-weight='900' font-style='italic' font-size='18' fill='%23ff5145'%3E//M%3C/text%3E%3C/svg%3E" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -13,501 +13,194 @@
   <link href="https://fonts.googleapis.com/css2?family=Outfit:ital,wght@0,600;0,700;0,800;0,900;1,800;1,900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
-<body data-role="portal" class="landing-body" id="top">
-  <a href="#mainContent" class="skip-link">Pular para o conteúdo principal</a>
+<body data-role="guest" class="login-body">
+  <a href="#screen-login" class="skip-link">Pular para o formulário de login</a>
 
   <!-- =========================================================
-       CABEÇALHO PRINCIPAL DO PORTAL MAXFIT (ZERO DIVS)
+       CABEÇALHO SUPERIOR DA TELA DE LOGIN (ZERO DIVS)
        ========================================================= -->
-  <header class="landing-header" aria-label="Cabeçalho Principal do Portal">
-    <a href="#top" class="logo landing-logo" aria-label="MaxFit Club Página Inicial">
+  <header class="login-topbar" aria-label="Cabeçalho da Página de Login">
+    <a href="index.html" class="logo" aria-label="MaxFit Página Inicial de Acesso">
       <span class="brand-mark" aria-hidden="true">//</span>MAX<span class="red">FIT</span>
     </a>
-
-    <nav class="landing-nav" aria-label="Navegação Institucional">
-      <a href="#sobre" class="landing-nav-link">Sobre</a>
-      <a href="#ecossistema" class="landing-nav-link">Ecossistema</a>
-      <a href="#modalidades" class="landing-nav-link">Modalidades</a>
-      <a href="#planos" class="landing-nav-link">Planos</a>
-      <a href="#instrutores" class="landing-nav-link">Instrutores</a>
-      <a href="#faq" class="landing-nav-link">FAQ</a>
-    </nav>
-
-    <section class="landing-header-actions" aria-label="Ações de Acesso">
-      <button type="button" class="btn-icon" id="btnToggleThemeLanding" title="Alternar tema Escuro / Claro" aria-label="Alternar tema">
+    <nav class="login-topbar-actions" aria-label="Ações Rápidas">
+      <button type="button" class="btn-icon" id="btnToggleThemeLogin" title="Alternar tema Escuro / Claro" aria-label="Alternar tema">
         <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
           <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
         </svg>
       </button>
-      <a href="login.html" class="btn-primary btn-landing-cta" title="Acessar o Sistema MaxFit">
+      <a href="portal.html" class="btn-back-home" title="Conhecer o Portal da Academia MaxFit">
         <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
-          <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M15 12H3"></path>
+          <rect x="3" y="3" width="7" height="7" rx="1"></rect>
+          <rect x="14" y="3" width="7" height="7" rx="1"></rect>
+          <rect x="14" y="14" width="7" height="7" rx="1"></rect>
+          <rect x="3" y="14" width="7" height="7" rx="1"></rect>
         </svg>
-        <span>Área de Membros</span>
+        <span>Portal Institucional</span>
       </a>
-    </section>
+    </nav>
   </header>
 
-  <!-- =========================================================
-       CONTEÚDO PRINCIPAL (LANDING PAGE MULTI-SEÇÃO)
-       ========================================================= -->
-  <main id="mainContent" class="landing-main">
-    <!-- HERO SECTION -->
-    <section id="sobre" class="landing-hero" aria-labelledby="heroTitle">
-      <section class="landing-hero-content">
-        <p class="landing-eyebrow">
-          <span class="brand-mark" aria-hidden="true">//</span> TREINO DE ALTA PERFORMANCE &amp; GESTÃO INTELIGENTE
-        </p>
-        <h1 id="heroTitle" class="landing-hero-title">
-          O SEU PRÓXIMO NÍVEL COMEÇA AQUI<span class="red">.</span>
-        </h1>
-        <p class="landing-hero-description">
-          A infraestrutura definitiva para quem busca evolução física real e acompanhamento qualificado. Unimos biomecânica aplicada, professores certificados com CREF e uma plataforma web completa para treinar onde você estiver.
-        </p>
-
-        <section class="landing-hero-cta-group" aria-label="Chamadas de Ação">
-          <a href="#planos" class="btn-primary btn-large">
-            <span>Conhecer Nossos Planos</span>
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
-              <line x1="5" y1="12" x2="19" y2="12"></line>
-              <polyline points="12 5 19 12 12 19"></polyline>
-            </svg>
-          </a>
-          <a href="login.html" class="btn-secondary btn-large">
-            <span>Acessar Plataforma Web</span>
-          </a>
-        </section>
-
-        <!-- Métricas de Destaque -->
-        <section class="landing-hero-stats" aria-label="Estatísticas da MaxFit">
-          <article class="hero-stat-card">
-            <strong>+240</strong>
-            <span>Alunos Ativos</span>
-          </article>
-          <article class="hero-stat-card">
-            <strong>8</strong>
-            <span>Instrutores CREF</span>
-          </article>
-          <article class="hero-stat-card">
-            <strong>3 Fichas</strong>
-            <span>Treinos A, B e C</span>
-          </article>
-          <article class="hero-stat-card">
-            <strong>100%</strong>
-            <span>Foco em Resultados</span>
-          </article>
-        </section>
-      </section>
-
-      <!-- Imagem Hero em Destaque -->
-      <figure class="landing-hero-figure">
-        <img
-          src="assets/treino.jpg"
-          alt="Aluno treinando musculação de alta intensidade com halteres no MaxFit Club"
-          width="1800"
-          height="1200"
-          fetchpriority="high"
-          class="landing-hero-image"
-        />
-        <figcaption class="hero-image-caption">
-          <span class="caption-tag">MAXFIT PERFORMANCE</span>
-          <strong>Ambiente moderno e equipamentos biomecânicos</strong>
-        </figcaption>
-      </figure>
-    </section>
-
-    <!-- SEÇÃO: O ECOSSISTEMA DIGITAL MAXFIT (3 AMBIENTES) -->
-    <section id="ecossistema" class="landing-section" aria-labelledby="ecosystemTitle">
-      <header class="section-title-wrap">
-        <p class="landing-eyebrow">TECNOLOGIA INTEGRADA</p>
-        <h2 id="ecosystemTitle" class="section-main-title">
-          O Ecossistema Digital //MAXFIT<span class="red">.</span>
-        </h2>
-        <p class="section-subtitle-text">
-          Uma plataforma web inovadora desenvolvida sob medida para conectar alunos, instrutores de pista e a gestão da academia em 3 ambientes especializados:
-        </p>
-      </header>
-
-      <section class="portal-cards-grid" aria-label="As 3 Áreas do Sistema MaxFit">
-        <!-- Card 01: Área do Aluno -->
-        <article class="portal-card">
-          <header class="portal-card-header">
-            <span class="portal-icon-badge" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M7 5v14M3 8v8M17 5v14M21 8v8M3 12h18"></path>
-              </svg>
+  <!-- Área Principal do Login -->
+  <main class="app-main login-main" id="appMain" tabindex="-1">
+    <!-- =========================================================
+         TELA DE LOGIN UNIFICADA MAXFIT COM 3 PERFIS
+         Opções: 1. Aluno | 2. Instrutor | 3. Admin
+         ========================================================= -->
+    <section class="app-screen active" id="screen-login" aria-label="Tela de Acesso MaxFit">
+      <article class="login-card panel">
+        <header class="login-brand">
+          <section class="login-brand-top" aria-label="Marca MaxFit">
+            <span class="logo login-logo">
+              <span class="brand-mark" aria-hidden="true">//</span>MAX<span class="red">FIT</span>
             </span>
-            <span class="pill red-pill">PERFIL ALUNO</span>
-          </header>
-          <h3 class="portal-card-title">Área do Aluno MaxFit</h3>
-          <p class="portal-card-desc">
-            Acompanhe o Treino do Dia, acesse as fichas detalhadas <strong>Treino A, B e C</strong> com checklist interativo em tempo real, veja seu histórico de faturas e acompanhe métricas corporais (IMC).
-          </p>
-          <ul class="portal-feature-list">
-            <li>Checklist interativo com barra de progresso</li>
-            <li>Orientação de cargas, séries e descansos</li>
-            <li>Consulta de biometria e instrutor responsável</li>
-          </ul>
-          <footer class="portal-card-footer">
-            <a href="login.html?role=student" class="btn-primary btn-block">
-              <span>Entrar como Aluno</span>
-              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                <polyline points="9 18 15 12 9 6"></polyline>
-              </svg>
-            </a>
-          </footer>
-        </article>
+            <span class="pill red-pill">CLUB 2026</span>
+          </section>
+          <p class="eyebrow" id="loginEyebrow">ÁREA DO ALUNO MAXFIT</p>
+          <h1 class="login-title" id="loginHeroTitle">O próximo passo<br />é seu<span class="red">.</span></h1>
+          <p class="login-subtitle" id="loginHeroSubtitle">Acesse seus treinos, sua frequência e seu plano MaxFit.</p>
+        </header>
 
-        <!-- Card 02: Painel do Instrutor -->
-        <article class="portal-card">
-          <header class="portal-card-header">
-            <span class="portal-icon-badge" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
-                <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
-                <path d="M9 14l2 2 4-4"></path>
+        <!-- Seletor de 3 Perfis: Aluno, Instrutor e Admin -->
+        <fieldset class="role-selector-fieldset" aria-label="Selecionar perfil de acesso">
+          <legend class="sr-only">Selecione seu perfil de acesso</legend>
+          <nav class="role-selector-grid" role="tablist" aria-label="Perfis de acesso">
+            <button
+              type="button"
+              class="role-tab active"
+              data-login-role="student"
+              id="tabRoleStudent"
+              role="tab"
+              aria-selected="true"
+            >
+              <span class="role-tab-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M7 5v14M3 8v8M17 5v14M21 8v8M3 12h18"></path>
+                </svg>
+              </span>
+              <strong class="role-tab-title">Aluno</strong>
+              <small class="role-tab-sub">Meus treinos</small>
+            </button>
+
+            <button
+              type="button"
+              class="role-tab"
+              data-login-role="instructor"
+              id="tabRoleInstructor"
+              role="tab"
+              aria-selected="false"
+            >
+              <span class="role-tab-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+                  <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+                  <path d="M9 14l2 2 4-4"></path>
+                </svg>
+              </span>
+              <strong class="role-tab-title">Instrutor</strong>
+              <small class="role-tab-sub">Ver alunos</small>
+            </button>
+
+            <button
+              type="button"
+              class="role-tab"
+              data-login-role="admin"
+              id="tabRoleAdmin"
+              role="tab"
+              aria-selected="false"
+            >
+              <span class="role-tab-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="3" width="7" height="7" rx="1"></rect>
+                  <rect x="14" y="3" width="7" height="7" rx="1"></rect>
+                  <rect x="14" y="14" width="7" height="7" rx="1"></rect>
+                  <rect x="3" y="14" width="7" height="7" rx="1"></rect>
+                </svg>
+              </span>
+              <strong class="role-tab-title">Admin</strong>
+              <small class="role-tab-sub">Gestão total</small>
+            </button>
+          </nav>
+        </fieldset>
+
+        <form class="login-form" id="loginForm" novalidate>
+          <label class="field-label" for="loginEmail">
+            <span>E-mail de acesso</span>
+            <span class="input-affix">
+              <svg class="affix-left" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
               </svg>
+              <input
+                type="email"
+                id="loginEmail"
+                name="email"
+                value="lucas@maxfit.com"
+                placeholder="lucas@maxfit.com"
+                required
+                autocomplete="email"
+              />
             </span>
-            <span class="pill green">PERFIL INSTRUTOR</span>
-          </header>
-          <h3 class="portal-card-title">Painel de Pista do Instrutor</h3>
-          <p class="portal-card-desc">
-            Acesso dedicado ao professor para acompanhar em tempo real os <strong>alunos presentes na academia</strong>, buscar por objetivo e inspecionar a execução das fichas técnicas de cada aluno.
-          </p>
-          <ul class="portal-feature-list">
-            <li>Lista de alunos com busca e status de presença</li>
-            <li>Inspeção imediata das fichas de treino A/B/C</li>
-            <li>Orientações técnicas e acompanhamento de cargas</li>
-          </ul>
-          <footer class="portal-card-footer">
-            <a href="login.html?role=instructor" class="btn-secondary btn-block">
-              <span>Acessar Painel Instrutor</span>
-              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                <polyline points="9 18 15 12 9 6"></polyline>
-              </svg>
-            </a>
-          </footer>
-        </article>
+            <small class="field-error" id="loginEmailError"></small>
+          </label>
 
-        <!-- Card 03: Gestão Admin -->
-        <article class="portal-card">
-          <header class="portal-card-header">
-            <span class="portal-icon-badge" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="3" y="3" width="7" height="7" rx="1"></rect>
-                <rect x="14" y="3" width="7" height="7" rx="1"></rect>
-                <rect x="14" y="14" width="7" height="7" rx="1"></rect>
-                <rect x="3" y="14" width="7" height="7" rx="1"></rect>
+          <label class="field-label" for="loginPassword">
+            <span>Senha</span>
+            <span class="input-affix">
+              <svg class="affix-left" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                <rect x="5" y="10" width="14" height="11" rx="2"></rect>
+                <path d="M8 10V6a4 4 0 0 1 8 0v4"></path>
               </svg>
+              <input
+                type="password"
+                id="loginPassword"
+                name="password"
+                value="12345678"
+                placeholder="••••••••"
+                required
+                autocomplete="current-password"
+              />
+              <button type="button" class="affix-right" id="btnTogglePassword" aria-label="Mostrar ou ocultar senha">
+                <svg id="eyeIconClosed" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8">
+                  <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                  <line x1="1" y1="1" x2="23" y2="23"></line>
+                </svg>
+                <svg id="eyeIconOpen" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" class="hidden">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+              </button>
             </span>
-            <span class="pill amber">PERFIL ADMIN</span>
-          </header>
-          <h3 class="portal-card-title">Gestão da Academia (Admin)</h3>
-          <p class="portal-card-desc">
-            Dashboard executivo com indicadores em tempo real (Alunos Ativos, Instrutores, Matrículas e Receita Estimada), controle de contratos, cadastro de planos e CRUD completo.
-          </p>
-          <ul class="portal-feature-list">
-            <li>Dashboard com métricas e gráficos de meta</li>
-            <li>Gestão completa de Alunos, Instrutores e Planos</li>
-            <li>Cálculo automático de vigência de matrículas</li>
-          </ul>
-          <footer class="portal-card-footer">
-            <a href="login.html?role=admin" class="btn-secondary btn-block">
-              <span>Acesso Administrativo</span>
-              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                <polyline points="9 18 15 12 9 6"></polyline>
-              </svg>
-            </a>
-          </footer>
-        </article>
-      </section>
-    </section>
+            <small class="field-error" id="loginPasswordError"></small>
+          </label>
 
-    <!-- SEÇÃO: MODALIDADES -->
-    <section id="modalidades" class="landing-section" aria-labelledby="modalitiesTitle">
-      <header class="section-title-wrap">
-        <p class="landing-eyebrow">METODOLOGIA COMPLETA</p>
-        <h2 id="modalitiesTitle" class="section-main-title">
-          Modalidades para Todos os Objetivos<span class="red">.</span>
-        </h2>
-        <p class="section-subtitle-text">
-          Treinos desenhados por profissionais de educação física para potencializar ganho de força, hipertrofia, queima calórica e mobilidade.
-        </p>
-      </header>
+          <button type="submit" class="btn-primary btn-block" id="btnLoginSubmit">
+            Entrar como Aluno
+          </button>
+        </form>
 
-      <section class="modalities-grid" aria-label="Lista de Modalidades">
-        <article class="modality-card">
-          <span class="modality-badge">01</span>
-          <h3 class="modality-title">Musculação de Alta Performance</h3>
-          <p class="modality-desc">
-            Aparelhos com biomecânica avançada, pesos livres e divisão em Fichas A, B e C para estímulo muscular contínuo com segurança articular.
-          </p>
-        </article>
-
-        <article class="modality-card">
-          <span class="modality-badge">02</span>
-          <h3 class="modality-title">Treino Funcional &amp; Cardio</h3>
-          <p class="modality-desc">
-            Circuitos de agilidade, esteiras e remos ergométricos para acelerar o metabolismo, resistência aeróbica e condicionamento cardiopulmonar.
-          </p>
-        </article>
-
-        <article class="modality-card">
-          <span class="modality-badge">03</span>
-          <h3 class="modality-title">Pilates &amp; Postura</h3>
-          <p class="modality-desc">
-            Fortalecimento profundo do core, melhora da flexibilidade e correção postural guiada por instrutores especializados.
-          </p>
-        </article>
-
-        <article class="modality-card">
-          <span class="modality-badge">04</span>
-          <h3 class="modality-title">Cross Training &amp; Força</h3>
-          <p class="modality-desc">
-            Treinos em alta intensidade combinando levantamento de peso, movimentos ginásticos e superação constante de limites.
-          </p>
-        </article>
-      </section>
-    </section>
-
-    <!-- SEÇÃO: PLANOS & VALORES -->
-    <section id="planos" class="landing-section" aria-labelledby="plansTitle">
-      <header class="section-title-wrap">
-        <p class="landing-eyebrow">SEM COMPLICAÇÃO</p>
-        <h2 id="plansTitle" class="section-main-title">
-          Planos Transparentes e Acessíveis<span class="red">.</span>
-        </h2>
-        <p class="section-subtitle-text">
-          Escolha o plano que melhor se adapta à sua rotina e tenha acesso livre a todas as unidades e ao aplicativo web exclusivo.
-        </p>
-      </header>
-
-      <section class="landing-plans-grid" aria-label="Planos Disponíveis">
-        <!-- Plano Mensal -->
-        <article class="landing-plan-card">
-          <header class="plan-header-area">
-            <h3 class="plan-name">Plano Mensal</h3>
-            <p class="plan-period">Flexibilidade total, sem taxa de cancelamento</p>
-            <strong class="plan-price-display">R$ 99,90<span>/mês</span></strong>
-          </header>
-          <ul class="plan-perks-list">
-            <li>Acesso livre à musculação</li>
-            <li>Treino interativo no App MaxFit</li>
-            <li>Acompanhamento de instrutores na pista</li>
-            <li>Sem fidelidade</li>
-          </ul>
-          <footer class="plan-card-cta">
-            <a href="login.html?role=student" class="btn-secondary btn-block">Começar Agora</a>
-          </footer>
-        </article>
-
-        <!-- Plano Trimestral VIP (Mais Popular) -->
-        <article class="landing-plan-card featured-plan">
-          <span class="featured-ribbon">MAIS POPULAR</span>
-          <header class="plan-header-area">
-            <h3 class="plan-name">Plano Trimestral VIP</h3>
-            <p class="plan-period">O pacote preferido dos nossos alunos</p>
-            <strong class="plan-price-display">R$ 79,96<span>/mês</span></strong>
-            <small class="plan-total-note">Total de R$ 239,90 por 3 meses</small>
-          </header>
-          <ul class="plan-perks-list">
-            <li>Musculação + Área de Cardio completa</li>
-            <li>Avaliação física biométrica inclusa</li>
-            <li>Acesso 7 dias por semana</li>
-            <li>Fichas A, B e C personalizadas</li>
-            <li>Armário rotativo gratuito</li>
-          </ul>
-          <footer class="plan-card-cta">
-            <a href="login.html?role=student" class="btn-primary btn-block">Assinar Plano VIP</a>
-          </footer>
-        </article>
-
-        <!-- Plano Semestral -->
-        <article class="landing-plan-card">
-          <header class="plan-header-area">
-            <h3 class="plan-name">Plano Semestral</h3>
-            <p class="plan-period">Compromisso com sua evolução constante</p>
-            <strong class="plan-price-display">R$ 71,65<span>/mês</span></strong>
-            <small class="plan-total-note">Total de R$ 429,90 por 6 meses</small>
-          </header>
-          <ul class="plan-perks-list">
-            <li>Todas as modalidades inclusas</li>
-            <li>Aulas coletivas e funcionais</li>
-            <li>Acompanhamento individualizado</li>
-            <li>2 reavaliações físicas completas</li>
-          </ul>
-          <footer class="plan-card-cta">
-            <a href="login.html?role=student" class="btn-secondary btn-block">Escolher Semestral</a>
-          </footer>
-        </article>
-
-        <!-- Plano Anual Black -->
-        <article class="landing-plan-card">
-          <header class="plan-header-area">
-            <h3 class="plan-name">Plano Anual Black</h3>
-            <p class="plan-period">O melhor custo-benefício por mês</p>
-            <strong class="plan-price-display">R$ 62,49<span>/mês</span></strong>
-            <small class="plan-total-note">Total de R$ 749,90 por 12 meses</small>
-          </header>
-          <ul class="plan-perks-list">
-            <li>Acesso total VIP a todas as áreas</li>
-            <li>Convide 1 amigo por mês gratuitamente</li>
-            <li>Camiseta oficial //MAXFIT Club</li>
-            <li>Avaliação trimestral com bioimpedância</li>
-          </ul>
-          <footer class="plan-card-cta">
-            <a href="login.html?role=student" class="btn-secondary btn-block">Escolher Anual</a>
-          </footer>
-        </article>
-      </section>
-    </section>
-
-    <!-- SEÇÃO: CORPO TÉCNICO -->
-    <section id="instrutores" class="landing-section" aria-labelledby="coachesTitle">
-      <header class="section-title-wrap">
-        <p class="landing-eyebrow">EQUIPE QUALIFICADA</p>
-        <h2 id="coachesTitle" class="section-main-title">
-          Professores Registrados no CREF<span class="red">.</span>
-        </h2>
-        <p class="section-subtitle-text">
-          Profissionais dedicados a corrigir sua execução, motivar sua evolução e prescrever treinos alinhados à sua individualidade biológica.
-        </p>
-      </header>
-
-      <section class="coaches-grid" aria-label="Instrutores MaxFit">
-        <article class="coach-landing-card">
-          <span class="avatar-circle coach-large-avatar">RM</span>
-          <h3 class="coach-name">Prof. Rafael Martins</h3>
-          <p class="coach-cref">CREF 045890-G/SP</p>
-          <span class="pill red-pill">Musculação &amp; Hipertrofia</span>
-          <p class="coach-bio">
-            Especialista em biomecânica aplicada e montagem de treinos com foco em ganhos progressivos de força e massa muscular.
-          </p>
-        </article>
-
-        <article class="coach-landing-card">
-          <span class="avatar-circle coach-large-avatar">MC</span>
-          <h3 class="coach-name">Profa. Mariana Costa</h3>
-          <p class="coach-cref">CREF 051230-G/SP</p>
-          <span class="pill green">Funcional &amp; Pilates</span>
-          <p class="coach-bio">
-            Fisiologista do exercício com foco em mobilidade, fortalecimento do core e prevenção ativa de sobrecargas articulares.
-          </p>
-        </article>
-
-        <article class="coach-landing-card">
-          <span class="avatar-circle coach-large-avatar">CE</span>
-          <h3 class="coach-name">Prof. Carlos Eduardo</h3>
-          <p class="coach-cref">CREF 038920-G/SP</p>
-          <span class="pill amber">Cross Training &amp; Força</span>
-          <p class="coach-bio">
-            Treinador de atletas de alta intensidade, com foco em desenvolvimento cardiorrespiratório e potência muscular.
-          </p>
-        </article>
-
-        <article class="coach-landing-card">
-          <span class="avatar-circle coach-large-avatar">BL</span>
-          <h3 class="coach-name">Profa. Beatriz Lima</h3>
-          <p class="coach-cref">CREF 062140-G/SP</p>
-          <span class="pill red-pill">Avaliação &amp; Biometria</span>
-          <p class="coach-bio">
-            Responsável pelo diagnóstico físico dos alunos, análise de composição corporal e cálculo de índices de saúde.
-          </p>
-        </article>
-      </section>
-    </section>
-
-    <!-- SEÇÃO: PERGUNTAS FREQUENTES (FAQ) COM <details> NATIVO -->
-    <section id="faq" class="landing-section" aria-labelledby="faqTitle">
-      <header class="section-title-wrap">
-        <p class="landing-eyebrow">TIRA-DÚVIDAS</p>
-        <h2 id="faqTitle" class="section-main-title">
-          Perguntas Frequentes<span class="red">?</span>
-        </h2>
-      </header>
-
-      <section class="landing-faq-stack" aria-label="Acordeão de Dúvidas">
-        <details class="panel faq">
-          <summary>Como funciona o acesso à Área do Aluno?<span>+</span></summary>
-          <p>
-            Assim que você se matricula na recepção ou confirma seu plano, você recebe seu e-mail e senha de acesso. Pelo celular ou computador, basta acessar a tela de login para visualizar sua ficha de treino interativa em qualquer lugar.
-          </p>
-        </details>
-
-        <details class="panel faq">
-          <summary>Preciso baixar algum aplicativo na App Store ou Play Store?<span>+</span></summary>
-          <p>
-            Não! A plataforma MaxFit foi desenvolvida com tecnologia web responsiva e semântica. Você pode adicionar à tela inicial do seu celular e usá-la como um aplicativo nativo, leve e sem consumir a memória do seu aparelho.
-          </p>
-        </details>
-
-        <details class="panel faq">
-          <summary>Como funcionam as fichas de Treino A, B e C?<span>+</span></summary>
-          <p>
-            Seu professor responsável monta a periodização ideal para o seu objetivo. Pelo app, você marca cada exercício concluído, acompanha séries, repetições, carga e lê as notas técnicas do instrutor.
-          </p>
-        </details>
-
-        <details class="panel faq">
-          <summary>Quais são os horários de funcionamento da MaxFit?<span>+</span></summary>
-          <p>
-            Funcionamos de Segunda a Sexta-feira das 05h às 23h. Aos Sábados e Domingos das 08h às 18h.
-          </p>
-        </details>
-      </section>
+        <footer class="login-footer">
+          <button type="button" class="link-forgot" id="btnForgotPassword">Esqueci minha senha</button>
+          <p class="demo-note" id="loginDemoNote">Acesso teste Aluno: lucas@maxfit.com</p>
+        </footer>
+      </article>
     </section>
   </main>
 
-  <!-- =========================================================
-       RODAPÉ INSTITUCIONAL (PORTAL MAXFIT)
-       ========================================================= -->
-  <footer class="landing-footer" aria-label="Rodapé Institucional MaxFit">
-    <section class="landing-footer-grid">
-      <section class="footer-brand-col">
-        <a href="#top" class="logo" aria-label="Voltar ao início">
-          <span class="brand-mark" aria-hidden="true">//</span>MAX<span class="red">FIT</span>
-        </a>
-        <p class="footer-tagline">
-          Treinos inteligentes, instrutores certificados e infraestrutura de alta performance.
-        </p>
-        <p class="footer-copy">
-          &copy; 2026 MaxFit Club. Todos os direitos reservados.
-        </p>
-      </section>
-
-      <section class="footer-links-col">
-        <h4>Ambientes</h4>
-        <nav class="footer-nav" aria-label="Links para os Ambientes">
-          <a href="login.html?role=student">Área do Aluno</a>
-          <a href="login.html?role=instructor">Painel do Instrutor</a>
-          <a href="login.html?role=admin">Gestão Admin</a>
-          <a href="login.html">Tela de Login</a>
-        </nav>
-      </section>
-
-      <section class="footer-links-col">
-        <h4>Atendimento</h4>
-        <address class="footer-address">
-          Av. Paulista, 1500 — São Paulo/SP<br />
-          Telefone: (11) 3456-7890<br />
-          E-mail: contato@maxfit.com
-        </address>
-        <p class="footer-hours">
-          Seg a Sex: 05h às 23h<br />
-          Sáb e Dom: 08h às 18h
-        </p>
-      </section>
-
-      <section class="footer-links-col">
-        <h4>Contexto Acadêmico</h4>
-        <p class="footer-academic">
-          Desenvolvido para a <strong>UC14 (Senac)</strong> — "Da Ideia ao Protótipo".<br />
-          Autores: <strong>Matheus Duarte &amp; Miguel</strong><br />
-          Tema: <strong>Academia (Tema 04)</strong>
-        </p>
-      </section>
-    </section>
-  </footer>
+  <!-- Dialog: Recuperar Senha -->
+  <dialog class="modal-dialog-centered" id="modalForgotPass" aria-labelledby="forgotPassTitle">
+    <h3 id="forgotPassTitle">Recuperar Acesso MaxFit</h3>
+    <p>Informe seu e-mail cadastrado para receber as instruções ou procure a recepção da MaxFit.</p>
+    <form id="forgotPassForm" class="app-form" novalidate>
+      <label class="field-label" for="forgotPassEmail">
+        <input type="email" id="forgotPassEmail" value="contato@maxfit.com" required />
+      </label>
+      <footer class="modal-actions">
+        <button type="button" class="btn-secondary" data-close-modal="modalForgotPass">Cancelar</button>
+        <button type="submit" class="btn-primary">Enviar Link</button>
+      </footer>
+    </form>
+  </dialog>
 
   <!-- Notificações Toast -->
   <aside class="toast-container" id="toastContainer" aria-live="polite"></aside>
